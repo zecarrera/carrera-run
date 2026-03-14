@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ActivitiesTable } from "./components/ActivitiesTable";
 import { ActivityDetail } from "./components/ActivityDetail";
-import { ActivityFilters } from "./components/ActivityFilters";
-import { EMPTY_FILTERS } from "./components/ActivityFilters";
+import { ActivityFilters, EMPTY_FILTERS } from "./components/ActivityFilters";
 import type { Filters } from "./components/ActivityFilters";
+import { Header } from "./components/Header";
 import { SummaryCards } from "./components/SummaryCards";
+import { UnderConstruction } from "./components/UnderConstruction";
 import { formatDate, formatDistance } from "./lib/format";
 import type { Activity, AthleteSummary } from "./types";
 import "./styles.css";
@@ -129,46 +131,52 @@ export default function App() {
   }
 
   return (
-    <main className="shell dashboard-shell">
-      <section className="hero-card compact">
-        <div>
-          <img src="/logo.png" alt="Corrida logo" className="hero-logo" />
-          <p className="eyebrow">Welcome back</p>
-          <h1>{summary.athlete.displayName}</h1>
-          <p>
-            {summary.recentRun
-              ? `Last run: ${summary.recentRun.name} on ${formatDate(summary.recentRun.startDate)} for ${formatDistance(summary.recentRun.distanceKm)}.`
-              : "Your runs will appear here once Strava returns activity data."}
-          </p>
-        </div>
-        <form action="/api/auth/logout" method="post">
-          <button className="button-secondary" type="submit">
-            Disconnect
-          </button>
-        </form>
-      </section>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <main className="shell dashboard-shell">
+              <section className="hero-card compact">
+                <div>
+                  <p className="eyebrow">Welcome back</p>
+                  <h1>{summary.athlete.displayName}</h1>
+                  <p>
+                    {summary.recentRun
+                      ? `Last run: ${summary.recentRun.name} on ${formatDate(summary.recentRun.startDate)} for ${formatDistance(summary.recentRun.distanceKm)}.`
+                      : "Your runs will appear here once Strava returns activity data."}
+                  </p>
+                </div>
+              </section>
 
-      <SummaryCards summary={summary} />
+              <SummaryCards summary={summary} />
 
-      <ActivityFilters
-        activeFilters={activeFilters}
-        onApply={handleApplyFilters}
-        disabled={isLoadingPage}
-      />
+              <ActivityFilters
+                activeFilters={activeFilters}
+                onApply={handleApplyFilters}
+                disabled={isLoadingPage}
+              />
 
-      <section className="content-grid">
-        <ActivitiesTable
-          activities={activities}
-          selectedActivityId={selectedActivity?.id}
-          onSelect={setSelectedActivity}
-          page={page}
-          isLastPage={isLastPage}
-          isLoadingPage={isLoadingPage}
-          onPrevPage={() => void loadActivities(page - 1, activeFilters)}
-          onNextPage={() => void loadActivities(page + 1, activeFilters)}
+              <section className="content-grid">
+                <ActivitiesTable
+                  activities={activities}
+                  selectedActivityId={selectedActivity?.id}
+                  onSelect={setSelectedActivity}
+                  page={page}
+                  isLastPage={isLastPage}
+                  isLoadingPage={isLoadingPage}
+                  onPrevPage={() => void loadActivities(page - 1, activeFilters)}
+                  onNextPage={() => void loadActivities(page + 1, activeFilters)}
+                />
+                <ActivityDetail activity={selectedActivity} />
+              </section>
+            </main>
+          }
         />
-        <ActivityDetail activity={selectedActivity} />
-      </section>
-    </main>
+        <Route path="/planning" element={<UnderConstruction />} />
+        <Route path="/profile" element={<UnderConstruction />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
