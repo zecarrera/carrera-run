@@ -3,9 +3,11 @@ import { resolve } from "node:path";
 import express from "express";
 import session from "express-session";
 import cors from "cors";
+import { ZodError } from "zod";
 import { activitiesRouter } from "./routes/activities.js";
 import { athleteRouter } from "./routes/athlete.js";
 import { authRouter } from "./routes/auth.js";
+import { plansRouter } from "./routes/plans.js";
 
 dotenv.config({ path: resolve(process.cwd(), ".env") });
 dotenv.config({ path: resolve(process.cwd(), "../../.env") });
@@ -23,7 +25,7 @@ app.use(
 app.use(express.json());
 app.use(
   session({
-    name: "corrida.sid",
+    name: "carrera-run.sid",
     secret: process.env.SESSION_SECRET ?? "development-session-secret",
     resave: false,
     saveUninitialized: false,
@@ -43,10 +45,20 @@ app.get("/api/health", (_request, response) => {
 app.use("/api/auth", authRouter);
 app.use("/api/activities", activitiesRouter);
 app.use("/api/athlete", athleteRouter);
+app.use("/api/plans", plansRouter);
 
 app.use((error: unknown, _request: express.Request, response: express.Response, _next: express.NextFunction) => {
+  if (error instanceof ZodError) {
+    response.status(400).json({
+      message: "Invalid request payload.",
+      issues: error.issues,
+    });
+    return;
+  }
+
   const message = error instanceof Error ? error.message : "Unexpected server error.";
-  response.status(500).json({ message });
+  const statusCode = error instanceof Error && message.toLowerCase().includes("invalid") ? 400 : 500;
+  response.status(statusCode).json({ message });
 });
 
 app.listen(port, () => {

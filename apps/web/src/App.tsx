@@ -93,7 +93,7 @@ export default function App() {
     return (
       <main className="shell auth-shell">
         <section className="hero-card">
-          <img src="/logo.png" alt="Corrida logo" className="hero-logo" />
+          <img src="/logo.png" alt="Carrera Run logo" className="hero-logo" />
           <p className="eyebrow">Strava dashboard</p>
           <h1>Connect your runs and review every session in one place.</h1>
           <p>

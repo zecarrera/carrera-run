@@ -1,5 +1,5 @@
 {
-  "name": "corrida-strava-dashboard",
+  "name": "carrera-run-dashboard",
   "private": true,
   "version": "0.1.0",
   "workspaces": [
@@ -7,9 +7,9 @@
     "apps/web"
   ],
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace @corrida/api\" \"npm run dev --workspace @corrida/web\"",
-    "build": "npm run build --workspace @corrida/api && npm run build --workspace @corrida/web",
-    "start": "npm run start --workspace @corrida/api"
+    "dev": "concurrently \"npm run dev --workspace @carrera-run/api\" \"npm run dev --workspace @carrera-run/web\"",
+    "build": "npm run build --workspace @carrera-run/api && npm run build --workspace @carrera-run/web",
+    "start": "npm run start --workspace @carrera-run/api"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

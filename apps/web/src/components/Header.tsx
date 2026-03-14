@@ -5,7 +5,7 @@ export function Header() {
     <header className="app-header">
       <div className="header-inner">
         <NavLink to="/" className="header-logo">
-          <img src="/logo.png" alt="Corrida" />
+          <img src="/logo.png" alt="Carrera Run" />
         </NavLink>
         <nav className="header-nav">
           <NavLink
