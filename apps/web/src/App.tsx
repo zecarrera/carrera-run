@@ -6,8 +6,8 @@ import { ActivityFilters, EMPTY_FILTERS } from "./components/ActivityFilters";
 import type { Filters } from "./components/ActivityFilters";
 import { Header } from "./components/Header";
 import { PlanningPage } from "./components/PlanningPage";
+import { ProfilePage } from "./components/ProfilePage";
 import { SummaryCards } from "./components/SummaryCards";
-import { UnderConstruction } from "./components/UnderConstruction";
 import { formatDate, formatDistance } from "./lib/format";
 import type { Activity, AthleteSummary } from "./types";
 import "./styles.css";
@@ -176,7 +176,7 @@ export default function App() {
           }
         />
         <Route path="/planning" element={<PlanningPage />} />
-        <Route path="/profile" element={<UnderConstruction />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
   );

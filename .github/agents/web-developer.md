@@ -110,6 +110,29 @@ For planning-related work, use the repository skill guidance in:
 
 Treat that file as the source of truth for planning data modeling, API shape, validations, and phased implementation decisions.
 
+## Profile Domain Requirements
+
+When implementing the Profile area, follow these product rules exactly:
+
+1. A user can save training zones `Z1` through `Z5`.
+2. Each zone has a `from` and `to` pace value.
+3. Pace values should be shown to the user as `min/km`.
+4. A user can manage a race-results history with:
+	- `title`
+	- `distance`
+	- `date`
+	- `time`
+5. Profile data must be scoped to the authenticated user.
+6. Keep profile-specific business logic centralized in a service or domain module.
+
+## Profile Skill Usage
+
+For profile-related work, use the repository skill guidance in:
+
+- `.github/skills/profile-feature/SKILL.md`
+
+Treat that file as the source of truth for profile data modeling, API shape, validation rules, and phased implementation decisions.
+
 ## Planning Storage Direction
 
 For this repository, use MongoDB for Planning persistence.

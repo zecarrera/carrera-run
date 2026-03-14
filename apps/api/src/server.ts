@@ -8,6 +8,7 @@ import { activitiesRouter } from "./routes/activities.js";
 import { athleteRouter } from "./routes/athlete.js";
 import { authRouter } from "./routes/auth.js";
 import { plansRouter } from "./routes/plans.js";
+import { profileRouter } from "./routes/profile.js";
 
 dotenv.config({ path: resolve(process.cwd(), ".env") });
 dotenv.config({ path: resolve(process.cwd(), "../../.env") });
@@ -46,6 +47,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/activities", activitiesRouter);
 app.use("/api/athlete", athleteRouter);
 app.use("/api/plans", plansRouter);
+app.use("/api/profile", profileRouter);
 
 app.use((error: unknown, _request: express.Request, response: express.Response, _next: express.NextFunction) => {
   if (error instanceof ZodError) {

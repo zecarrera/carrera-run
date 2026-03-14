@@ -60,3 +60,29 @@ export type TrainingPlan = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type TrainingZoneKey = "Z1" | "Z2" | "Z3" | "Z4" | "Z5";
+
+export type PaceRange = {
+  fromSecondsPerKm: number;
+  toSecondsPerKm: number;
+};
+
+export type TrainingZones = Record<TrainingZoneKey, PaceRange>;
+
+export type RaceResult = {
+  id: string;
+  title: string;
+  distanceKm: number;
+  date: string;
+  elapsedTimeSeconds: number;
+};
+
+export type UserProfile = {
+  id: string;
+  userId: string;
+  trainingZones: TrainingZones | null;
+  raceResults: RaceResult[];
+  createdAt: string;
+  updatedAt: string;
+};

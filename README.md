@@ -18,6 +18,8 @@ A small full-stack starter for connecting to the Strava API and displaying runni
 - Dashboard summary for recent running activity
 - Activities table with date, distance, moving time, elevation, and pace
 - Activity detail panel in the UI
+- Planning page for race-focused training plans and activity tracking
+- Profile page for training zones (Z1-Z5 pace ranges) and race-results history
 
 ## Local Setup
 
@@ -60,6 +62,14 @@ Frontend runs on `http://localhost:5173` and proxies API requests to `http://loc
 - `POST /api/plans/:id/activities`
 - `PATCH /api/plans/:id/activities/:activityId`
 - `DELETE /api/plans/:id/activities/:activityId`
+
+## Profile API (MongoDB-backed)
+
+- `GET /api/profile`
+- `PUT /api/profile/zones`
+- `POST /api/profile/race-results`
+- `PATCH /api/profile/race-results/:resultId`
+- `DELETE /api/profile/race-results/:resultId`
 
 ## Notes
 
