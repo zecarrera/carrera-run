@@ -1,6 +1,6 @@
-# Corrida Strava Dashboard
+# Carrera Run Strava Dashboard
 
-<img src="apps/web/public/logo.png" alt="Corrida logo" width="96" />
+<img src="apps/web/public/logo.png" alt="Carrera Run logo" width="96" />
 
 A small full-stack starter for connecting to the Strava API and displaying running activities in a React UI.
 
@@ -9,6 +9,7 @@ A small full-stack starter for connecting to the Strava API and displaying runni
 - Node.js + Express API in `apps/api`
 - React + TypeScript + Vite frontend in `apps/web`
 - Strava OAuth 2.0 authorization code flow handled on the backend
+- MongoDB for training plan persistence
 
 ## Features
 
@@ -37,6 +38,18 @@ Frontend runs on `http://localhost:5173` and proxies API requests to `http://loc
 - `SESSION_SECRET`: Session signing secret for local development
 - `CLIENT_ORIGIN`: Frontend origin allowed by the API
 - `PORT`: API port
+- `MONGODB_URI`: MongoDB connection string used by planning endpoints
+- `MONGODB_DB_NAME`: MongoDB database name (default `carrera_run`)
+
+## Planning API (MongoDB-backed)
+
+- `GET /api/plans`
+- `POST /api/plans`
+- `GET /api/plans/:id`
+- `PATCH /api/plans/:id`
+- `POST /api/plans/:id/activities`
+- `PATCH /api/plans/:id/activities/:activityId`
+- `DELETE /api/plans/:id/activities/:activityId`
 
 ## Notes
 

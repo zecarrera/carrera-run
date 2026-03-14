@@ -2,6 +2,8 @@
 
 Use this skill whenever implementing or modifying the Planning area.
 
+This repository's app name is **Carrera Run**; use that naming in docs and examples.
+
 ## Scope
 
 This skill governs:
@@ -17,6 +19,8 @@ Activities dashboard and Strava ingestion are out of scope unless a planning cha
 ## Storage Strategy (MongoDB)
 
 Use MongoDB as the default Planning datastore.
+
+Use `carrera_run` as the default MongoDB database name unless environment-specific conventions override it.
 
 ### Recommended default model
 
