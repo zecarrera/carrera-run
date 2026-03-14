@@ -1,0 +1,7 @@
+node_modules
+dist
+.DS_Store
+.env
+apps/api/.env
+coverage
+z_extra_files/

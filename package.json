@@ -1,0 +1,17 @@
+{
+  "name": "corrida-strava-dashboard",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace @corrida/api\" \"npm run dev --workspace @corrida/web\"",
+    "build": "npm run build --workspace @corrida/api && npm run build --workspace @corrida/web",
+    "start": "npm run start --workspace @corrida/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
