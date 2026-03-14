@@ -7,6 +7,10 @@
     "apps/web"
   ],
   "scripts": {
+    "mongo:start": "docker start carrera-run-mongo || docker run -d --name carrera-run-mongo -p 27017:27017 mongo:7",
+    "mongo:stop": "docker stop carrera-run-mongo",
+    "mongo:logs": "docker logs -f carrera-run-mongo",
+    "dev:local": "npm run mongo:start && npm run dev",
     "dev": "concurrently \"npm run dev --workspace @carrera-run/api\" \"npm run dev --workspace @carrera-run/web\"",
     "build": "npm run build --workspace @carrera-run/api && npm run build --workspace @carrera-run/web",
     "start": "npm run start --workspace @carrera-run/api"

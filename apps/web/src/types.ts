@@ -28,3 +28,35 @@ export type AthleteSummary = {
   };
   recentRun?: Activity;
 };
+
+export type PlanActivityType = "Run" | "Strength" | "Flexibility";
+
+export type ActivityStatus = "not_started" | "completed" | "completed_with_changes" | "skipped";
+
+export type PlanStatus = "upcoming" | "active" | "completed";
+
+export type PlanActivity = {
+  id: string;
+  date: string;
+  type: PlanActivityType;
+  status: ActivityStatus;
+  comment?: string;
+  notes?: string;
+  stravaActivityId?: string;
+  distanceKm?: number;
+  paceMinPerKm?: number;
+  durationMinutes?: number;
+};
+
+export type TrainingPlan = {
+  id: string;
+  userId: string;
+  raceName: string;
+  raceDistanceKm: number;
+  startDate: string;
+  endDate: string;
+  status: PlanStatus;
+  activities: PlanActivity[];
+  createdAt: string;
+  updatedAt: string;
+};

@@ -27,6 +27,16 @@ A small full-stack starter for connecting to the Strava API and displaying runni
 4. Install dependencies with `npm install` from the repository root.
 5. Start the app with `npm run dev`.
 
+If you want a one-command local setup with MongoDB in Docker, use:
+
+- `npm run dev:local`
+
+Useful Mongo helper scripts:
+
+- `npm run mongo:start`
+- `npm run mongo:stop`
+- `npm run mongo:logs`
+
 Frontend runs on `http://localhost:5173` and proxies API requests to `http://localhost:4000`.
 
 ## Environment Variables

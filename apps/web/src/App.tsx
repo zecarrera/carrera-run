@@ -5,6 +5,7 @@ import { ActivityDetail } from "./components/ActivityDetail";
 import { ActivityFilters, EMPTY_FILTERS } from "./components/ActivityFilters";
 import type { Filters } from "./components/ActivityFilters";
 import { Header } from "./components/Header";
+import { PlanningPage } from "./components/PlanningPage";
 import { SummaryCards } from "./components/SummaryCards";
 import { UnderConstruction } from "./components/UnderConstruction";
 import { formatDate, formatDistance } from "./lib/format";
@@ -174,7 +175,7 @@ export default function App() {
             </main>
           }
         />
-        <Route path="/planning" element={<UnderConstruction />} />
+        <Route path="/planning" element={<PlanningPage />} />
         <Route path="/profile" element={<UnderConstruction />} />
       </Routes>
     </BrowserRouter>

@@ -369,9 +369,121 @@ tbody tr.selected {
   align-self: flex-end;
 }
 
+.planning-shell {
+  gap: 1rem;
+}
+
+.planning-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) minmax(320px, 1fr);
+  gap: 1rem;
+}
+
+.planning-form-panel {
+  padding: 1.1rem;
+}
+
+.planning-form {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.planning-form button {
+  justify-self: start;
+}
+
+.planning-form-wide {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  align-items: end;
+}
+
+.plan-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.plan-list-item {
+  width: 100%;
+  border: 1px solid rgba(17, 32, 49, 0.1);
+  background: rgba(255, 255, 255, 0.62);
+  border-radius: 14px;
+  padding: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.plan-list-item p {
+  margin: 0.3rem 0 0;
+  color: rgba(17, 32, 49, 0.65);
+  font-size: 0.85rem;
+}
+
+.plan-list-item strong {
+  font-size: 1rem;
+}
+
+.plan-list-item.active {
+  border-color: rgba(222, 99, 49, 0.45);
+  background: rgba(222, 99, 49, 0.08);
+}
+
+.status-pill {
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
+}
+
+.status-pill.upcoming {
+  color: #665115;
+  background: rgba(243, 154, 88, 0.2);
+}
+
+.status-pill.active {
+  color: #14663a;
+  background: rgba(98, 202, 133, 0.2);
+}
+
+.status-pill.completed {
+  color: #3b4a5b;
+  background: rgba(17, 32, 49, 0.12);
+}
+
+.planning-action-btn {
+  padding: 0.45rem 0.95rem;
+  font-size: 0.8rem;
+}
+
+.planning-feedback {
+  padding: 0.95rem 1.1rem;
+}
+
+.planning-error,
+.planning-success {
+  margin: 0;
+}
+
+.planning-error {
+  color: #9d1d1d;
+}
+
+.planning-success {
+  color: #14663a;
+}
+
 @media (max-width: 960px) {
   .summary-grid,
   .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planning-grid {
     grid-template-columns: 1fr;
   }
 
@@ -414,5 +526,10 @@ tbody tr.selected {
   .filter-clear-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .planning-form button {
+    width: 100%;
+    justify-self: stretch;
   }
 }
