@@ -1,5 +1,7 @@
 # Corrida Strava Dashboard
 
+<img src="apps/web/public/logo.png" alt="Corrida logo" width="96" />
+
 A small full-stack starter for connecting to the Strava API and displaying running activities in a React UI.
 
 ## Stack
