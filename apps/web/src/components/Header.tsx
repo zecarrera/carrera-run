@@ -13,6 +13,12 @@ export function Header() {
             end
             className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}
           >
+            Home
+          </NavLink>
+          <NavLink
+            to="/activities"
+            className={({ isActive }) => `nav-link${isActive ? " active" : ""}`}
+          >
             Activities
           </NavLink>
           <NavLink
