@@ -1,0 +1,312 @@
+{
+  "video_metadata": {
+    "title": "Como treinar para maratona sub 4 horas",
+    "url": null,
+    "channel": "Corrida & Performance (Valdir Braga)",
+    "duration_seconds": null,
+    "publish_date": null
+  },
+
+  "content_summary": {
+    "core_message": "Para correr uma maratona sub 4 horas, o corredor deve treinar 4 vezes por semana, distribuir corretamente treinos leves, treinos de qualidade e longões, e trabalhar uma ampla variação de intensidades que vão do leve ao VO2máx.",
+    "key_takeaways": [
+      "Sub 4 horas exige pace médio de 5:40/km.",
+      "Treinar apenas 3 vezes por semana não é suficiente para maratona — mínimo recomendado: 4 treinos.",
+      "A distribuição semanal depende do dia escolhido para o longão.",
+      "Treinos de qualidade incluem limiar, VO2máx e (opcionalmente) fartlek.",
+      "A amplitude de intensidades deve ser grande: do leve (6:30–6:45) ao rápido (4:30).",
+      "Treinar leve é essencial — muitos corredores correm o leve rápido demais.",
+      "Longão não deve ser feito no limite; deve ser entre 6:15 e 6:30.",
+      "Treino de limiar deve ser abaixo do pace de prova para tornar o pace alvo confortável."
+    ],
+    "training_principles": [
+      "Treinar com variação de intensidades amplia adaptações fisiológicas.",
+      "Treinos leves devem ser realmente leves para permitir recuperação.",
+      "Treinos de qualidade devem ser bem distribuídos para evitar sobrecarga.",
+      "Longões devem ser feitos com responsabilidade e ritmo adequado.",
+      "Planejamento semanal depende do dia do longão e dos dias off."
+    ],
+    "common_mistakes": [
+      "Correr o treino leve rápido demais.",
+      "Fazer longão muito forte.",
+      "Treinar apenas 3 vezes por semana para maratona.",
+      "Não variar intensidades ao longo da semana.",
+      "Achar que fartlek é obrigatório (o professor não recomenda)."
+    ],
+    "myths_busted": [
+      "Mito: Para correr sub 4, basta correr forte sempre. Realidade: precisa correr leve na maior parte do tempo.",
+      "Mito: Treino leve pode ser próximo ao pace de prova. Realidade: leve deve ser muito mais lento.",
+      "Mito: Fartlek é essencial. Realidade: não é necessário para maratona."
+    ]
+  },
+
+  "coaching_knowledge": {
+    "physiology": {
+      "energy_systems": [
+        "Treino leve: desenvolvimento aeróbio e recuperação.",
+        "Limiar: melhora da tolerância ao lactato.",
+        "VO2máx: aumento da capacidade máxima de oxigênio.",
+        "Longão: resistência e economia de corrida."
+      ],
+      "adaptations_targeted": [
+        "Aumento da resistência aeróbia.",
+        "Melhora da eficiência no pace alvo.",
+        "Maior tolerância ao esforço prolongado.",
+        "Capacidade de sustentar variações de ritmo."
+      ],
+      "injury_risks": [
+        "Treinar leve rápido demais.",
+        "Fazer longões muito fortes.",
+        "Pouca frequência semanal (3x) com longões muito longos.",
+        "Excesso de intensidade sem recuperação."
+      ],
+      "recovery_requirements": [
+        "Dias off antes e depois do longão.",
+        "Treinos leves entre treinos de qualidade.",
+        "Controle rigoroso do ritmo leve."
+      ]
+    },
+
+    "training_methods": [
+      {
+        "name": "Treino Leve",
+        "description": "Corrida confortável entre 6:30 e 6:45/km.",
+        "intensity_zone": "Zona aeróbia leve",
+        "benefits": [
+          "Recuperação ativa.",
+          "Construção de base aeróbia.",
+          "Permite suportar treinos de qualidade."
+        ],
+        "when_to_use": ["Segunda", "Terça", "Quinta"],
+        "common_errors": ["Correr leve rápido demais (5:50–6:00)."]
+      },
+      {
+        "name": "Treino de Limiar",
+        "description": "Ritmo entre 5:15 e 5:30/km.",
+        "intensity_zone": "Limiar de lactato",
+        "benefits": [
+          "Aumenta tolerância ao lactato.",
+          "Torna o pace de prova (5:40) mais confortável."
+        ],
+        "when_to_use": ["1x por semana"],
+        "common_errors": ["Fazer limiar muito rápido ou muito lento."]
+      },
+      {
+        "name": "Treino de VO2máx",
+        "description": "Intervalados fortes (400m, 800m, 1km).",
+        "intensity_zone": "Alta intensidade",
+        "benefits": [
+          "Aumenta capacidade máxima de oxigênio.",
+          "Melhora velocidade e economia."
+        ],
+        "when_to_use": ["1x por semana (alternado com limiar)"],
+        "common_errors": ["Fazer tiros longos demais ou sem controle de ritmo."]
+      },
+      {
+        "name": "Longão",
+        "description": "Treino mais longo da semana, entre 6:15 e 6:30/km.",
+        "intensity_zone": "Aeróbio moderado",
+        "benefits": [
+          "Desenvolve resistência.",
+          "Simula demanda energética da maratona."
+        ],
+        "when_to_use": ["Sábado ou domingo"],
+        "common_errors": ["Fazer longão forte demais."]
+      }
+    ],
+
+    "running_form_cues": [
+      {
+        "cue": "Corra leve de verdade.",
+        "purpose": "Evitar fadiga acumulada e permitir treinos de qualidade.",
+        "when_to_apply": "Dias leves.",
+        "common_mistakes": "Leve muito rápido."
+      },
+      {
+        "cue": "Use amplitude de intensidades.",
+        "purpose": "Explorar diferentes sistemas fisiológicos.",
+        "when_to_apply": "Ao longo da semana.",
+        "common_mistakes": "Treinar sempre no mesmo ritmo."
+      }
+    ]
+  },
+
+  "actionable_guidance": {
+    "workout_examples": [
+      {
+        "name": "Semana Sub 4 — Longão no Sábado",
+        "description": "Distribuição clássica com descanso antes e depois do longão.",
+        "duration_minutes": null,
+        "intensity_zone": "Variada",
+        "goal": "Equilibrar intensidade e recuperação.",
+        "progressions": [
+          "Segunda: leve",
+          "Quarta: limiar ou VO2",
+          "Quinta: leve",
+          "Sábado: longão"
+        ]
+      },
+      {
+        "name": "Semana Sub 4 — Longão no Domingo",
+        "description": "Versão alternativa para quem só pode correr no domingo.",
+        "duration_minutes": null,
+        "intensity_zone": "Variada",
+        "goal": "Manter descanso antes e depois do longão.",
+        "progressions": [
+          "Terça: leve",
+          "Quinta: limiar ou VO2",
+          "Sexta: leve",
+          "Domingo: longão"
+        ]
+      }
+    ],
+
+    "weekly_training_recommendations": {
+      "beginner": [
+        "Treinar 4x por semana.",
+        "Priorizar treinos leves bem controlados.",
+        "Longões progressivos, sem pressa."
+      ],
+      "intermediate": [
+        "Adicionar limiar semanal.",
+        "Alternar VO2máx conforme recuperação.",
+        "Manter amplitude de intensidades."
+      ],
+      "advanced": [
+        "Longões blocados conforme evolução.",
+        "Controle fino de intensidades.",
+        "Maior volume semanal com segurança."
+      ]
+    },
+
+    "do_and_dont": {
+      "do": [
+        "Treinar 4x por semana.",
+        "Controlar ritmo leve.",
+        "Variar intensidades.",
+        "Descansar antes e depois do longão."
+      ],
+      "dont": [
+        "Correr leve rápido demais.",
+        "Fazer longão forte.",
+        "Treinar apenas 3x por semana.",
+        "Ignorar amplitude de intensidades."
+      ]
+    },
+
+    "motivational_coach_lines": [
+      "Sub 4 é totalmente possível com estrutura e disciplina.",
+      "Correr leve é o segredo que quase ninguém respeita.",
+      "Amplitude de intensidades é o que transforma seu ciclo.",
+      "Treinar certo vale mais do que treinar forte."
+    ]
+  },
+
+  "conversation_assets": {
+    "short_responses": {
+      "encouragement": [
+        "Boa! Seu treino leve está no ritmo certo.",
+        "Ótimo — amplitude de intensidades bem aplicada.",
+        "Você está treinando como um maratonista sub 4."
+      ],
+      "corrections": [
+        "Seu leve está rápido demais — ajuste para 6:30–6:45.",
+        "Longão não é para testar ritmo de prova.",
+        "Limiar precisa ser abaixo do pace de prova."
+      ],
+      "explanations": [
+        "Sub 4 exige pace médio de 5:40/km.",
+        "Treinar 4x por semana é o mínimo seguro.",
+        "Amplitude de intensidades gera evolução real."
+      ]
+    },
+
+    "long_responses": {
+      "deep_explanations": [
+        "Para correr sub 4, você precisa dominar a distribuição semanal: treinos leves bem controlados, um treino de qualidade por semana, e um longão bem executado. A amplitude de intensidades — do leve ao VO2máx — garante que você desenvolva todas as capacidades necessárias."
+      ],
+      "training_theory": [
+        "O limiar abaixo do pace de prova torna o ritmo de 5:40 confortável. O VO2máx aumenta sua velocidade máxima, e o leve garante recuperação. Essa combinação é o coração do sub 4."
+      ],
+      "injury_prevention": [
+        "Treinar leve rápido demais é a principal causa de lesão em quem busca sub 4. O corpo precisa de recuperação entre estímulos fortes."
+      ]
+    },
+
+    "questions_to_user": {
+      "fitness_level": [
+        "Você já correu maratona antes?",
+        "Quantos treinos por semana você faz hoje?"
+      ],
+      "goals": [
+        "Seu objetivo é sub 4 ou outra marca?",
+        "Você já sabe seu pace confortável para treinos leves?"
+      ],
+      "feedback": [
+        "Como estão seus longões recentes?",
+        "Você sente dificuldade em correr leve?",
+        "Já tentou treinos de limiar ou VO2?"
+      ]
+    }
+  },
+
+  "structured_timestamps": [
+    {
+      "timestamp": "00:00–01:00",
+      "topic": "Introdução ao sub 4",
+      "coach_commentary": "Define o pace alvo de 5:40/km.",
+      "training_category": "Fundamentos"
+    },
+    {
+      "timestamp": "01:00–03:00",
+      "topic": "Frequência semanal",
+      "coach_commentary": "4 treinos por semana é o mínimo seguro.",
+      "training_category": "Planejamento"
+    },
+    {
+      "timestamp": "03:00–06:00",
+      "topic": "Distribuição semanal",
+      "coach_commentary": "Dias off antes e depois do longão.",
+      "training_category": "Periodização"
+    },
+    {
+      "timestamp": "06:00–09:00",
+      "topic": "Treinos de qualidade",
+      "coach_commentary": "Limiar, VO2máx e fartlek (opcional).",
+      "training_category": "Intensidade"
+    },
+    {
+      "timestamp": "09:00–12:00",
+      "topic": "Intensidades específicas",
+      "coach_commentary": "Amplitude de 4:30 a 6:45/km.",
+      "training_category": "Fisiologia"
+    },
+    {
+      "timestamp": "12:00–fim",
+      "topic": "Mensagem final",
+      "coach_commentary": "Treinar com regulamento na mão.",
+      "training_category": "Mindset"
+    }
+  ],
+
+  "agent_behavior": {
+    "tone": {
+      "style": "supportive",
+      "examples": [
+        "Você está no caminho certo para o sub 4.",
+        "Seu treino está ficando muito bem estruturado.",
+        "Disciplina e variação vão te levar ao resultado."
+      ]
+    },
+    "persona": {
+      "name": "Coach Sub4",
+      "traits": [
+        "estratégico",
+        "didático",
+        "focado em performance",
+        "baseado em fisiologia"
+      ],
+      "coaching_philosophy": "Sub 4 é sobre estrutura, variação e inteligência — não sobre correr forte o tempo todo."
+    }
+  }
+}

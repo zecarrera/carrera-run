@@ -1,0 +1,310 @@
+{
+  "video_metadata": {
+    "title": "Como fazer a transição do período de base para o ciclo de treinamento",
+    "url": null,
+    "channel": "Corrida & Performance (Valdir Braga)",
+    "duration_seconds": null,
+    "publish_date": null
+  },
+
+  "content_summary": {
+    "core_message": "A transição da base para o ciclo deve ser feita ajustando volume e intensidade de forma progressiva, garantindo segurança, adaptação fisiológica e preparação ideal para meia maratona ou maratona.",
+    "key_takeaways": [
+      "Na base: volume alto, intensidade baixa — foco em endurance e base aeróbia.",
+      "No início do ciclo: reduzir volume e começar a subir intensidade.",
+      "Na fase competitiva: volume sobe novamente e intensidade permanece alta.",
+      "No polimento: volume cai, intensidade permanece alta para revelar o fitness.",
+      "Ciclos podem durar de 12 a 20 semanas, dependendo do nível do atleta.",
+      "Fortalecimento: cargas altas na base; repetições altas e cargas baixas no ciclo.",
+      "Transição segura exige uma semana regenerativa após o pico de volume da base."
+    ],
+    "training_principles": [
+      "Nunca introduzir todos os estímulos de intensidade de uma vez.",
+      "Volume e intensidade devem ser manipulados de forma inversa no início do ciclo.",
+      "A adaptação fisiológica depende de progressão gradual.",
+      "O polimento é essencial para remover fadiga acumulada.",
+      "A estrutura do ciclo deve priorizar segurança e consistência."
+    ],
+    "common_mistakes": [
+      "Entrar no ciclo mantendo volume alto e adicionando intensidade ao mesmo tempo.",
+      "Pular a semana regenerativa após o pico da base.",
+      "Achar que precisa estar no melhor fitness durante a base.",
+      "Não periodizar fortalecimento conforme a fase.",
+      "Introduzir intensidade demais logo no início do ciclo."
+    ],
+    "myths_busted": [
+      "Mito: É preciso correr forte na base. Realidade: A base é volume alto e intensidade baixa.",
+      "Mito: O melhor fitness aparece na base. Realidade: Ele aparece no polimento.",
+      "Mito: Ciclos curtos servem para todos. Realidade: Ciclos curtos só funcionam para atletas experientes."
+    ]
+  },
+
+  "coaching_knowledge": {
+    "physiology": {
+      "energy_systems": [
+        "Base: desenvolvimento aeróbio de baixa intensidade.",
+        "Ciclo: estímulos de limiar e VO2máx.",
+        "Polimento: manutenção da intensidade com redução de fadiga."
+      ],
+      "adaptations_targeted": [
+        "Aumento da capacidade aeróbia.",
+        "Melhora de resistência e endurance.",
+        "Aumento progressivo de tolerância à intensidade.",
+        "Supercompensação durante o polimento."
+      ],
+      "injury_risks": [
+        "Adicionar intensidade sem reduzir volume.",
+        "Ignorar a semana regenerativa.",
+        "Aumentar estímulos rápido demais no início do ciclo."
+      ],
+      "recovery_requirements": [
+        "Semana regenerativa após o pico da base.",
+        "Redução de volume no polimento.",
+        "Controle de carga no fortalecimento durante o ciclo."
+      ]
+    },
+
+    "training_methods": [
+      {
+        "name": "Base Aeróbia",
+        "description": "Fase de volume alto e intensidade baixa para construir endurance.",
+        "intensity_zone": "Baixa intensidade",
+        "benefits": [
+          "Expansão da base aeróbia.",
+          "Aumento de resistência.",
+          "Preparação para suportar intensidade futura."
+        ],
+        "when_to_use": ["Início da preparação", "1–3 meses antes do ciclo"],
+        "common_errors": ["Correr forte na base", "Volume insuficiente"]
+      },
+      {
+        "name": "Fase de Construção (Início do Ciclo)",
+        "description": "Redução de volume e introdução gradual de intensidade.",
+        "intensity_zone": "Limiar e intervalado leve",
+        "benefits": [
+          "Adaptação segura à intensidade.",
+          "Prevenção de lesões.",
+          "Preparação para fase competitiva."
+        ],
+        "when_to_use": ["Primeiras semanas do ciclo"],
+        "common_errors": ["Adicionar dois treinos de qualidade logo no início"]
+      },
+      {
+        "name": "Fase Competitiva",
+        "description": "Volume sobe novamente enquanto intensidade permanece alta.",
+        "intensity_zone": "Limiar, VO2máx e longões blocados",
+        "benefits": [
+          "Aumento de fitness.",
+          "Especificidade para a prova.",
+          "Melhora de ritmo e resistência."
+        ],
+        "when_to_use": ["Meio do ciclo até 3 semanas antes da prova"],
+        "common_errors": ["Excesso de intensidade sem recuperação adequada"]
+      },
+      {
+        "name": "Polimento (Tapering)",
+        "description": "Redução de volume mantendo intensidade para revelar o fitness.",
+        "intensity_zone": "Alta intensidade com baixo volume",
+        "benefits": [
+          "Remoção de fadiga acumulada.",
+          "Supercompensação.",
+          "Melhor forma física na semana da prova."
+        ],
+        "when_to_use": ["Últimas 2–3 semanas antes da prova"],
+        "common_errors": ["Reduzir intensidade demais", "Manter volume alto"]
+      }
+    ],
+
+    "running_form_cues": [
+      {
+        "cue": "Introduza intensidade aos poucos.",
+        "purpose": "Evitar lesões no início do ciclo.",
+        "when_to_apply": "Primeiras semanas do ciclo.",
+        "common_mistakes": "Adicionar tiros e limiar na mesma semana logo no início."
+      },
+      {
+        "cue": "Use o polimento para remover fadiga.",
+        "purpose": "Permitir que o fitness apareça.",
+        "when_to_apply": "Últimas semanas antes da prova.",
+        "common_mistakes": "Reduzir intensidade e volume ao mesmo tempo."
+      }
+    ]
+  },
+
+  "actionable_guidance": {
+    "workout_examples": [
+      {
+        "name": "Semana Regenerativa Pós-Base",
+        "description": "Redução de volume mantendo tudo leve.",
+        "duration_minutes": null,
+        "intensity_zone": "Leve",
+        "goal": "Preparar o corpo para receber intensidade.",
+        "progressions": ["Reduzir volume 20–30%", "Manter intensidade baixa"]
+      },
+      {
+        "name": "Primeira Semana do Ciclo",
+        "description": "Introdução do primeiro treino de limiar.",
+        "duration_minutes": null,
+        "intensity_zone": "Limiar leve",
+        "goal": "Iniciar estímulos de intensidade.",
+        "progressions": ["Adicionar apenas 1 treino de qualidade"]
+      },
+      {
+        "name": "Semana Competitiva",
+        "description": "Dois treinos de qualidade + longão leve.",
+        "duration_minutes": null,
+        "intensity_zone": "Limiar e VO2máx",
+        "goal": "Aumentar fitness e especificidade.",
+        "progressions": ["Adicionar longão blocado na semana 12"]
+      }
+    ],
+
+    "weekly_training_recommendations": {
+      "beginner": [
+        "Use ciclos mais longos (18–20 semanas).",
+        "Faça base mais longa para chegar preparado.",
+        "Introduza intensidade lentamente."
+      ],
+      "intermediate": [
+        "Ciclos de 14–16 semanas funcionam muito bem.",
+        "Use semana regenerativa após o pico da base.",
+        "Aumente intensidade progressivamente."
+      ],
+      "advanced": [
+        "Ciclos curtos de 12 semanas funcionam se a base for sólida.",
+        "Controle fino de intensidade e volume.",
+        "Longões blocados e treinos de limiar bem estruturados."
+      ]
+    },
+
+    "do_and_dont": {
+      "do": [
+        "Reduzir volume ao introduzir intensidade.",
+        "Fazer semana regenerativa após o pico da base.",
+        "Manter intensidade alta no polimento.",
+        "Variar estímulos ao longo do ciclo."
+      ],
+      "dont": [
+        "Adicionar intensidade sem reduzir volume.",
+        "Pular a semana regenerativa.",
+        "Esperar ver fitness durante o ciclo — a fadiga esconde.",
+        "Fazer polimento reduzindo intensidade."
+      ]
+    },
+
+    "motivational_coach_lines": [
+      "Seu melhor fitness aparece no polimento, não na base.",
+      "Ciclo bem estruturado é garantia de segurança e evolução.",
+      "A transição certa evita lesões e acelera seu progresso.",
+      "Treinar é construir, ajustar e confiar no processo."
+    ]
+  },
+
+  "conversation_assets": {
+    "short_responses": {
+      "encouragement": [
+        "Boa! Essa transição está ficando bem estruturada.",
+        "Ótimo — intensidade entrando no momento certo.",
+        "Você está fazendo a passagem da base para o ciclo com inteligência."
+      ],
+      "corrections": [
+        "Cuidado: não introduza dois treinos de qualidade logo no início.",
+        "Reduza o volume antes de subir intensidade.",
+        "Não pule a semana regenerativa."
+      ],
+      "explanations": [
+        "A base é volume alto e intensidade baixa; o ciclo inverte isso aos poucos.",
+        "O polimento revela o fitness escondido pela fadiga.",
+        "Ciclos curtos só funcionam para atletas experientes."
+      ]
+    },
+
+    "long_responses": {
+      "deep_explanations": [
+        "A transição da base para o ciclo exige manipular volume e intensidade de forma inversa. Você vem de um período de alto volume e baixa intensidade, então precisa reduzir o volume para permitir que a intensidade entre sem risco de lesão. Conforme o corpo se adapta, o volume volta a subir, e a intensidade permanece alta até o polimento."
+      ],
+      "training_theory": [
+        "O ciclo é dividido em três fases: construção (volume cai, intensidade sobe), competitiva (volume e intensidade altos) e polimento (volume cai, intensidade se mantém). Essa estrutura garante adaptação progressiva e segurança."
+      ],
+      "injury_prevention": [
+        "O maior risco de lesão ocorre quando o atleta tenta manter volume alto e adicionar intensidade ao mesmo tempo. A semana regenerativa e a progressão gradual são essenciais para evitar sobrecarga."
+      ]
+    },
+
+    "questions_to_user": {
+      "fitness_level": [
+        "Quanto tempo você costuma dedicar ao período de base?",
+        "Você já fez ciclos completos de 12, 14 ou 16 semanas?"
+      ],
+      "goals": [
+        "Qual é sua prova alvo — meia ou maratona?",
+        "Você prefere ciclos mais longos ou mais curtos?"
+      ],
+      "feedback": [
+        "Como você costuma se sentir ao introduzir intensidade?",
+        "Você já pulou a semana regenerativa alguma vez?",
+        "Seu último ciclo teve polimento bem feito?"
+      ]
+    }
+  },
+
+  "structured_timestamps": [
+    {
+      "timestamp": "00:00–01:00",
+      "topic": "Introdução à transição base → ciclo",
+      "coach_commentary": "Define o objetivo da aula e a importância da transição.",
+      "training_category": "Fundamentos"
+    },
+    {
+      "timestamp": "01:00–03:00",
+      "topic": "Relação volume × intensidade na base",
+      "coach_commentary": "Base é volume alto e intensidade baixa.",
+      "training_category": "Fisiologia"
+    },
+    {
+      "timestamp": "03:00–06:00",
+      "topic": "Fase de construção do ciclo",
+      "coach_commentary": "Reduz volume e introduz intensidade.",
+      "training_category": "Periodização"
+    },
+    {
+      "timestamp": "06:00–09:00",
+      "topic": "Fase competitiva",
+      "coach_commentary": "Volume sobe novamente; intensidade permanece alta.",
+      "training_category": "Especificidade"
+    },
+    {
+      "timestamp": "09:00–11:00",
+      "topic": "Polimento",
+      "coach_commentary": "Volume cai; intensidade se mantém para revelar fitness.",
+      "training_category": "Tapering"
+    },
+    {
+      "timestamp": "11:00–fim",
+      "topic": "Exemplo prático de 14 semanas",
+      "coach_commentary": "Mostra semana a semana como estruturar a transição.",
+      "training_category": "Aplicação prática"
+    }
+  ],
+
+  "agent_behavior": {
+    "tone": {
+      "style": "supportive",
+      "examples": [
+        "Essa transição está ficando muito bem estruturada.",
+        "Seu ciclo vai fluir muito melhor com essa progressão.",
+        "Você está treinando com inteligência e segurança."
+      ]
+    },
+    "persona": {
+      "name": "Coach Periodização",
+      "traits": [
+        "estratégico",
+        "didático",
+        "focado em segurança",
+        "baseado em fisiologia"
+      ],
+      "coaching_philosophy": "Volume e intensidade são ferramentas poderosas — quando manipuladas com inteligência, constroem o ciclo perfeito."
+    }
+  }
+}

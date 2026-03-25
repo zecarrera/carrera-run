@@ -1,0 +1,326 @@
+{
+  "video_metadata": {
+    "title": "Para que serve o longão?",
+    "url": "https://www.youtube.com/watch?v=FXT58C60XPA",
+    "channel": "Corrida & Performance",
+    "duration_seconds": null,
+    "publish_date": null
+  },
+
+  "content_summary": {
+    "core_message": "The long run is not a test to see if you can run your race pace. Its purpose is to build endurance during the construction phase and maintain endurance during the competitive phase.",
+    "key_takeaways": [
+      "The long run is the longest session of the week and its primary purpose is endurance development.",
+      "During the base/construction phase, the long run builds endurance.",
+      "During the competitive phase, the long run maintains endurance — it is not a race‑pace test.",
+      "Race pace is determined by the combination of training stimuli across intensities, not by long‑run pace.",
+      "Missing one long run does NOT ruin marathon preparation.",
+      "Training should be calm, intentional, and based on the full training cycle — not on a single session."
+    ],
+    "training_principles": [
+      "Long runs build endurance, not race‑pace confidence.",
+      "Race pace emerges from the interaction of easy runs, race‑pace work, threshold work, and speed work.",
+      "Variation in training intensities accelerates performance development.",
+      "One missed long run does not compromise months of preparation.",
+      "Long runs can include speed or race‑pace segments, but that is optional and not the core purpose."
+    ],
+    "common_mistakes": [
+      "Using the long run to test whether you can run the marathon pace.",
+      "Believing that running 32–35 km at race pace guarantees race success.",
+      "Panicking after missing a long run due to illness or schedule issues.",
+      "Training with minimal variation between easy pace, race pace, and interval pace.",
+      "Thinking the long run alone defines race performance."
+    ],
+    "myths_busted": [
+      "Myth: The long run is where you prove you can run the marathon pace. Reality: It is for endurance, not testing.",
+      "Myth: Missing one long run ruins your marathon. Reality: Months of training matter far more.",
+      "Myth: Running long at race pace predicts race performance. Reality: Race pace comes from the full training stimulus.",
+      "Myth: Small differences between easy, race, and interval paces are enough. Reality: You need large intensity variation to evolve."
+    ]
+  },
+
+  "coaching_knowledge": {
+    "physiology": {
+      "energy_systems": [
+        "Aerobic endurance development during long, easy efforts.",
+        "Aerobic maintenance during competitive phase long runs.",
+        "Neuromuscular and metabolic adaptations from varied intensities."
+      ],
+      "adaptations_targeted": [
+        "Increased endurance capacity (endurance and stamina).",
+        "Improved aerobic efficiency.",
+        "Better fatigue resistance.",
+        "Maintenance of endurance close to race day."
+      ],
+      "injury_risks": [
+        "Overdoing long runs at race pace or faster.",
+        "Accumulating unnecessary fatigue by treating long runs as tests.",
+        "Insufficient recovery after excessively hard long runs."
+      ],
+      "recovery_requirements": [
+        "Adequate rest after long runs, especially during peak weeks.",
+        "Gradual return to training after illness without panic.",
+        "Trust in the cumulative effect of months of training."
+      ]
+    },
+
+    "training_methods": [
+      {
+        "name": "Endurance-Building Long Run",
+        "description": "Long run at easy pace to build endurance during the construction phase.",
+        "intensity_zone": "Easy aerobic",
+        "benefits": [
+          "Builds endurance capacity.",
+          "Strengthens aerobic base.",
+          "Supports long-term performance development."
+        ],
+        "when_to_use": [
+          "Base phase.",
+          "Early and mid-cycle.",
+          "When building weekly volume."
+        ],
+        "common_errors": [
+          "Running too fast and turning it into a race-pace test.",
+          "Using the long run to check if you can run the marathon pace."
+        ]
+      },
+      {
+        "name": "Endurance-Maintenance Long Run",
+        "description": "Long run during competitive phase to maintain endurance without excessive fatigue.",
+        "intensity_zone": "Easy to moderate",
+        "benefits": [
+          "Maintains endurance built earlier in the cycle.",
+          "Supports taper and race readiness.",
+          "Avoids unnecessary fatigue close to race day."
+        ],
+        "when_to_use": [
+          "Competitive phase.",
+          "Final 6–8 weeks before race.",
+          "During taper with reduced volume."
+        ],
+        "common_errors": [
+          "Trying to run the entire long run at race pace.",
+          "Panicking after missing a long run."
+        ]
+      },
+      {
+        "name": "Long Run with Speed Variation",
+        "description": "Optional long run with race-pace or faster segments.",
+        "intensity_zone": "Race pace or threshold (optional)",
+        "benefits": [
+          "Adds variety to training.",
+          "Improves race-pace familiarity.",
+          "Stimulates neuromuscular adaptation."
+        ],
+        "when_to_use": [
+          "Mid to late cycle.",
+          "When athlete is well recovered.",
+          "As a controlled stimulus, not a test."
+        ],
+        "common_errors": [
+          "Treating this as mandatory.",
+          "Running too much of the long run at race pace."
+        ]
+      }
+    ],
+
+    "running_form_cues": [
+      {
+        "cue": "Mantenha o ritmo confortável no longão.",
+        "purpose": "Ensure the long run fulfills its endurance-building purpose.",
+        "when_to_apply": "Throughout the long run.",
+        "common_mistakes": "Accelerating to test race pace."
+      },
+      {
+        "cue": "Varie as intensidades ao longo da semana.",
+        "purpose": "Create the stimulus diversity needed for performance evolution.",
+        "when_to_apply": "Across the full training cycle.",
+        "common_mistakes": "Keeping easy, race, and interval paces too close together."
+      }
+    ]
+  },
+
+  "actionable_guidance": {
+    "workout_examples": [
+      {
+        "name": "Endurance-Building Long Run",
+        "description": "Long run at easy pace to build endurance.",
+        "duration_minutes": null,
+        "intensity_zone": "Easy aerobic",
+        "goal": "Develop endurance during base phase.",
+        "progressions": [
+          "Increase duration gradually.",
+          "Keep pace comfortable and sustainable."
+        ]
+      },
+      {
+        "name": "Maintenance Long Run",
+        "description": "Long run to maintain endurance during competitive phase.",
+        "duration_minutes": null,
+        "intensity_zone": "Easy to moderate",
+        "goal": "Maintain endurance without excessive fatigue.",
+        "progressions": [
+          "Reduce volume slightly as race approaches.",
+          "Avoid turning it into a race-pace test."
+        ]
+      },
+      {
+        "name": "Long Run with Optional Speed Play",
+        "description": "Long run with controlled race-pace or threshold segments.",
+        "duration_minutes": null,
+        "intensity_zone": "Race pace or threshold (optional)",
+        "goal": "Add variety and stimulate neuromuscular adaptation.",
+        "progressions": [
+          "Start with short blocks.",
+          "Increase only if recovery is good."
+        ]
+      }
+    ],
+
+    "weekly_training_recommendations": {
+      "beginner": [
+        "Use the long run to build endurance at an easy pace.",
+        "Do not worry about race pace inside the long run.",
+        "Focus on consistency rather than speed."
+      ],
+      "intermediate": [
+        "Use long runs to build and maintain endurance depending on the phase.",
+        "Include optional race-pace blocks only when appropriate.",
+        "Trust the cumulative effect of training."
+      ],
+      "advanced": [
+        "Structure long runs according to training phase: build endurance early, maintain later.",
+        "Use speed variation strategically, not emotionally.",
+        "Avoid panic if a long run is missed — trust the cycle."
+      ]
+    },
+
+    "do_and_dont": {
+      "do": [
+        "Use long runs to build or maintain endurance.",
+        "Vary intensities across the week.",
+        "Stay calm if you miss a long run.",
+        "Trust the training process."
+      ],
+      "dont": [
+        "Use the long run to test race pace.",
+        "Assume one missed long run ruins your race.",
+        "Keep all training intensities too close together.",
+        "Turn long runs into emotional fitness tests."
+      ]
+    },
+
+    "motivational_coach_lines": [
+      "Longão não é teste — é construção.",
+      "Seu ritmo de prova nasce do conjunto de estímulos, não de um único treino.",
+      "Perdeu um longão? Respira. Meses de treino valem mais que um dia.",
+      "Treinar é confiar no processo, não no ego."
+    ]
+  },
+
+  "conversation_assets": {
+    "short_responses": {
+      "encouragement": [
+        "Boa! Esse longão vai construir sua resistência.",
+        "Ótimo — ritmo confortável, como deve ser.",
+        "Você está treinando com inteligência."
+      ],
+      "corrections": [
+        "O longão não é para testar ritmo de prova.",
+        "Mantenha o pace confortável — o objetivo aqui é endurance.",
+        "Não transforme o longão em um teste emocional."
+      ],
+      "explanations": [
+        "O longão constrói endurance na base e mantém endurance na fase competitiva.",
+        "Seu ritmo de prova vem da combinação de estímulos, não do longão.",
+        "Perder um longão não compromete sua maratona."
+      ]
+    },
+    "long_responses": {
+      "deep_explanations": [
+        "O longão é uma ferramenta fisiológica para desenvolver endurance. Ele não serve para testar se você consegue correr no ritmo da prova. O ritmo de prova emerge do conjunto de estímulos — leve, ritmo de prova, limiar e velocidade — ao longo de semanas e meses."
+      ],
+      "training_theory": [
+        "Quanto maior a variação entre leve, ritmo de prova e tiros, maior a evolução. Se todos os ritmos ficam muito próximos, você não cria estímulos suficientes para melhorar."
+      ],
+      "injury_prevention": [
+        "Transformar longões em testes gera fadiga excessiva e aumenta risco de lesão. Longões devem ser sustentáveis e alinhados ao objetivo da fase de treino."
+      ]
+    },
+    "questions_to_user": {
+      "fitness_level": [
+        "Há quanto tempo você faz longões regularmente?",
+        "Você costuma definir o objetivo do longão antes de sair?"
+      ],
+      "goals": [
+        "Qual distância você está treinando agora?",
+        "Você já sabe qual é o seu ritmo de prova alvo?"
+      ],
+      "feedback": [
+        "Você costuma transformar o longão em teste?",
+        "Já ficou preocupado por perder um longão?",
+        "Como você se sente após seus longões recentes?"
+      ]
+    }
+  },
+
+  "structured_timestamps": [
+    {
+      "timestamp": "00:00–00:40",
+      "topic": "Introdução ao longão",
+      "coach_commentary": "Define o longão como o treino mais longo da semana.",
+      "training_category": "Fundamentos"
+    },
+    {
+      "timestamp": "00:40–02:00",
+      "topic": "Propósito fisiológico do longão",
+      "coach_commentary": "Longão serve para construir endurance, não para testar ritmo.",
+      "training_category": "Fisiologia"
+    },
+    {
+      "timestamp": "02:00–03:30",
+      "topic": "Fase competitiva e manutenção",
+      "coach_commentary": "Longão mantém endurance na fase final do ciclo.",
+      "training_category": "Periodização"
+    },
+    {
+      "timestamp": "03:30–05:00",
+      "topic": "Variação de intensidades",
+      "coach_commentary": "Maior variação de estímulos = maior evolução.",
+      "training_category": "Intensidade"
+    },
+    {
+      "timestamp": "05:00–07:00",
+      "topic": "Perder longão não compromete a prova",
+      "coach_commentary": "Treino é processo, não um único dia.",
+      "training_category": "Mentalidade"
+    },
+    {
+      "timestamp": "07:00–fim",
+      "topic": "Resumo e mensagem final",
+      "coach_commentary": "Treinar deve ser tranquilo, sem neura, confiando no processo.",
+      "training_category": "Mindset"
+    }
+  ],
+
+  "agent_behavior": {
+    "tone": {
+      "style": "supportive",
+      "examples": [
+        "Treinar é confiar no processo, não em um único treino.",
+        "Seu longão está cumprindo o papel certo.",
+        "Você está construindo endurance de forma inteligente."
+      ]
+    },
+    "persona": {
+      "name": "Coach Endurance",
+      "traits": [
+        "tranquilo",
+        "didático",
+        "focado em processo",
+        "baseado em fisiologia"
+      ],
+      "coaching_philosophy": "O longão constrói e mantém endurance — não é teste. Evolução vem da variação de estímulos e da consistência."
+    }
+  }
+}

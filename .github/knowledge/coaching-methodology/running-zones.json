@@ -1,0 +1,304 @@
+{
+  "video_metadata": {
+    "title": "A Regra dos 2 Minutos — Evolução na Corrida",
+    "url": "https://youtu.be/wxz1O7Q1T3Q",
+    "channel": "Corrida & Performance (Valdir Braga)",
+    "duration_seconds": null,
+    "publish_date": null
+  },
+
+  "content_summary": {
+    "core_message": "Para evoluir na corrida, é essencial ter variação real de intensidades. A Regra dos 2 Minutos afirma que deve existir pelo menos 2 minutos de diferença entre o ritmo leve e o ritmo dos tiros curtos (400m). Sem essa variação, o corpo recebe sempre o mesmo estímulo e não evolui.",
+    "key_takeaways": [
+      "A evolução depende de estímulos fisiológicos variados.",
+      "Treinar sempre na mesma intensidade impede progresso.",
+      "A Regra dos 2 Minutos define a diferença mínima entre o ritmo leve e o ritmo dos tiros de 400m.",
+      "A regra se aplica a qualquer objetivo: sub 4, sub 3:30, sub 3, Boston, etc.",
+      "Atletas que treinam leve rápido demais não conseguem puxar intensidade nos treinos fortes.",
+      "Treinar leve mais devagar reduz fadiga e permite treinar forte de verdade.",
+      "A regra não vem de artigos científicos, mas de 20 anos de experiência prática + fisiologia + consultorias."
+    ],
+    "training_principles": [
+      "O corpo precisa de estímulos diferentes para evoluir.",
+      "Treino leve deve ser realmente leve para permitir treinos fortes.",
+      "A amplitude de intensidades é mais importante do que o ritmo absoluto.",
+      "A Regra dos 2 Minutos garante variação suficiente entre estímulos.",
+      "Treinar sempre perto do pace de prova é um erro comum.",
+      "Ajustar intensidades é mais importante do que aumentar volume."
+    ],
+    "common_mistakes": [
+      "Treinar leve rápido demais.",
+      "Fazer limiar muito próximo do pace de prova.",
+      "Fazer tiros sem intensidade suficiente.",
+      "Manter todas as intensidades muito próximas.",
+      "Achar que correr leve devagar é “perder tempo”.",
+      "Treinar forte quando deveria treinar leve."
+    ],
+    "myths_busted": [
+      "Mito: Treinar leve rápido ajuda a evoluir. Realidade: só aumenta fadiga.",
+      "Mito: Intensidades próximas são suficientes. Realidade: o corpo precisa de contraste.",
+      "Mito: A regra dos 2 minutos é aleatória. Realidade: vem de fisiologia + prática.",
+      "Mito: Ritmo leve mais rápido gera mais adaptação. Realidade: gera mais cansaço."
+    ]
+  },
+
+  "coaching_knowledge": {
+    "physiology": {
+      "energy_systems": [
+        "Treino leve: adaptações aeróbias estruturais (mitocôndrias, capilares, força do coração).",
+        "Limiar: tolerância ao lactato e aumento da velocidade sustentável.",
+        "VO2máx: capacidade máxima de oxigênio e velocidade.",
+        "Variação de intensidades: estímulos diferentes ativam adaptações diferentes."
+      ],
+      "adaptations_targeted": [
+        "Aumento da base aeróbia.",
+        "Melhora da tolerância ao lactato.",
+        "Aumento da velocidade máxima.",
+        "Melhor economia de corrida.",
+        "Redução de fadiga acumulada.",
+        "Maior capacidade de treinar forte nos dias certos."
+      ],
+      "injury_risks": [
+        "Treinar leve rápido demais aumenta fadiga e risco de lesão.",
+        "Fazer tiros sem intensidade suficiente reduz eficiência do treino.",
+        "Manter intensidades próximas impede recuperação adequada.",
+        "Fadiga acumulada impede evolução e aumenta risco de overtraining."
+      ],
+      "recovery_requirements": [
+        "Treinos leves realmente leves.",
+        "Dias off semanais.",
+        "Alternância entre estímulos fortes e leves.",
+        "Controle de intensidade baseado em pace, não em ego."
+      ]
+    },
+
+    "training_methods": [
+      {
+        "name": "Treino Leve",
+        "description": "Ritmo confortável, muito abaixo do pace de prova.",
+        "intensity_zone": "Aeróbio leve",
+        "benefits": [
+          "Constrói base aeróbia.",
+          "Reduz fadiga.",
+          "Permite treinar forte nos dias certos."
+        ],
+        "when_to_use": ["2–4x por semana"],
+        "common_errors": ["Correr leve rápido demais."]
+      },
+      {
+        "name": "Treino de Limiar",
+        "description": "Tempo run ou intervalados extensivos.",
+        "intensity_zone": "Limiar de lactato",
+        "benefits": [
+          "Melhora ritmo sustentável.",
+          "Aumenta tolerância ao lactato."
+        ],
+        "when_to_use": ["1x por semana"],
+        "common_errors": ["Fazer limiar muito próximo do pace leve."]
+      },
+      {
+        "name": "Treino de VO2máx",
+        "description": "Tiros curtos (400–1000m) com intensidade alta.",
+        "intensity_zone": "Alta intensidade",
+        "benefits": [
+          "Aumenta velocidade máxima.",
+          "Melhora economia de corrida."
+        ],
+        "when_to_use": ["1x por semana"],
+        "common_errors": ["Tiros fracos por fadiga acumulada."]
+      }
+    ],
+
+    "running_form_cues": [
+      {
+        "cue": "Leve é leve.",
+        "purpose": "Reduzir fadiga e permitir treinos fortes.",
+        "when_to_apply": "Dias de rodagem.",
+        "common_mistakes": "Correr leve 10–20s acima do pace de prova."
+      },
+      {
+        "cue": "Puxe forte nos tiros.",
+        "purpose": "Criar contraste fisiológico.",
+        "when_to_apply": "Treinos de VO2máx.",
+        "common_mistakes": "Tiros fracos por cansaço do treino leve rápido."
+      }
+    ]
+  },
+
+  "actionable_guidance": {
+    "workout_examples": [
+      {
+        "name": "Aplicação da Regra dos 2 Minutos — Sub 4h",
+        "description": "Exemplo prático do vídeo.",
+        "duration_minutes": null,
+        "intensity_zone": "Variada",
+        "goal": "Criar contraste entre estímulos.",
+        "progressions": [
+          "Leve: 6:30/km",
+          "Limiar: 5:20/km",
+          "Tiros 400m: 4:30/km"
+        ]
+      },
+      {
+        "name": "Aplicação da Regra — Sub 3h",
+        "description": "Exemplo para atletas avançados.",
+        "duration_minutes": null,
+        "intensity_zone": "Variada",
+        "goal": "Aumentar amplitude de intensidades.",
+        "progressions": [
+          "Leve: 5:15/km",
+          "Limiar: 4:00/km",
+          "Tiros 400m: 3:15/km"
+        ]
+      }
+    ],
+
+    "weekly_training_recommendations": {
+      "beginner": [
+        "Aumentar amplitude entre leve e forte.",
+        "Treinar leve mais devagar.",
+        "Fazer tiros mais fortes, mas curtos."
+      ],
+      "intermediate": [
+        "Usar a regra dos 2 minutos como referência.",
+        "Ajustar limiar para ficar abaixo do pace de prova.",
+        "Treinar leve realmente leve."
+      ],
+      "advanced": [
+        "Amplitude pode ser maior que 2 minutos.",
+        "Treinos fortes devem ser realmente fortes.",
+        "Controle fino de intensidades."
+      ]
+    },
+
+    "do_and_dont": {
+        "do": [
+          "Criar variação real entre intensidades.",
+          "Treinar leve devagar.",
+          "Treinar forte de verdade nos tiros.",
+          "Usar pace como referência principal."
+        ],
+        "dont": [
+          "Correr leve rápido demais.",
+          "Fazer limiar muito próximo do pace de prova.",
+          "Manter intensidades muito próximas.",
+          "Treinar sempre no mesmo ritmo."
+        ]
+    },
+
+    "motivational_coach_lines": [
+      "A variação de intensidades é o motor da evolução.",
+      "Leve devagar para correr forte quando importa.",
+      "A regra dos 2 minutos muda o jogo.",
+      "Treinar certo vale mais do que treinar forte."
+    ]
+  },
+
+  "conversation_assets": {
+    "short_responses": {
+      "encouragement": [
+        "Boa — você está aplicando a regra dos 2 minutos.",
+        "Ótimo, seu treino leve está realmente leve.",
+        "Excelente contraste de intensidades."
+      ],
+      "corrections": [
+        "Seu leve está rápido demais — abra mais a janela.",
+        "Seus tiros estão fracos — falta contraste.",
+        "Seu limiar está muito próximo do pace de prova."
+      ],
+      "explanations": [
+        "A regra dos 2 minutos garante estímulos diferentes.",
+        "Treinar leve rápido demais aumenta fadiga.",
+        "Amplitude de intensidades é essencial para evolução."
+      ]
+    },
+
+    "long_responses": {
+      "deep_explanations": [
+        "A Regra dos 2 Minutos garante que seu corpo receba estímulos realmente diferentes. Quando o treino leve é muito rápido, você acumula fadiga e não consegue treinar forte nos dias certos. Quando os tiros são fracos, você não cria estímulo suficiente para evoluir. A amplitude entre leve e forte é o que gera adaptação."
+      ],
+      "training_theory": [
+        "A fisiologia mostra que adaptações aeróbias e anaeróbias ocorrem em intensidades diferentes. Se todas as intensidades ficam próximas, você não ativa sistemas distintos. A regra dos 2 minutos é uma forma prática de garantir essa separação."
+      ],
+      "injury_prevention": [
+        "Treinar leve rápido demais aumenta fadiga e risco de lesão. A regra dos 2 minutos reduz carga desnecessária e melhora recuperação."
+      ]
+    },
+
+    "questions_to_user": {
+      "fitness_level": [
+        "Qual é seu pace leve atual?",
+        "Você já sabe seu pace de tiros de 400m?"
+      ],
+      "goals": [
+        "Qual é seu objetivo de tempo na próxima prova?",
+        "Você está treinando para sub 4, sub 3:30, sub 3?"
+      ],
+      "feedback": [
+        "Você sente dificuldade em correr leve devagar?",
+        "Seus tiros estão realmente fortes?",
+        "Você já tentou aplicar a regra dos 2 minutos?"
+      ]
+    }
+  },
+
+  "structured_timestamps": [
+    {
+      "timestamp": "00:00–02:00",
+      "topic": "Introdução e contexto",
+      "coach_commentary": "Explica por que muitos corredores não evoluem.",
+      "training_category": "Fundamentos"
+    },
+    {
+      "timestamp": "02:00–05:00",
+      "topic": "Por que variação de intensidade é essencial",
+      "coach_commentary": "Mostra que treinar sempre igual impede evolução.",
+      "training_category": "Fisiologia"
+    },
+    {
+      "timestamp": "05:00–08:00",
+      "topic": "Exemplo prático — Atleta A vs Atleta B",
+      "coach_commentary": "Demonstra diferença de estímulos.",
+      "training_category": "Aplicação prática"
+    },
+    {
+      "timestamp": "08:00–11:00",
+      "topic": "Regra dos 2 minutos aplicada ao sub 4",
+      "coach_commentary": "Mostra como ajustar intensidades.",
+      "training_category": "Intensidade"
+    },
+    {
+      "timestamp": "11:00–14:00",
+      "topic": "Regra aplicada ao sub 3",
+      "coach_commentary": "Mostra que a regra vale para qualquer objetivo.",
+      "training_category": "Performance"
+    },
+    {
+      "timestamp": "14:00–fim",
+      "topic": "Mensagem final e importância da variação",
+      "coach_commentary": "Reforça que estímulos variados geram evolução.",
+      "training_category": "Mindset"
+    }
+  ],
+
+  "agent_behavior": {
+    "tone": {
+      "style": "supportive",
+      "examples": [
+        "Você está entendendo como intensidades moldam sua evolução.",
+        "Excelente — agora sua corrida vai para outro nível.",
+        "A regra dos 2 minutos vai transformar seus treinos."
+      ]
+    },
+    "persona": {
+      "name": "Coach Intensidade",
+      "traits": [
+        "técnico",
+        "didático",
+        "baseado em fisiologia",
+        "focado em evolução real"
+      ],
+      "coaching_philosophy": "A evolução nasce da variação — contraste cria adaptação."
+    }
+  }
+}

@@ -1,0 +1,312 @@
+{
+  "video_metadata": {
+    "title": "Treinar apenas 3 dias por semana para maratona — é possível?",
+    "url": "https://youtu.be/vfA7hWP09Wo",
+    "channel": "Corrida & Performance (Valdir Braga)",
+    "duration_seconds": null,
+    "publish_date": null
+  },
+
+  "content_summary": {
+    "core_message": "Treinar apenas três dias por semana não é suficiente para construir o volume necessário para completar uma maratona com segurança e qualidade — exceto em casos específicos como triatletas com grande base aeróbia.",
+    "key_takeaways": [
+      "A ideia de treinar apenas 3 dias por semana para maratona é perigosa e enganosa.",
+      "Volume é o principal determinante de sucesso na maratona.",
+      "Treinar só 3 dias por semana geralmente leva a ciclos mal estruturados: fartlek + tiros + longão forte.",
+      "Maratona é uma prova de resistência, não de velocidade.",
+      "Para sub 4 horas, o mínimo recomendado é 4 treinos por semana.",
+      "Para marcas mais fortes (sub 3:30, sub 3, Boston), são necessários 5 ou mais treinos semanais.",
+      "Atletas muito rápidos (sub 2:50) treinam 6x por semana e até fazem treinos duplos.",
+      "Triatletas são exceção porque constroem volume aeróbio no ciclismo e natação."
+    ],
+    "training_principles": [
+      "Volume é o alicerce fisiológico da maratona.",
+      "Treinos de velocidade só funcionam quando existe base aeróbia sólida.",
+      "Treinar com baixa frequência aumenta risco de lesão e piora a experiência na prova.",
+      "A distribuição semanal deve priorizar recuperação e progressão de volume.",
+      "A maratona exige consistência e carga distribuída ao longo da semana."
+    ],
+    "common_mistakes": [
+      "Acreditar que 3 treinos por semana são suficientes.",
+      "Fazer longão quase em ritmo de prova por falta de base.",
+      "Concentrar toda a carga em poucos treinos.",
+      "Imitar treinos de triatletas sem ter o volume aeróbio deles.",
+      "Buscar atalhos por “lei do menor esforço”."
+    ],
+    "myths_busted": [
+      "Mito: 3 treinos por semana bastam para maratona. Realidade: isso não constrói volume suficiente.",
+      "Mito: Longão forte substitui volume semanal. Realidade: aumenta risco e piora desempenho.",
+      "Mito: Amador não precisa treinar muito. Realidade: maratona exige respeito e preparação adequada."
+    ]
+  },
+
+  "coaching_knowledge": {
+    "physiology": {
+      "energy_systems": [
+        "Base aeróbia construída com volume semanal consistente.",
+        "Resistência sustentada por treinos frequentes e longões progressivos.",
+        "Velocidade e VO2máx só funcionam quando existe base sólida."
+      ],
+      "adaptations_targeted": [
+        "Aumento da capacidade aeróbia.",
+        "Melhora da resistência muscular.",
+        "Maior tolerância ao esforço prolongado.",
+        "Redução do risco de fadiga precoce na maratona."
+      ],
+      "injury_risks": [
+        "Concentrar muito estresse em poucos treinos.",
+        "Longões fortes sem base aeróbia.",
+        "Falta de recuperação adequada entre treinos intensos.",
+        "Volume insuficiente para suportar 42 km."
+      ],
+      "recovery_requirements": [
+        "Dias off antes e depois do longão.",
+        "Treinos leves entre treinos de qualidade.",
+        "Progressão gradual de volume."
+      ]
+    },
+
+    "training_methods": [
+      {
+        "name": "Treino Leve",
+        "description": "Base aeróbia fundamental para maratona.",
+        "intensity_zone": "Leve",
+        "benefits": [
+          "Constrói resistência.",
+          "Permite recuperação.",
+          "Sustenta treinos de qualidade."
+        ],
+        "when_to_use": ["2–3x por semana"],
+        "common_errors": ["Correr leve rápido demais."]
+      },
+      {
+        "name": "Treino de Limiar",
+        "description": "Trabalho de ritmo forte e controlado.",
+        "intensity_zone": "Limiar de lactato",
+        "benefits": [
+          "Melhora tolerância ao lactato.",
+          "Aumenta eficiência no pace alvo."
+        ],
+        "when_to_use": ["1x por semana"],
+        "common_errors": ["Fazer limiar muito rápido."]
+      },
+      {
+        "name": "Treino de VO2máx",
+        "description": "Intervalados fortes (400m, 800m, 1km).",
+        "intensity_zone": "Alta intensidade",
+        "benefits": [
+          "Aumenta velocidade máxima.",
+          "Melhora economia de corrida."
+        ],
+        "when_to_use": ["1x por semana em ciclos avançados"],
+        "common_errors": ["Fazer tiros longos demais sem base."]
+      },
+      {
+        "name": "Longão",
+        "description": "Treino mais longo da semana, base da resistência.",
+        "intensity_zone": "Moderado",
+        "benefits": [
+          "Desenvolve resistência física e mental.",
+          "Simula demandas da maratona."
+        ],
+        "when_to_use": ["1x por semana"],
+        "common_errors": ["Longão forte demais por falta de volume semanal."]
+      }
+    ],
+
+    "running_form_cues": [
+      {
+        "cue": "Construa volume antes de buscar velocidade.",
+        "purpose": "Evitar lesões e fadiga precoce.",
+        "when_to_apply": "Primeiras semanas do ciclo.",
+        "common_mistakes": "Começar com tiros sem base."
+      },
+      {
+        "cue": "Distribua carga ao longo da semana.",
+        "purpose": "Evitar sobrecarga em poucos treinos.",
+        "when_to_apply": "Durante todo o ciclo.",
+        "common_mistakes": "Concentrar tudo em 3 dias."
+      }
+    ]
+  },
+
+  "actionable_guidance": {
+    "workout_examples": [
+      {
+        "name": "Semana mínima para maratona (4 treinos)",
+        "description": "Estrutura mínima recomendada para sub 4–sub 3:30.",
+        "duration_minutes": null,
+        "intensity_zone": "Variada",
+        "goal": "Construir volume com segurança.",
+        "progressions": [
+          "Segunda: leve",
+          "Quarta: limiar ou VO2",
+          "Quinta: leve",
+          "Sábado ou domingo: longão"
+        ]
+      },
+      {
+        "name": "Semana para maratonistas avançados (5 treinos)",
+        "description": "Estrutura para quem busca sub 3:30, sub 3 ou Boston.",
+        "duration_minutes": null,
+        "intensity_zone": "Variada",
+        "goal": "Aumentar volume e especificidade.",
+        "progressions": [
+          "Segunda: leve",
+          "Terça: limiar",
+          "Quarta: leve",
+          "Quinta: VO2máx",
+          "Domingo: longão"
+        ]
+      }
+    ],
+
+    "weekly_training_recommendations": {
+      "beginner": [
+        "Treinar 4x por semana.",
+        "Construir volume progressivamente.",
+        "Evitar longões fortes."
+      ],
+      "intermediate": [
+        "Adicionar limiar semanal.",
+        "Alternar VO2 conforme recuperação.",
+        "Manter volume consistente."
+      ],
+      "advanced": [
+        "Treinar 5–6x por semana.",
+        "Longões blocados e treinos duplos conforme nível.",
+        "Controle fino de intensidade e volume."
+      ]
+    },
+
+    "do_and_dont": {
+      "do": [
+        "Treinar pelo menos 4x por semana.",
+        "Construir volume com calma.",
+        "Usar treinos leves para recuperação.",
+        "Respeitar a fisiologia da maratona."
+      ],
+      "dont": [
+        "Acreditar em atalhos de 3 treinos por semana.",
+        "Concentrar toda a carga em poucos dias.",
+        "Fazer longão forte por falta de base.",
+        "Imitar triatletas sem ter o volume deles."
+      ]
+    },
+
+    "motivational_coach_lines": [
+      "Maratona é resistência — volume é o alicerce.",
+      "Não existe atalho seguro para 42 km.",
+      "Treinar certo vale mais do que treinar forte.",
+      "Consistência semanal vence intensidade isolada."
+    ]
+  },
+
+  "conversation_assets": {
+    "short_responses": {
+      "encouragement": [
+        "Boa — você está construindo volume de verdade.",
+        "Ótimo, sua estrutura semanal está muito mais segura.",
+        "Você está treinando como um maratonista de verdade."
+      ],
+      "corrections": [
+        "Três treinos por semana não constroem volume suficiente.",
+        "Evite longões fortes — isso é consequência de pouca base.",
+        "Distribua melhor a carga ao longo da semana."
+      ],
+      "explanations": [
+        "Maratona é uma prova de resistência, não de velocidade.",
+        "Volume semanal é o principal determinante de sucesso.",
+        "Triatletas são exceção porque constroem base em outros esportes."
+      ]
+    },
+
+    "long_responses": {
+      "deep_explanations": [
+        "Treinar apenas três dias por semana concentra estresse demais em poucos treinos e não permite construir a base aeróbia necessária para 42 km. A maratona exige volume distribuído ao longo da semana para desenvolver resistência e evitar lesões."
+      ],
+      "training_theory": [
+        "A fisiologia da maratona é baseada em resistência. Volume semanal consistente aumenta capilarização, mitocôndrias e eficiência energética — adaptações que não acontecem com apenas três treinos."
+      ],
+      "injury_prevention": [
+        "Concentrar treinos intensos e longos em poucos dias aumenta drasticamente o risco de lesão. A distribuição semanal é essencial para segurança."
+      ]
+    },
+
+    "questions_to_user": {
+      "fitness_level": [
+        "Quantos treinos por semana você faz hoje?",
+        "Você já correu maratona antes?"
+      ],
+      "goals": [
+        "Qual é sua meta na próxima maratona?",
+        "Você busca concluir bem ou bater tempo?"
+      ],
+      "feedback": [
+        "Como você se sente após seus longões?",
+        "Você já tentou treinar 4x por semana?",
+        "Sente dificuldade em manter volume?"
+      ]
+    }
+  },
+
+  "structured_timestamps": [
+    {
+      "timestamp": "00:00–01:00",
+      "topic": "Introdução ao tema",
+      "coach_commentary": "Questiona a ideia de treinar 3x por semana.",
+      "training_category": "Fundamentos"
+    },
+    {
+      "timestamp": "01:00–03:00",
+      "topic": "Crítica à desinformação",
+      "coach_commentary": "Explica por que a ideia é perigosa.",
+      "training_category": "Educação"
+    },
+    {
+      "timestamp": "03:00–06:00",
+      "topic": "Triatletas como exceção",
+      "coach_commentary": "Mostra por que triatletas conseguem treinar menos corrida.",
+      "training_category": "Fisiologia"
+    },
+    {
+      "timestamp": "06:00–09:00",
+      "topic": "Volume como base da maratona",
+      "coach_commentary": "Explica por que volume é essencial.",
+      "training_category": "Resistência"
+    },
+    {
+      "timestamp": "09:00–12:00",
+      "topic": "Frequência recomendada por nível",
+      "coach_commentary": "4x para sub 4; 5x para sub 3:30; 6x para elite amadora.",
+      "training_category": "Planejamento"
+    },
+    {
+      "timestamp": "12:00–fim",
+      "topic": "Mensagem final",
+      "coach_commentary": "Reforça que não existe atalho seguro.",
+      "training_category": "Mindset"
+    }
+  ],
+
+  "agent_behavior": {
+    "tone": {
+      "style": "supportive",
+      "examples": [
+        "Você está fazendo escolhas inteligentes para sua maratona.",
+        "Consistência é o que vai te levar longe.",
+        "Treinar certo é treinar com responsabilidade."
+      ]
+    },
+    "persona": {
+      "name": "Coach Volume",
+      "traits": [
+        "honesto",
+        "direto",
+        "baseado em ciência",
+        "protetor do atleta"
+      ],
+      "coaching_philosophy": "Maratona exige respeito: volume constrói, intensidade lapida, consistência entrega."
+    }
+  }
+}

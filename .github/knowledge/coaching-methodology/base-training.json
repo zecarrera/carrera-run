@@ -1,0 +1,252 @@
+{
+  "video_metadata": {
+    "title": "Base Training for Runners",
+    "url": "https://youtu.be/zDXz3iD-v6c",
+    "channel": "Bobby McGee",
+    "duration_seconds": 291,
+    "publish_date": "Unknown"
+  },
+
+  "content_summary": {
+    "core_message": "Base training is the essential foundation for all future running performance. It builds durability, aerobic efficiency, and consistency while preventing injury.",
+    "key_takeaways": [
+      "Base training transitions you from recovery or inactivity into structured running.",
+      "Volume must increase gradually and sustainably.",
+      "Heart rate should stay low to develop aerobic capacity.",
+      "Walks and hikes count as base training for slower runners.",
+      "Base phase should last 4–12 weeks depending on experience."
+    ],
+    "training_principles": [
+      "Build frequency before intensity.",
+      "Keep heart rate in the aerobic zone.",
+      "Increase volume only when recovery is good.",
+      "Use run–walk strategies to safely extend duration.",
+      "Track mileage over 10–14 day cycles, not just weekly."
+    ],
+    "common_mistakes": [
+      "Running too fast during base training.",
+      "Increasing volume before the body adapts.",
+      "Ignoring recovery signals.",
+      "Not including brisk walking as part of aerobic development.",
+      "Trying to add intensity too early."
+    ],
+    "myths_busted": [
+      "Base training is not just slow jogging — it includes structured aerobic development.",
+      "Walking does not 'ruin' training; it enhances aerobic capacity for many runners.",
+      "You don’t need to follow a strict 7‑day cycle; longer cycles work better for some athletes."
+    ]
+  },
+
+  "coaching_knowledge": {
+    "physiology": {
+      "energy_systems": [
+        "Aerobic metabolism",
+        "Fat oxidation pathways",
+        "Slow‑twitch muscle fiber development"
+      ],
+      "adaptations_targeted": [
+        "Improved capillary density",
+        "Stronger connective tissue",
+        "Lower resting and submax heart rate",
+        "Enhanced mitochondrial efficiency"
+      ],
+      "injury_risks": [
+        "Overuse injuries from increasing volume too quickly",
+        "Stress reactions from insufficient recovery",
+        "Soft‑tissue fatigue when aerobic base is weak"
+      ],
+      "recovery_requirements": [
+        "Sleep quality monitoring",
+        "Rest days or walk days",
+        "Hydration and fueling for longer aerobic sessions"
+      ]
+    },
+
+    "training_methods": [
+      {
+        "name": "Run–Walk Method",
+        "description": "Alternating running with walking to safely increase total duration.",
+        "intensity_zone": "Low aerobic",
+        "benefits": ["Reduces injury risk", "Builds volume safely", "Improves durability"],
+        "when_to_use": ["Returning from injury", "Beginners", "High fatigue days"],
+        "common_errors": ["Running segments too fast", "Not timing walk breaks consistently"]
+      },
+      {
+        "name": "Easy Aerobic Running",
+        "description": "Steady, conversational‑pace running to build aerobic capacity.",
+        "intensity_zone": "Zone 2",
+        "benefits": ["Improves endurance", "Strengthens heart", "Builds metabolic efficiency"],
+        "when_to_use": ["Most base training days"],
+        "common_errors": ["Running too fast", "Poor pacing early in the run"]
+      }
+    ],
+
+    "running_form_cues": [
+      {
+        "cue": "Relax your shoulders",
+        "purpose": "Reduce wasted energy and improve breathing",
+        "when_to_apply": "Throughout easy runs",
+        "common_mistakes": "Tensing upper body when fatigued"
+      },
+      {
+        "cue": "Shorten the stride to keep heart rate low",
+        "purpose": "Maintain aerobic control",
+        "when_to_apply": "Any time HR drifts upward",
+        "common_mistakes": "Overstriding on flat terrain"
+      }
+    ]
+  },
+
+  "actionable_guidance": {
+    "workout_examples": [
+      {
+        "name": "Easy Base Run",
+        "description": "Run at conversational pace.",
+        "duration_minutes": 30,
+        "intensity_zone": "Zone 2",
+        "goal": "Build aerobic capacity",
+        "progressions": ["Increase by 5 minutes every 1–2 weeks"]
+      },
+      {
+        "name": "Run–Walk Aerobic Builder",
+        "description": "Run 3 minutes, walk 1 minute.",
+        "duration_minutes": 40,
+        "intensity_zone": "Low aerobic",
+        "goal": "Safely increase total time on feet",
+        "progressions": ["Increase run segment to 4–5 minutes"]
+      }
+    ],
+
+    "weekly_training_recommendations": {
+      "beginner": [
+        "3–4 runs per week",
+        "1 long run with run–walk",
+        "1–2 brisk walks"
+      ],
+      "intermediate": [
+        "4–6 runs per week",
+        "1 longer aerobic run",
+        "Optional double run day"
+      ],
+      "advanced": [
+        "6–9 sessions per week including doubles",
+        "High mileage long run",
+        "Daily aerobic running with strict HR control"
+      ]
+    },
+
+    "do_and_dont": {
+      "do": [
+        "Keep heart rate low",
+        "Increase volume gradually",
+        "Use walking as a tool",
+        "Monitor recovery"
+      ],
+      "dont": [
+        "Add intensity too early",
+        "Ignore fatigue signals",
+        "Chase pace during base phase"
+      ]
+    },
+
+    "motivational_coach_lines": [
+      "Your base is your superpower — build it patiently.",
+      "Slow now means fast later.",
+      "Consistency beats intensity in the base phase.",
+      "Every easy mile is an investment in your future speed."
+    ]
+  },
+
+  "conversation_assets": {
+    "short_responses": {
+      "encouragement": [
+        "Nice work — keep that heart rate steady.",
+        "Perfect base‑phase pacing!",
+        "You're building durability with every easy mile."
+      ],
+      "corrections": [
+        "Ease off the pace to stay aerobic.",
+        "Shorten your stride to control heart rate."
+      ],
+      "explanations": [
+        "Base training builds the aerobic engine you’ll rely on later.",
+        "Walking is part of training — not a setback."
+      ]
+    },
+
+    "long_responses": {
+      "deep_explanations": [
+        "Base training strengthens your aerobic system, connective tissues, and running economy. It’s the safest way to prepare for harder training later."
+      ],
+      "training_theory": [
+        "The aerobic zone is where your body becomes more efficient at using oxygen and fat for fuel. Staying here during base training maximizes long‑term performance."
+      ],
+      "injury_prevention": [
+        "Gradual volume increases allow your tendons and ligaments to adapt. Rushing this process is the #1 cause of overuse injuries."
+      ]
+    },
+
+    "questions_to_user": {
+      "fitness_level": [
+        "How many days per week are you currently running?",
+        "Do you track your heart rate during runs?"
+      ],
+      "goals": [
+        "Are you training for a specific race?",
+        "What distance do you want to improve?"
+      ],
+      "feedback": [
+        "How did your last long run feel?",
+        "Are you recovering well between sessions?"
+      ]
+    }
+  },
+
+  "structured_timestamps": [
+    {
+      "timestamp": "00:00–00:35",
+      "topic": "What base training is",
+      "coach_commentary": "This is your transition phase — build consistency first.",
+      "training_category": "Foundations"
+    },
+    {
+      "timestamp": "00:35–01:09",
+      "topic": "Volume and recovery",
+      "coach_commentary": "Increase mileage only when recovery is strong.",
+      "training_category": "Volume Management"
+    },
+    {
+      "timestamp": "01:51–02:59",
+      "topic": "Heart rate control",
+      "coach_commentary": "Stay in Zone 2 — this is where the magic happens.",
+      "training_category": "Intensity Control"
+    },
+    {
+      "timestamp": "02:59–03:24",
+      "topic": "Walking as training",
+      "coach_commentary": "Walks count — they build aerobic strength without stress.",
+      "training_category": "Low‑Impact Aerobic Work"
+    },
+    {
+      "timestamp": "03:24–03:47",
+      "topic": "Duration of base phase",
+      "coach_commentary": "Commit to 4–12 weeks depending on your goals.",
+      "training_category": "Periodization"
+    }
+  ],
+
+  "agent_behavior": {
+    "tone": {
+      "style": "supportive",
+      "examples": [
+        "You're doing the right work — stay patient.",
+        "This pace is perfect for building your foundation."
+      ]
+    },
+    "persona": {
+      "name": "Coach Pulse",
+      "traits": ["supportive", "knowledgeable", "patient", "data‑driven"],
+      "coaching_philosophy": "Build the engine first. Speed comes later."
+    }
+  }
+}

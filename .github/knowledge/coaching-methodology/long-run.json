@@ -1,0 +1,327 @@
+{
+  "video_metadata": {
+    "title": "Pare de fazer longão na Grey Zone (Zona Cinza / Junk Miles)",
+    "url": "https://www.youtube.com/watch?v=FXT58C60XPA",
+    "channel": "Corrida & Performance",
+    "duration_seconds": null,
+    "publish_date": null
+  },
+
+  "content_summary": {
+    "core_message": "Long runs done in the grey zone (between easy pace and race pace) waste energy, create unnecessary fatigue, and fail to properly stress any key physiological variable. Every session must have a clear intention and target intensity.",
+    "key_takeaways": [
+      "Every training session must have a clear objective and target physiological variable.",
+      "The grey zone is the intensity between easy pace and race pace where you don’t train easy, don’t train race pace, and don’t train threshold effectively.",
+      "Long runs in the grey zone generate unnecessary fatigue without proportional benefit.",
+      "You should either run long truly easy, include structured race-pace blocks, or include structured threshold blocks.",
+      "Junk miles (grey zone miles) are especially harmful when training seriously for half marathon or marathon.",
+      "Beginners may improve with almost any training, but structured training demands intentional pacing."
+    ],
+    "training_principles": [
+      "Train at the intensity that stresses the specific physiological variable you want to improve.",
+      "Long easy runs should be clearly below race pace to expand endurance and aerobic base.",
+      "Race-pace blocks inside long runs should be done at actual race pace, not slightly slower.",
+      "Threshold (lactate) work should be done at clearly faster than race pace when inserted into long runs.",
+      "Avoid accumulating unnecessary fatigue close to race day by overcooking long runs.",
+      "Knowledge and intentional training matter more than gear for long-term performance."
+    ],
+    "common_mistakes": [
+      "Running long runs slightly faster than easy pace but slower than race pace (grey zone).",
+      "Feeling good on the day and pushing the long run pace without a clear purpose.",
+      "Using long runs to “prove fitness” instead of to build fitness.",
+      "Accumulating excessive fatigue in the final long runs before the race.",
+      "Believing that more effort in every session always equals more improvement.",
+      "Ignoring the need to define the goal of each workout before starting."
+    ],
+    "myths_busted": [
+      "Myth: Running your long run a bit faster is always better. Reality: It often just adds fatigue without extra adaptation.",
+      "Myth: If you feel good, you should always push the pace. Reality: Training should follow intention, not mood.",
+      "Myth: Gear (shoes, gels, sunglasses) is what drives performance. Reality: Knowledge and structured training are the real differentiators.",
+      "Myth: Grey zone miles are productive because they feel like a solid effort. Reality: They are often junk miles with poor cost–benefit."
+    ]
+  },
+
+  "coaching_knowledge": {
+    "physiology": {
+      "energy_systems": [
+        "Aerobic metabolism at low intensity (easy pace).",
+        "Aerobic–anaerobic transition at lactate threshold (limear de lactato).",
+        "Aerobic power and VO2max at high intensities."
+      ],
+      "adaptations_targeted": [
+        "Easy long runs: expansion of aerobic base and endurance with low fatigue.",
+        "Race-pace blocks: neuromuscular and metabolic specificity for the target event.",
+        "Threshold blocks: improved lactate clearance and tolerance.",
+        "VO2max sessions (mentioned conceptually): increased maximal oxygen uptake."
+      ],
+      "injury_risks": [
+        "Chronic fatigue from repeatedly running long in the grey zone.",
+        "Inadequate recovery before key races due to overcooked long runs.",
+        "Overuse issues from constantly training harder than necessary on long days."
+      ],
+      "recovery_requirements": [
+        "Sufficient recovery after long runs, especially when they include race-pace or threshold blocks.",
+        "Tapering and polishing (polimento) cannot fully remove the fatigue caused by repeated grey-zone long runs.",
+        "Monitoring perceived fatigue and adjusting intensity to avoid chronic overload."
+      ]
+    },
+    "training_methods": [
+      {
+        "name": "Easy Long Run",
+        "description": "Long run at clearly easy pace, well below race pace, to expand endurance and aerobic base with minimal fatigue.",
+        "intensity_zone": "Low aerobic (below marathon pace, e.g., 5:45–6:00/km for a 5:00/km marathoner).",
+        "benefits": [
+          "Builds endurance and aerobic base.",
+          "Allows high volume with manageable fatigue.",
+          "Supports recovery while still stimulating adaptation."
+        ],
+        "when_to_use": [
+          "Base phase.",
+          "Weeks with higher overall load.",
+          "When the goal is to expand time on feet without stressing threshold or race pace."
+        ],
+        "common_errors": [
+          "Running too close to race pace and drifting into the grey zone.",
+          "Using the long easy run to test fitness instead of build it."
+        ]
+      },
+      {
+        "name": "Long Run with Race-Pace Blocks",
+        "description": "Long run that includes structured segments at target race pace to practice pacing and specificity.",
+        "intensity_zone": "Race pace (e.g., 5:00/km for a 3h30 marathon goal).",
+        "benefits": [
+          "Improves pacing skills at race intensity.",
+          "Builds confidence at target pace.",
+          "Enhances specific muscular and metabolic adaptations for the event."
+        ],
+        "when_to_use": [
+          "Specific preparation phase for half marathon or marathon.",
+          "When the goal is to rehearse race conditions and pace.",
+          "Closer to race day, but still with enough time to recover."
+        ],
+        "common_errors": [
+          "Running slightly slower than race pace and calling it race-pace practice.",
+          "Extending race-pace blocks too long and accumulating excessive fatigue."
+        ]
+      },
+      {
+        "name": "Long Run with Threshold Blocks",
+        "description": "Long run that includes segments at or near lactate threshold (limear de lactato), faster than race pace.",
+        "intensity_zone": "Threshold (e.g., 4:40–4:45/km for a 5:00/km marathoner).",
+        "benefits": [
+          "Improves lactate clearance and tolerance.",
+          "Raises the speed you can sustain before accumulating high fatigue.",
+          "Enhances performance ceiling for race pace."
+        ],
+        "when_to_use": [
+          "Mid to late specific phase for experienced runners.",
+          "When the athlete is well-conditioned and recovered.",
+          "As a targeted session with clear structure and volume limits."
+        ],
+        "common_errors": [
+          "Running slightly slower than threshold and drifting into grey zone.",
+          "Combining too much threshold work with too long a total distance.",
+          "Not respecting recovery after such demanding sessions."
+        ]
+      }
+    ],
+    "running_form_cues": [
+      {
+        "cue": "Run relaxed at easy pace.",
+        "purpose": "Keep effort low enough to truly classify as easy and avoid drifting into grey zone.",
+        "when_to_apply": "During easy long runs and recovery days.",
+        "common_mistakes": "Letting pace creep up because you feel good, turning easy into grey zone."
+      },
+      {
+        "cue": "Check your pace against the plan, not your mood.",
+        "purpose": "Maintain the intended training intensity (easy, race pace, or threshold).",
+        "when_to_apply": "Throughout the long run, especially when feeling strong.",
+        "common_mistakes": "Running by feel alone and ignoring the planned pace ranges."
+      }
+    ]
+  },
+
+  "actionable_guidance": {
+    "workout_examples": [
+      {
+        "name": "Easy Long Run (No Grey Zone)",
+        "description": "Long run entirely at easy pace, clearly slower than race pace.",
+        "duration_minutes": null,
+        "intensity_zone": "Easy aerobic (e.g., 5:45–6:00/km for a 5:00/km marathoner).",
+        "goal": "Expand endurance and aerobic base with low fatigue.",
+        "progressions": [
+          "Increase duration gradually while keeping pace easy.",
+          "Maintain the same easy intensity even as distance grows."
+        ]
+      },
+      {
+        "name": "Long Run with Race-Pace Blocks",
+        "description": "Long run with structured blocks at marathon pace.",
+        "duration_minutes": null,
+        "intensity_zone": "Race pace (e.g., 5:00/km).",
+        "goal": "Practice race pace and pacing discipline.",
+        "progressions": [
+          "Start with shorter blocks (e.g., 2–3 km) at race pace.",
+          "Progress to longer blocks (e.g., 5–8 km) as fitness improves."
+        ]
+      },
+      {
+        "name": "Long Run with Threshold Inserts",
+        "description": "Long run including short segments at threshold pace (limear de lactato).",
+        "duration_minutes": null,
+        "intensity_zone": "Threshold (e.g., 4:40–4:45/km).",
+        "goal": "Stress lactate threshold while still accumulating long-run volume.",
+        "progressions": [
+          "Begin with short threshold segments (e.g., 3–5 minutes).",
+          "Gradually increase total threshold time while monitoring fatigue."
+        ]
+      }
+    ],
+    "weekly_training_recommendations": {
+      "beginner": [
+        "Focus on easy runs; any consistent training will bring improvement in the first months.",
+        "Use long runs at clearly easy pace without worrying too much about fine intensity control.",
+        "Avoid obsessing over pace; prioritize consistency and enjoyment."
+      ],
+      "intermediate": [
+        "Define the goal of each session before starting (easy, race pace, threshold, VO2max).",
+        "Keep most long runs easy, with occasional structured race-pace blocks.",
+        "Avoid grey zone by respecting easy pace ranges and race-pace targets."
+      ],
+      "advanced": [
+        "Plan long runs with clear structure: easy-only, race-pace blocks, or threshold inserts.",
+        "Avoid repeatedly doing long runs slightly faster than easy but slower than race pace.",
+        "Use knowledge and physiology-based planning instead of ego or mood to set intensity."
+      ]
+    },
+    "do_and_dont": {
+      "do": [
+        "Define the objective of every training session before leaving home.",
+        "Train at the physiological intensity you want to stress.",
+        "Keep easy long runs truly easy.",
+        "Use race-pace and threshold blocks intentionally inside long runs.",
+        "Invest in knowledge about training and physiology."
+      ],
+      "dont": [
+        "Run long in the grey zone between easy and race pace.",
+        "Use long runs to show off fitness or chase pace.",
+        "Ignore accumulated fatigue from repeated grey-zone efforts.",
+        "Rely on gear (shoes, gels, sunglasses) to compensate for poor training structure.",
+        "Call junk miles ‘good training’ just because they feel hard."
+      ]
+    },
+    "motivational_coach_lines": [
+      "Treine com intenção — cada sessão precisa ter um objetivo claro.",
+      "Não desperdice energia na zona cinza; ou é leve, ou é ritmo de prova, ou é limiar.",
+      "Junk miles cansam muito e ajudam pouco.",
+      "Quem ajusta o longão sai da grey zone e chega forte no dia da prova.",
+      "Conhecimento vale mais do que qualquer tênis ou gel."
+    ]
+  },
+
+  "conversation_assets": {
+    "short_responses": {
+      "encouragement": [
+        "Boa — hoje o longão está realmente no ritmo leve, nada de grey zone.",
+        "Ótimo, você está treinando exatamente a intensidade que quer estressar.",
+        "É assim que se treina com intenção."
+      ],
+      "corrections": [
+        "Seu pace está entre o leve e o de prova — isso é grey zone, ajuste para um dos dois.",
+        "Se o objetivo é longão leve, reduza o ritmo e saia da zona cinza.",
+        "Se quer praticar ritmo de prova, acelere um pouco até o pace alvo."
+      ],
+      "explanations": [
+        "Zona cinza é quando você corre nem leve, nem em ritmo de prova, nem em limiar — só acumula fadiga.",
+        "Junk miles são quilômetros que geram pouca adaptação e muita fadiga.",
+        "Treinar com intenção significa escolher a variável fisiológica que você quer estressar hoje."
+      ]
+    },
+    "long_responses": {
+      "deep_explanations": [
+        "Quando você faz o longão na grey zone, você não está treinando leve o suficiente para expandir bem a base aeróbia, nem rápido o suficiente para treinar ritmo de prova ou limiar. O resultado é um custo alto de fadiga para um benefício relativamente pequeno. Em vez disso, vale mais a pena separar bem os objetivos: alguns longões realmente leves, outros com blocos claros de ritmo de prova ou limiar."
+      ],
+      "training_theory": [
+        "A frase do Jack Daniels resume bem: ‘Treine na intensidade fisiológica que você quer estressar’. Se o objetivo é endurance, você fica no leve. Se o objetivo é ritmo de prova, você corre no pace de prova. Se o objetivo é limiar, você corre mais rápido, próximo ao limiar de lactato. A zona cinza é justamente o lugar onde nenhuma dessas variáveis é bem estressada."
+      ],
+      "injury_prevention": [
+        "Repetir longões na zona cinza aumenta muito a fadiga acumulada. Mesmo com um bom polimento, essa fadiga pode não sair completamente antes da prova, e isso explica muitos casos de atletas que ‘voam’ nos últimos longões, mas quebram no dia da corrida. Controlar a intensidade dos longões é uma forma poderosa de prevenir excesso de carga e reduzir risco de lesão e quebra na prova."
+      ]
+    },
+    "questions_to_user": {
+      "fitness_level": [
+        "Há quanto tempo você treina corrida de forma estruturada?",
+        "Você costuma controlar o pace ou a frequência cardíaca nos seus longões?"
+      ],
+      "goals": [
+        "Você está se preparando para qual distância agora — 10K, meia maratona, maratona?",
+        "Qual é o pace alvo da sua próxima prova?"
+      ],
+      "feedback": [
+        "Seja sincero: você costuma fazer longão na grey zone?",
+        "Nos seus últimos longões, você terminou mais cansado do que gostaria?",
+        "Você sente que chega na prova mais cansado do que deveria por causa dos treinos?"
+      ]
+    }
+  },
+
+  "structured_timestamps": [
+    {
+      "timestamp": "00:00–00:40",
+      "topic": "Introdução à grey zone no longão",
+      "coach_commentary": "Apresenta o conceito de zona cinza e a ideia de treinar com intenção.",
+      "training_category": "Conceitos gerais"
+    },
+    {
+      "timestamp": "00:40–02:00",
+      "topic": "Fisiologia e variáveis de treino",
+      "coach_commentary": "Explica leve, ritmo de prova, limiar de lactato e VO2max como alvos distintos.",
+      "training_category": "Fisiologia do treino"
+    },
+    {
+      "timestamp": "02:00–04:30",
+      "topic": "Exemplo prático de maratona sub 3h30",
+      "coach_commentary": "Mostra paces para leve, prova e limiar, e onde a grey zone aparece.",
+      "training_category": "Aplicação prática"
+    },
+    {
+      "timestamp": "04:30–07:00",
+      "topic": "Consequências de treinar na grey zone",
+      "coach_commentary": "Fala de junk miles, fadiga excessiva e quebra na prova.",
+      "training_category": "Erros comuns"
+    },
+    {
+      "timestamp": "07:00–09:00",
+      "topic": "Treinar com intenção e evitar erros básicos",
+      "coach_commentary": "Reforça a importância de definir o objetivo do treino e da intensidade.",
+      "training_category": "Planejamento de treino"
+    },
+    {
+      "timestamp": "09:00–fim",
+      "topic": "Conhecimento, convite e chamada à ação",
+      "coach_commentary": "Enfatiza que conhecimento é mais importante que equipamento e convida o atleta a refletir sobre seus longões.",
+      "training_category": "Mentalidade e educação"
+    }
+  ],
+
+  "agent_behavior": {
+    "tone": {
+      "style": "supportive",
+      "examples": [
+        "Vamos tirar seus longões da zona cinza e colocar cada treino com um objetivo claro.",
+        "Você não precisa treinar mais forte, e sim treinar com mais intenção.",
+        "Ajustando o ritmo dos seus longões, você vai chegar muito mais inteiro no dia da prova."
+      ]
+    },
+    "persona": {
+      "name": "Coach Intenção",
+      "traits": [
+        "didático",
+        "direto",
+        "baseado em fisiologia",
+        "cuidadoso com fadiga"
+      ],
+      "coaching_philosophy": "Nenhum quilômetro deve ser lixo: cada treino precisa ter um objetivo fisiológico claro e um custo de fadiga que valha o benefício."
+    }
+  }
+}

@@ -1,0 +1,315 @@
+{
+  "video_metadata": {
+    "title": "Os 4 tipos de treino fisiológicos para corrida",
+    "url": "https://youtu.be/cMqucoJt0qE",
+    "channel": "Corrida & Performance (Valdir Braga)",
+    "duration_seconds": null,
+    "publish_date": null
+  },
+
+  "content_summary": {
+    "core_message": "Do ponto de vista fisiológico, existem apenas quatro tipos de treino que cobrem todas as variáveis necessárias para evoluir na corrida: treino leve, treino de limiar, treino de VO2máx e treino de repetição.",
+    "key_takeaways": [
+      "Todos os treinos fisiológicos se encaixam em quatro categorias fundamentais.",
+      "Treino leve é a base da semana e desenvolve endurance.",
+      "Treino de limiar melhora tolerância ao lactato e capacidade de sustentar ritmos fortes.",
+      "Treino de VO2máx aumenta a capacidade máxima de oxigênio e velocidade.",
+      "Treino de repetição é usado principalmente por velocistas e não é essencial para provas acima de 5 km.",
+      "Fartlek e longão blocado são combinações desses quatro estímulos."
+    ],
+    "training_principles": [
+      "A maior parte da semana deve ser composta por treinos leves.",
+      "Treinos de limiar podem ser contínuos (tempo run) ou intervalados extensivos.",
+      "Treinos de VO2máx usam intervalos curtos com recuperação curta.",
+      "Treinos de repetição usam intervalos longos para recuperação total.",
+      "Qualquer treino fora desses quatro tipos é apenas uma variação ou combinação deles."
+    ],
+    "common_mistakes": [
+      "Confundir fartlek com um tipo fisiológico independente.",
+      "Achar que longão blocado é um quinto tipo de treino.",
+      "Treinar sempre no mesmo ritmo.",
+      "Fazer treinos de repetição para provas longas sem necessidade."
+    ],
+    "myths_busted": [
+      "Mito: Existem dezenas de tipos de treino fisiológico. Realidade: existem apenas quatro.",
+      "Mito: Fartlek é um tipo de treino fisiológico. Realidade: é uma combinação dos quatro estímulos.",
+      "Mito: Repetição é útil para maratonistas. Realidade: é voltado para velocistas."
+    ]
+  },
+
+  "coaching_knowledge": {
+    "physiology": {
+      "energy_systems": [
+        "Treino leve: metabolismo aeróbio de baixa intensidade.",
+        "Limiar: transição aeróbia–anaeróbia.",
+        "VO2máx: capacidade máxima de oxigênio.",
+        "Repetição: sistema anaeróbio alático (velocidade pura)."
+      ],
+      "adaptations_targeted": [
+        "Aumento da base aeróbia.",
+        "Melhora da tolerância ao lactato.",
+        "Aumento da velocidade máxima e economia de corrida.",
+        "Melhora da capacidade de sprint (não essencial para provas longas)."
+      ],
+      "injury_risks": [
+        "Fazer VO2máx sem base aeróbia.",
+        "Excesso de treinos de limiar.",
+        "Usar treinos de repetição sem necessidade.",
+        "Treinar sempre em intensidade moderada."
+      ],
+      "recovery_requirements": [
+        "Treinos leves entre estímulos fortes.",
+        "Recuperação curta para VO2máx.",
+        "Recuperação longa para repetição.",
+        "Controle de carga semanal."
+      ]
+    },
+
+    "training_methods": [
+      {
+        "name": "Treino Leve",
+        "description": "Treino contínuo em baixa intensidade (60–70% da FCmáx).",
+        "intensity_zone": "Aeróbio leve",
+        "benefits": [
+          "Constrói endurance.",
+          "Melhora base aeróbia.",
+          "Permite recuperação."
+        ],
+        "when_to_use": ["2–5x por semana"],
+        "common_errors": ["Correr leve rápido demais."]
+      },
+      {
+        "name": "Treino de Limiar",
+        "description": "Treino contínuo ou intervalado entre 80–85% da FCmáx.",
+        "intensity_zone": "Limiar de lactato",
+        "benefits": [
+          "Aumenta tolerância ao lactato.",
+          "Melhora ritmo sustentável.",
+          "Aumenta eficiência metabólica."
+        ],
+        "when_to_use": ["1x por semana"],
+        "common_errors": ["Fazer limiar muito rápido.", "Confundir com VO2máx."]
+      },
+      {
+        "name": "Treino de VO2máx",
+        "description": "Intervalados curtos entre 90–98% da FCmáx.",
+        "intensity_zone": "Alta intensidade",
+        "benefits": [
+          "Aumenta capacidade máxima de oxigênio.",
+          "Melhora velocidade e economia."
+        ],
+        "when_to_use": ["1x por semana em fases específicas"],
+        "common_errors": ["Intervalos longos demais.", "Recuperação longa demais."]
+      },
+      {
+        "name": "Treino de Repetição",
+        "description": "Intervalados muito intensos com recuperação longa.",
+        "intensity_zone": "Anaeróbio alático",
+        "benefits": [
+          "Melhora velocidade pura.",
+          "Aprimora técnica e potência."
+        ],
+        "when_to_use": ["Sprinters e meio-fundistas"],
+        "common_errors": ["Usar em treinos de maratona ou meia."]
+      }
+    ],
+
+    "running_form_cues": [
+      {
+        "cue": "Mantenha o leve realmente leve.",
+        "purpose": "Construir base aeróbia.",
+        "when_to_apply": "Dias de recuperação.",
+        "common_mistakes": "Correr leve rápido demais."
+      },
+      {
+        "cue": "Controle o ritmo no limiar.",
+        "purpose": "Treinar tolerância ao lactato.",
+        "when_to_apply": "Treinos contínuos ou intervalados extensivos.",
+        "common_mistakes": "Transformar limiar em VO2máx."
+      }
+    ]
+  },
+
+  "actionable_guidance": {
+    "workout_examples": [
+      {
+        "name": "Treino Leve",
+        "description": "Corrida contínua confortável.",
+        "duration_minutes": 40,
+        "intensity_zone": "60–70% FCmáx",
+        "goal": "Construir base aeróbia.",
+        "progressions": ["Aumentar duração gradualmente."]
+      },
+      {
+        "name": "Tempo Run (Limiar)",
+        "description": "Bloco contínuo de 20–40 min.",
+        "duration_minutes": null,
+        "intensity_zone": "80–85% FCmáx",
+        "goal": "Melhorar ritmo sustentável.",
+        "progressions": ["Aumentar tempo no limiar."]
+      },
+      {
+        "name": "Intervalado VO2máx",
+        "description": "Ex.: 6×800m com 1'30\" de intervalo.",
+        "duration_minutes": null,
+        "intensity_zone": "90–98% FCmáx",
+        "goal": "Aumentar VO2máx.",
+        "progressions": ["Aumentar repetições ou reduzir intervalo."]
+      },
+      {
+        "name": "Repetição",
+        "description": "Ex.: 6×200m com 3–4 min de intervalo.",
+        "duration_minutes": null,
+        "intensity_zone": "100% FCmáx",
+        "goal": "Melhorar velocidade pura.",
+        "progressions": ["Aumentar intensidade mantendo recuperação longa."]
+      }
+    ],
+
+    "weekly_training_recommendations": {
+      "beginner": [
+        "Priorizar treinos leves.",
+        "Adicionar limiar apenas quando confortável.",
+        "Evitar VO2máx no início."
+      ],
+      "intermediate": [
+        "1 treino de limiar por semana.",
+        "1 treino de VO2máx em fases específicas.",
+        "Longões leves e progressivos."
+      ],
+      "advanced": [
+        "Ciclo completo com leve + limiar + VO2máx.",
+        "Repetição apenas se necessário para velocidade.",
+        "Controle fino de intensidade."
+      ]
+    },
+
+    "do_and_dont": {
+      "do": [
+        "Treinar leve com frequência.",
+        "Variar estímulos ao longo da semana.",
+        "Usar limiar e VO2máx com propósito claro."
+      ],
+      "dont": [
+        "Confundir fartlek com tipo fisiológico.",
+        "Usar repetição para provas longas.",
+        "Treinar sempre no mesmo ritmo."
+      ]
+    },
+
+    "motivational_coach_lines": [
+      "Dominar os quatro tipos de treino é dominar a fisiologia da corrida.",
+      "Treino leve é o alicerce — nunca subestime.",
+      "Limiar e VO2máx lapidam o que o leve constrói.",
+      "Treinar certo é treinar com propósito."
+    ]
+  },
+
+  "conversation_assets": {
+    "short_responses": {
+      "encouragement": [
+        "Boa — você está dominando os quatro pilares do treino.",
+        "Ótimo, seu treino leve está realmente leve.",
+        "Excelente controle de intensidade."
+      ],
+      "corrections": [
+        "Esse ritmo está mais para VO2máx do que limiar.",
+        "Seu leve está rápido demais — ajuste.",
+        "Repetição não é necessária para provas longas."
+      ],
+      "explanations": [
+        "Todos os treinos se encaixam em quatro categorias fisiológicas.",
+        "Fartlek é apenas uma combinação dos quatro estímulos.",
+        "Limiar melhora sua capacidade de sustentar ritmos fortes."
+      ]
+    },
+
+    "long_responses": {
+      "deep_explanations": [
+        "Os quatro tipos de treino — leve, limiar, VO2máx e repetição — cobrem todas as variáveis fisiológicas necessárias para evoluir na corrida. Qualquer treino que você fizer será uma variação ou combinação desses estímulos."
+      ],
+      "training_theory": [
+        "Treino leve constrói base; limiar melhora tolerância ao lactato; VO2máx aumenta capacidade máxima; repetição desenvolve velocidade pura. Essa estrutura explica toda a fisiologia da corrida."
+      ],
+      "injury_prevention": [
+        "Treinar sempre no mesmo ritmo ou fazer VO2máx sem base aumenta muito o risco de lesão. A variação inteligente é o que mantém o corredor saudável."
+      ]
+    },
+
+    "questions_to_user": {
+      "fitness_level": [
+        "Você já faz treinos de limiar regularmente?",
+        "Com que frequência você treina leve?"
+      ],
+      "goals": [
+        "Qual distância você está treinando agora?",
+        "Você quer melhorar velocidade, resistência ou ambas?"
+      ],
+      "feedback": [
+        "Como você se sente nos treinos de VO2máx?",
+        "Seu treino leve está realmente confortável?",
+        "Você já experimentou tempo run contínuo?"
+      ]
+    }
+  },
+
+  "structured_timestamps": [
+    {
+      "timestamp": "00:00–01:00",
+      "topic": "Introdução aos quatro tipos de treino",
+      "coach_commentary": "Explica que toda fisiologia da corrida cabe em quatro estímulos.",
+      "training_category": "Fundamentos"
+    },
+    {
+      "timestamp": "01:00–03:00",
+      "topic": "Treino leve",
+      "coach_commentary": "Base aeróbia e endurance.",
+      "training_category": "Aeróbio leve"
+    },
+    {
+      "timestamp": "03:00–06:00",
+      "topic": "Treino de limiar",
+      "coach_commentary": "Tempo run e intervalados extensivos.",
+      "training_category": "Limiar"
+    },
+    {
+      "timestamp": "06:00–09:00",
+      "topic": "Treino de VO2máx",
+      "coach_commentary": "Intervalados curtos e intensos.",
+      "training_category": "Alta intensidade"
+    },
+    {
+      "timestamp": "09:00–12:00",
+      "topic": "Treino de repetição",
+      "coach_commentary": "Alta intensidade com recuperação longa.",
+      "training_category": "Velocidade pura"
+    },
+    {
+      "timestamp": "12:00–fim",
+      "topic": "Combinações e aplicações práticas",
+      "coach_commentary": "Fartlek e longão blocado como misturas dos quatro estímulos.",
+      "training_category": "Aplicação prática"
+    }
+  ],
+
+  "agent_behavior": {
+    "tone": {
+      "style": "supportive",
+      "examples": [
+        "Você está entendendo a base da fisiologia da corrida.",
+        "Dominar esses quatro treinos vai transformar seu ciclo.",
+        "Excelente — você está treinando com propósito."
+      ]
+    },
+    "persona": {
+      "name": "Coach Fisiologia",
+      "traits": [
+        "didático",
+        "técnico",
+        "claro",
+        "baseado em ciência"
+      ],
+      "coaching_philosophy": "Toda evolução na corrida nasce do domínio dos quatro estímulos fisiológicos fundamentais."
+    }
+  }
+}

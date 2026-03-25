@@ -1,0 +1,298 @@
+{
+  "video_metadata": {
+    "title": "Volume de treino para maratona — quantos dias e quantos km por semana?",
+    "url": "https://youtu.be/RVa8yuRsnbI",
+    "channel": "Corrida & Performance (Valdir Braga)",
+    "duration_seconds": null,
+    "publish_date": null
+  },
+
+  "content_summary": {
+    "core_message": "Para treinar adequadamente para uma maratona, é necessário treinar pelo menos 4 dias por semana e manter um volume semanal entre 60 e 90 km para a maioria dos corredores. Volume é o alicerce fisiológico da maratona.",
+    "key_takeaways": [
+      "O mínimo recomendado para maratona é treinar 4 dias por semana.",
+      "Treinar apenas 3 dias por semana não permite construir volume suficiente.",
+      "Volume mínimo para iniciar um ciclo: 40 km/semana.",
+      "Volume médio recomendado: 50–55 km/semana (mínimo).",
+      "Volume ideal para a maioria dos maratonistas: 60–90 km/semana.",
+      "Volume máximo depende da experiência: elite chega a 150–200 km/semana.",
+      "Volume não deve subir continuamente — deve ser maior na base e controlado no ciclo.",
+      "Volume e intensidade não devem subir juntos para evitar lesões."
+    ],
+    "training_principles": [
+      "Volume constrói resistência; intensidade lapida performance.",
+      "A distribuição semanal deve equilibrar treinos leves, qualidade e longão.",
+      "Volume maior na base, intensidade maior no ciclo.",
+      "Volume e intensidade são inversamente proporcionais para evitar lesão.",
+      "Treinar 7 dias por semana não é recomendado para a maioria."
+    ],
+    "common_mistakes": [
+      "Treinar apenas 3 dias por semana para maratona.",
+      "Aumentar volume e intensidade ao mesmo tempo.",
+      "Manter volume crescente até a semana da prova.",
+      "Fazer longões fortes por falta de volume semanal.",
+      "Ignorar a necessidade de treinos leves."
+    ],
+    "myths_busted": [
+      "Mito: 3 treinos por semana são suficientes. Realidade: não constroem base aeróbia.",
+      "Mito: Volume deve subir até a prova. Realidade: volume maior é na base.",
+      "Mito: Quanto mais dias, melhor. Realidade: 7 dias pode prejudicar recuperação."
+    ]
+  },
+
+  "coaching_knowledge": {
+    "physiology": {
+      "energy_systems": [
+        "Volume semanal desenvolve base aeróbia.",
+        "Intensidade trabalha limiar e VO2máx.",
+        "Longões desenvolvem resistência física e mental."
+      ],
+      "adaptations_targeted": [
+        "Aumento da capacidade aeróbia.",
+        "Melhora da economia de corrida.",
+        "Maior resistência muscular.",
+        "Capacidade de sustentar esforço prolongado."
+      ],
+      "injury_risks": [
+        "Volume insuficiente para suportar 42 km.",
+        "Aumentar volume e intensidade simultaneamente.",
+        "Treinar 3 dias por semana com longões muito fortes.",
+        "Treinar 7 dias sem recuperação adequada."
+      ],
+      "recovery_requirements": [
+        "Dias leves entre treinos de qualidade.",
+        "Descanso antes e depois do longão.",
+        "Controle de carga semanal."
+      ]
+    },
+
+    "training_methods": [
+      {
+        "name": "Treino Leve",
+        "description": "Base aeróbia e recuperação.",
+        "intensity_zone": "Leve",
+        "benefits": [
+          "Constrói resistência.",
+          "Permite recuperação.",
+          "Sustenta treinos de qualidade."
+        ],
+        "when_to_use": ["2–3x por semana"],
+        "common_errors": ["Correr leve rápido demais."]
+      },
+      {
+        "name": "Treino de Qualidade",
+        "description": "Limiar ou VO2máx.",
+        "intensity_zone": "Moderado a alto",
+        "benefits": [
+          "Melhora ritmo sustentável.",
+          "Aumenta capacidade aeróbia máxima."
+        ],
+        "when_to_use": ["1–2x por semana"],
+        "common_errors": ["Fazer qualidade sem base."]
+      },
+      {
+        "name": "Longão",
+        "description": "Treino mais longo da semana.",
+        "intensity_zone": "Moderado",
+        "benefits": [
+          "Desenvolve resistência física e mental.",
+          "Simula demandas da maratona."
+        ],
+        "when_to_use": ["1x por semana"],
+        "common_errors": ["Longão forte demais por falta de volume semanal."]
+      }
+    ],
+
+    "running_form_cues": [
+      {
+        "cue": "Construa volume com calma.",
+        "purpose": "Evitar lesões e fadiga precoce.",
+        "when_to_apply": "Base e início do ciclo.",
+        "common_mistakes": "Subir volume rápido demais."
+      },
+      {
+        "cue": "Equilibre volume e intensidade.",
+        "purpose": "Manter consistência e evitar sobrecarga.",
+        "when_to_apply": "Durante todo o ciclo.",
+        "common_mistakes": "Subir ambos ao mesmo tempo."
+      }
+    ]
+  },
+
+  "actionable_guidance": {
+    "workout_examples": [
+      {
+        "name": "Semana de 4 treinos",
+        "description": "Estrutura mínima recomendada.",
+        "duration_minutes": null,
+        "intensity_zone": "Variada",
+        "goal": "Construir volume com segurança.",
+        "progressions": [
+          "2 treinos leves",
+          "1 treino de qualidade",
+          "1 longão"
+        ]
+      },
+      {
+        "name": "Semana de 5 treinos",
+        "description": "Estrutura para corredores intermediários e avançados.",
+        "duration_minutes": null,
+        "intensity_zone": "Variada",
+        "goal": "Aumentar volume e especificidade.",
+        "progressions": [
+          "2–3 treinos leves",
+          "1–2 treinos de qualidade",
+          "1 longão"
+        ]
+      }
+    ],
+
+    "weekly_training_recommendations": {
+      "beginner": [
+        "Treinar 4x por semana.",
+        "Volume inicial: 40–50 km.",
+        "Longões progressivos."
+      ],
+      "intermediate": [
+        "Treinar 4–5x por semana.",
+        "Volume médio: 60–80 km.",
+        "1 treino de qualidade + longão."
+      ],
+      "advanced": [
+        "Treinar 5–6x por semana.",
+        "Volume médio: 80–100 km.",
+        "2 treinos de qualidade + longão."
+      ]
+    },
+
+    "do_and_dont": {
+      "do": [
+        "Treinar pelo menos 4x por semana.",
+        "Construir volume progressivamente.",
+        "Controlar intensidade conforme volume sobe.",
+        "Manter longões consistentes."
+      ],
+      "dont": [
+        "Treinar apenas 3x por semana.",
+        "Subir volume e intensidade juntos.",
+        "Fazer longões fortes por falta de volume.",
+        "Treinar 7 dias sem descanso."
+      ]
+    },
+
+    "motivational_coach_lines": [
+      "Volume é o alicerce da maratona — respeite o processo.",
+      "Consistência semanal vence intensidade isolada.",
+      "Treinar certo vale mais do que treinar forte.",
+      "Seu corpo precisa de volume para suportar 42 km."
+    ]
+  },
+
+  "conversation_assets": {
+    "short_responses": {
+      "encouragement": [
+        "Boa — seu volume está ficando consistente.",
+        "Ótimo, você está treinando como um maratonista de verdade.",
+        "Excelente — sua estrutura semanal está sólida."
+      ],
+      "corrections": [
+        "Três treinos por semana não constroem volume suficiente.",
+        "Evite subir volume e intensidade ao mesmo tempo.",
+        "Seu longão está forte demais — ajuste o volume semanal."
+      ],
+      "explanations": [
+        "Volume semanal é o principal determinante de sucesso na maratona.",
+        "A base aeróbia é construída com frequência e consistência.",
+        "Volume maior na base, intensidade maior no ciclo."
+      ]
+    },
+
+    "long_responses": {
+      "deep_explanations": [
+        "A maratona é uma prova essencialmente de resistência. Para suportar 42 km, o corpo precisa de volume semanal consistente, que desenvolve capilarização, mitocôndrias e economia de corrida. Treinar apenas 3 dias por semana não permite construir essa base."
+      ],
+      "training_theory": [
+        "Volume e intensidade são variáveis inversamente proporcionais. Na base, volume sobe e intensidade cai; no ciclo, intensidade sobe e volume é controlado. Essa manipulação reduz risco de lesão e maximiza performance."
+      ],
+      "injury_prevention": [
+        "Concentrar carga em poucos treinos aumenta risco de lesão. Distribuir volume ao longo da semana é essencial para segurança e evolução."
+      ]
+    },
+
+    "questions_to_user": {
+      "fitness_level": [
+        "Quantos treinos por semana você faz hoje?",
+        "Qual é seu volume médio atual?"
+      ],
+      "goals": [
+        "Qual é sua meta na próxima maratona?",
+        "Você busca concluir bem ou bater tempo?"
+      ],
+      "feedback": [
+        "Como você se sente nos longões?",
+        "Seu volume semanal está estável?",
+        "Você já tentou treinar 5x por semana?"
+      ]
+    }
+  },
+
+  "structured_timestamps": [
+    {
+      "timestamp": "00:00–01:00",
+      "topic": "Introdução ao tema",
+      "coach_commentary": "Define a importância do volume na maratona.",
+      "training_category": "Fundamentos"
+    },
+    {
+      "timestamp": "01:00–03:00",
+      "topic": "Frequência semanal",
+      "coach_commentary": "4–5 treinos por semana é o ideal.",
+      "training_category": "Planejamento"
+    },
+    {
+      "timestamp": "03:00–06:00",
+      "topic": "Volume mínimo e ideal",
+      "coach_commentary": "40 km mínimo; 60–90 km ideal.",
+      "training_category": "Resistência"
+    },
+    {
+      "timestamp": "06:00–09:00",
+      "topic": "Volume máximo e individualização",
+      "coach_commentary": "Elite chega a 150–200 km.",
+      "training_category": "Especificidade"
+    },
+    {
+      "timestamp": "09:00–12:00",
+      "topic": "Relação volume × intensidade",
+      "coach_commentary": "Não subir ambos ao mesmo tempo.",
+      "training_category": "Fisiologia"
+    },
+    {
+      "timestamp": "12:00–fim",
+      "topic": "Mensagem final",
+      "coach_commentary": "Consistência e volume são a base da maratona.",
+      "training_category": "Mindset"
+    }
+  ],
+
+  "agent_behavior": {
+    "tone": {
+      "style": "supportive",
+      "examples": [
+        "Seu volume está evoluindo muito bem.",
+        "Você está construindo uma base sólida para a maratona.",
+        "Consistência é o que te leva ao resultado."
+      ]
+    },
+    "persona": {
+      "name": "Coach Volume",
+      "traits": [
+        "honesto",
+        "didático",
+        "baseado em ciência",
+        "focado em consistência"
+      ],
+      "coaching_philosophy": "Volume constrói, intensidade lapida — e consistência entrega."
+    }
+  }
+}

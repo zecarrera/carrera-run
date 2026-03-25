@@ -1,0 +1,282 @@
+{
+  "video_metadata": {
+    "title": "Fortalecimento no polimento — como encaixar na rotina",
+    "url": "https://youtu.be/ZO8aczLMjEI",
+    "channel": "Corrida & Performance (Valdir Braga)",
+    "duration_seconds": null,
+    "publish_date": null
+  },
+
+  "content_summary": {
+    "core_message": "Durante o polimento, o objetivo é remover fadiga acumulada. Por isso, o fortalecimento deve ser reduzido progressivamente e eliminado na semana da prova, mantendo apenas ativações leves.",
+    "key_takeaways": [
+      "O polimento serve para tirar fadiga e revelar o fitness.",
+      "Fortalecimento deve ser reduzido nas semanas finais.",
+      "Regra prática para polimento de 3 semanas: 2–1–0.",
+      "Regra prática para polimento de 2 semanas: 1–0.",
+      "Ativações com mini bands podem ser mantidas até um dia antes da prova.",
+      "Fortalecimento com carga não deve ser feito na semana da prova.",
+      "O objetivo do polimento é descanso, não ganho de força."
+    ],
+    "training_principles": [
+      "O corpo precisa de 10–20 dias para se beneficiar de fortalecimento — por isso não faz sentido fazê-lo na semana da prova.",
+      "Polimento é redução de volume, mas manutenção de intensidade na corrida.",
+      "Fortalecimento deve acompanhar essa lógica: reduzir estímulo para remover fadiga.",
+      "Ativações são diferentes de fortalecimento — ativação é leve e neuromuscular."
+    ],
+    "common_mistakes": [
+      "Fazer fortalecimento pesado na semana da prova.",
+      "Achar que vai “perder força” se não fortalecer na última semana.",
+      "Confundir ativação com treino de força.",
+      "Manter a mesma carga de fortalecimento durante o polimento."
+    ],
+    "myths_busted": [
+      "Mito: Preciso fortalecer até a semana da prova. Realidade: isso aumenta fadiga.",
+      "Mito: Ativação é a mesma coisa que fortalecimento. Realidade: ativação é leve e neuromuscular.",
+      "Mito: Vou perder força se parar de fortalecer. Realidade: força não se perde em poucos dias."
+    ]
+  },
+
+  "coaching_knowledge": {
+    "physiology": {
+      "energy_systems": [
+        "Polimento reduz fadiga acumulada para permitir supercompensação.",
+        "Fortalecimento gera microdanos musculares que precisam de dias para recuperar.",
+        "Ativação trabalha coordenação neuromuscular sem gerar fadiga."
+      ],
+      "adaptations_targeted": [
+        "Supercompensação antes da prova.",
+        "Melhor recrutamento neuromuscular via ativações.",
+        "Redução de fadiga periférica e central."
+      ],
+      "injury_risks": [
+        "Fazer força pesada perto da prova.",
+        "Chegar cansado ao dia da maratona.",
+        "Confundir ativação com treino de força."
+      ],
+      "recovery_requirements": [
+        "Reduzir volume de corrida.",
+        "Eliminar força pesada na semana da prova.",
+        "Manter apenas ativações leves."
+      ]
+    },
+
+    "training_methods": [
+      {
+        "name": "Fortalecimento com carga",
+        "description": "Treino de força para membros inferiores e core.",
+        "intensity_zone": "Moderada a alta",
+        "benefits": [
+          "Aumenta força e estabilidade.",
+          "Melhora economia de corrida."
+        ],
+        "when_to_use": ["Base", "Construção", "Competitivo"],
+        "common_errors": ["Usar no polimento final."]
+      },
+      {
+        "name": "Ativação com mini bands",
+        "description": "Exercícios leves para “acordar” musculatura.",
+        "intensity_zone": "Leve",
+        "benefits": [
+          "Melhora recrutamento muscular.",
+          "Prepara para treinos e prova."
+        ],
+        "when_to_use": ["Antes de tiros", "Antes de longões", "Semana da prova"],
+        "common_errors": ["Confundir com treino de força."]
+      }
+    ],
+
+    "running_form_cues": [
+      {
+        "cue": "No polimento, menos é mais.",
+        "purpose": "Evitar fadiga acumulada.",
+        "when_to_apply": "Últimas 2–3 semanas.",
+        "common_mistakes": "Tentar “recuperar tempo perdido”."
+      },
+      {
+        "cue": "Ative, não fortaleça.",
+        "purpose": "Manter musculatura acordada sem gerar fadiga.",
+        "when_to_apply": "Semana da prova.",
+        "common_mistakes": "Fazer séries pesadas perto da prova."
+      }
+    ]
+  },
+
+  "actionable_guidance": {
+    "workout_examples": [
+      {
+        "name": "Polimento de 3 semanas — regra 2–1–0",
+        "description": "Redução progressiva do fortalecimento.",
+        "duration_minutes": null,
+        "intensity_zone": "Leve a moderado",
+        "goal": "Remover fadiga acumulada.",
+        "progressions": [
+          "Semana -3: 2 sessões de força.",
+          "Semana -2: 1 sessão de força.",
+          "Semana -1: 0 sessões de força."
+        ]
+      },
+      {
+        "name": "Polimento de 2 semanas — regra 1–0",
+        "description": "Versão reduzida do protocolo.",
+        "duration_minutes": null,
+        "intensity_zone": "Leve",
+        "goal": "Chegar descansado na prova.",
+        "progressions": [
+          "Semana -2: 1 sessão de força.",
+          "Semana -1: 0 sessões."
+        ]
+      },
+      {
+        "name": "Ativação pré-prova",
+        "description": "Mini bands + exercícios leves.",
+        "duration_minutes": 10,
+        "intensity_zone": "Leve",
+        "goal": "Acordar musculatura sem gerar fadiga.",
+        "progressions": [
+          "10–12 repetições por exercício.",
+          "Fazer 1 dia antes da prova."
+        ]
+      }
+    ],
+
+    "weekly_training_recommendations": {
+      "beginner": [
+        "Siga a regra 2–1–0.",
+        "Evite qualquer carga pesada no final.",
+        "Use ativações simples."
+      ],
+      "intermediate": [
+        "Mantenha força moderada até 2 semanas antes.",
+        "Use ativações antes de treinos fortes.",
+        "Semana da prova: zero força."
+      ],
+      "advanced": [
+        "Força pesada até 3 semanas antes.",
+        "Força leve até 2 semanas antes.",
+        "Ativações diárias na semana da prova."
+      ]
+    },
+
+    "do_and_dont": {
+      "do": [
+        "Reduzir força progressivamente.",
+        "Usar ativações com mini bands.",
+        "Priorizar descanso na semana da prova."
+      ],
+      "dont": [
+        "Fazer força pesada na semana da prova.",
+        "Achar que vai perder força em poucos dias.",
+        "Confundir ativação com treino de força."
+      ]
+    },
+
+    "motivational_coach_lines": [
+      "Polimento é descanso inteligente — não é hora de provar nada.",
+      "Chegar descansado vale mais do que qualquer treino extra.",
+      "Ativação mantém o corpo ligado sem gerar fadiga.",
+      "Seu fitness já está construído — agora é só revelar."
+    ]
+  },
+
+  "conversation_assets": {
+    "short_responses": {
+      "encouragement": [
+        "Boa — seu polimento está ficando muito bem estruturado.",
+        "Ótimo, você está reduzindo força no momento certo.",
+        "Excelente — ativação é tudo que você precisa agora."
+      ],
+      "corrections": [
+        "Evite força pesada nessa fase.",
+        "Semana da prova é zero fortalecimento.",
+        "Ativação não é treino de força — mantenha leve."
+      ],
+      "explanations": [
+        "O corpo precisa de 10–20 dias para se beneficiar de força — por isso não faz sentido fazê-la na semana da prova.",
+        "Ativação é neuromuscular, não gera fadiga.",
+        "Polimento é sobre remover fadiga, não adicionar estímulo."
+      ]
+    },
+
+    "long_responses": {
+      "deep_explanations": [
+        "Durante o polimento, o objetivo é remover fadiga acumulada para permitir supercompensação. O fortalecimento gera microdanos musculares que levam dias para recuperar, então mantê-lo perto da prova atrapalha o desempenho. Por isso usamos a regra 2–1–0."
+      ],
+      "training_theory": [
+        "A fisiologia do polimento é clara: reduzir volume, manter intensidade e eliminar estímulos que geram fadiga muscular profunda. Fortalecimento com carga entra nessa categoria e deve ser removido progressivamente."
+      ],
+      "injury_prevention": [
+        "Fazer força pesada perto da prova aumenta risco de fadiga residual e lesão. Ativações leves são suficientes para manter o corpo pronto sem sobrecarregar."
+      ]
+    },
+
+    "questions_to_user": {
+      "fitness_level": [
+        "Você já fez polimento antes?",
+        "Quantas sessões de força você costuma fazer por semana?"
+      ],
+      "goals": [
+        "Qual prova você está prestes a correr?",
+        "Seu objetivo é concluir bem ou bater tempo?"
+      ],
+      "feedback": [
+        "Como você costuma se sentir nas semanas finais?",
+        "Você já tentou usar ativações na semana da prova?"
+      ]
+    }
+  },
+
+  "structured_timestamps": [
+    {
+      "timestamp": "00:00–01:00",
+      "topic": "Introdução ao fortalecimento no polimento",
+      "coach_commentary": "Explica a importância de ajustar força no taper.",
+      "training_category": "Fundamentos"
+    },
+    {
+      "timestamp": "01:00–03:00",
+      "topic": "Regra 2–1–0",
+      "coach_commentary": "Redução progressiva do fortalecimento.",
+      "training_category": "Periodização"
+    },
+    {
+      "timestamp": "03:00–04:30",
+      "topic": "Por que não fortalecer na semana da prova",
+      "coach_commentary": "Explica o tempo de adaptação da força.",
+      "training_category": "Fisiologia"
+    },
+    {
+      "timestamp": "04:30–06:00",
+      "topic": "Polimento de 2 semanas",
+      "coach_commentary": "Regra 1–0.",
+      "training_category": "Aplicação prática"
+    },
+    {
+      "timestamp": "06:00–fim",
+      "topic": "Ativações e mensagem final",
+      "coach_commentary": "Ativação pode ser mantida até um dia antes da prova.",
+      "training_category": "Mindset"
+    }
+  ],
+
+  "agent_behavior": {
+    "tone": {
+      "style": "supportive",
+      "examples": [
+        "Seu polimento está ficando muito bem estruturado.",
+        "Você está fazendo escolhas inteligentes para chegar descansado.",
+        "Excelente — agora é hora de revelar o fitness."
+      ]
+    },
+    "persona": {
+      "name": "Coach Taper",
+      "traits": [
+        "calmo",
+        "estratégico",
+        "baseado em fisiologia",
+        "focado em descanso"
+      ],
+      "coaching_philosophy": "Polimento é arte: remover fadiga sem perder intensidade."
+    }
+  }
+}
