@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import express from "express";
 import session from "express-session";
 import cors from "cors";
@@ -16,13 +17,23 @@ dotenv.config({ path: resolve(process.cwd(), "../../.env") });
 const app = express();
 const port = Number(process.env.PORT ?? 4000);
 const clientOrigin = process.env.CLIENT_ORIGIN ?? "http://localhost:5173";
+const isProduction = process.env.NODE_ENV === "production";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const webDistPath = resolve(__dirname, "../../web/dist");
 
-app.use(
-  cors({
-    origin: clientOrigin,
-    credentials: true,
-  }),
-);
+if (isProduction) {
+  app.set("trust proxy", 1);
+}
+
+if (!isProduction || process.env.CLIENT_ORIGIN) {
+  app.use(
+    cors({
+      origin: clientOrigin,
+      credentials: true,
+    }),
+  );
+}
 app.use(express.json());
 app.use(
   session({
@@ -33,7 +44,7 @@ app.use(
     cookie: {
       httpOnly: true,
       sameSite: "lax",
-      secure: false,
+      secure: isProduction,
       maxAge: 1000 * 60 * 60 * 24 * 7,
     },
   }),
@@ -48,6 +59,13 @@ app.use("/api/activities", activitiesRouter);
 app.use("/api/athlete", athleteRouter);
 app.use("/api/plans", plansRouter);
 app.use("/api/profile", profileRouter);
+
+if (isProduction) {
+  app.use(express.static(webDistPath));
+  app.get(/^(?!\/api).*/, (_request, response) => {
+    response.sendFile(resolve(webDistPath, "index.html"));
+  });
+}
 
 app.use((error: unknown, _request: express.Request, response: express.Response, _next: express.NextFunction) => {
   if (error instanceof ZodError) {
@@ -64,5 +82,5 @@ app.use((error: unknown, _request: express.Request, response: express.Response, 
 });
 
 app.listen(port, () => {
-  console.log(`API listening on http://localhost:${port}`);
+  console.log(`API listening on port ${port}`);
 });

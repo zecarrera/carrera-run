@@ -49,9 +49,70 @@ Frontend runs on `http://localhost:5173` and proxies API requests to `http://loc
 - `STRAVA_SCOPES`: Requested Strava scopes
 - `SESSION_SECRET`: Session signing secret for local development
 - `CLIENT_ORIGIN`: Frontend origin allowed by the API
+- `NODE_ENV`: Runtime mode (`development` locally, `production` in Render)
 - `PORT`: API port
 - `MONGODB_URI`: MongoDB connection string used by planning endpoints
 - `MONGODB_DB_NAME`: MongoDB database name (default `carrera_run`)
+
+## Deploy to Render (Free) + Mongo Atlas (Free)
+
+Recommended setup for this project:
+
+- **Render Web Service (free)** for API + built frontend in a single service
+- **MongoDB Atlas M0 (free)** for managed MongoDB
+
+Why this is the best free combination now:
+
+- Atlas M0 is a true managed MongoDB free tier
+- Render free works well for Node apps but does not provide a native free MongoDB product
+- Single service deployment avoids cross-site cookie/session issues
+
+### 1) Create MongoDB Atlas free cluster (M0)
+
+1. Create an Atlas project and an **M0 free cluster**.
+2. In **Database Access**, create an app user and password.
+3. In **Network Access**, add `0.0.0.0/0` for quick start (tighten later if needed).
+4. Copy the connection string, for example:
+
+	`mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority&appName=<app>`
+
+5. Use database name `carrera_run` (or your preferred value).
+
+### 2) Create Render web service
+
+1. Push this repo to GitHub.
+2. In Render, create a **Web Service** from the repo (or use Blueprint with `render.yaml`).
+3. Set plan to **Free**.
+4. Ensure build/start commands are:
+	- Build: `npm ci && npm run build`
+	- Start: `npm run start`
+5. Set environment variables in Render:
+	- `NODE_ENV=production`
+	- `SESSION_SECRET=<long-random-secret>`
+	- `STRAVA_CLIENT_ID=<value>`
+	- `STRAVA_CLIENT_SECRET=<value>`
+	- `STRAVA_SCOPES=read,activity:read_all`
+	- `STRAVA_REDIRECT_URI=https://<your-render-service>.onrender.com/api/auth/strava/callback`
+	- `MONGODB_URI=<your-atlas-uri>`
+	- `MONGODB_DB_NAME=carrera_run`
+
+### 3) Update Strava app callback
+
+In Strava developer settings, add:
+
+- `https://<your-render-service>.onrender.com/api/auth/strava/callback`
+
+### 4) Validate deployment
+
+- Health check: `https://<your-render-service>.onrender.com/api/health`
+- Open app root URL and test Strava login
+- Create/read a plan to verify Atlas persistence
+
+### Free-tier notes
+
+- Render free instances sleep when idle (cold starts are expected).
+- Atlas M0 has shared resources and storage limits.
+- Keep logs/usage under free-tier quotas.
 
 ## Planning API (MongoDB-backed)
 
