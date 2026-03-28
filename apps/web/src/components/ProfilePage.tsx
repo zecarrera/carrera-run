@@ -28,6 +28,9 @@ const EMPTY_RACE_RESULT_FORM: RaceResultForm = {
   time: "",
 };
 
+const PACE_PATTERN = /^[0-9]{1,2}:[0-5][0-9]$/;
+const RACE_TIME_PATTERN = /^([0-9]+:)?[0-5][0-9]:[0-5][0-9]$/;
+
 function paceToDisplay(totalSeconds: number) {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
@@ -44,6 +47,56 @@ function durationToDisplay(totalSeconds: number) {
   }
 
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+}
+
+function parsePaceToSeconds(value: string) {
+  const [minutes, seconds] = value.split(":").map(Number);
+  return minutes * 60 + seconds;
+}
+
+function normalizeZoneDraft(zones: ZoneDraft): ZoneDraft {
+  return ZONE_KEYS.reduce((result, zone) => {
+    result[zone] = {
+      from: zones[zone].from.trim(),
+      to: zones[zone].to.trim(),
+    };
+
+    return result;
+  }, {} as ZoneDraft);
+}
+
+function getZonesValidationMessage(zones: ZoneDraft) {
+  for (const zone of ZONE_KEYS) {
+    const from = zones[zone].from;
+    const to = zones[zone].to;
+
+    if (!PACE_PATTERN.test(from) || !PACE_PATTERN.test(to)) {
+      return `${zone} pace must use mm:ss format, for example 6:30.`;
+    }
+
+    if (parsePaceToSeconds(from) > parsePaceToSeconds(to)) {
+      return `${zone} pace range is invalid: from pace must be less than or equal to to pace.`;
+    }
+  }
+
+  return null;
+}
+
+function normalizeRaceResultForm(form: RaceResultForm): RaceResultForm {
+  return {
+    title: form.title.trim(),
+    distanceKm: form.distanceKm.trim(),
+    date: form.date.trim(),
+    time: form.time.trim(),
+  };
+}
+
+function getRaceTimeValidationMessage(time: string) {
+  if (!RACE_TIME_PATTERN.test(time)) {
+    return "Race time must use mm:ss or hh:mm:ss format, for example 42:30 or 1:42:30.";
+  }
+
+  return null;
 }
 
 async function apiRequest<T>(url: string, init?: RequestInit): Promise<T> {
@@ -131,14 +184,24 @@ export function ProfilePage() {
 
   const handleZonesSave = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsSavingZones(true);
     setErrorMessage(null);
     setSuccessMessage(null);
+
+    const normalizedZones = normalizeZoneDraft(zones);
+    const validationMessage = getZonesValidationMessage(normalizedZones);
+
+    if (validationMessage) {
+      setZones(normalizedZones);
+      setErrorMessage(validationMessage);
+      return;
+    }
+
+    setIsSavingZones(true);
 
     try {
       const payload = await apiRequest<{ profile: UserProfile }>("/api/profile/zones", {
         method: "PUT",
-        body: JSON.stringify(zones),
+        body: JSON.stringify(normalizedZones),
       });
 
       setProfile(payload.profile);
@@ -153,18 +216,28 @@ export function ProfilePage() {
 
   const handleCreateRaceResult = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsSavingResult(true);
     setErrorMessage(null);
     setSuccessMessage(null);
+
+    const normalizedForm = normalizeRaceResultForm(resultForm);
+    const validationMessage = getRaceTimeValidationMessage(normalizedForm.time);
+
+    if (validationMessage) {
+      setResultForm(normalizedForm);
+      setErrorMessage(validationMessage);
+      return;
+    }
+
+    setIsSavingResult(true);
 
     try {
       const payload = await apiRequest<{ profile: UserProfile }>("/api/profile/race-results", {
         method: "POST",
         body: JSON.stringify({
-          title: resultForm.title,
-          distanceKm: Number(resultForm.distanceKm),
-          date: resultForm.date,
-          time: resultForm.time,
+          title: normalizedForm.title,
+          distanceKm: Number(normalizedForm.distanceKm),
+          date: normalizedForm.date,
+          time: normalizedForm.time,
         }),
       });
 
@@ -189,18 +262,28 @@ export function ProfilePage() {
   };
 
   const handleSaveEditRaceResult = async (resultId: string) => {
-    setIsSavingResult(true);
     setErrorMessage(null);
     setSuccessMessage(null);
+
+    const normalizedForm = normalizeRaceResultForm(editingForm);
+    const validationMessage = getRaceTimeValidationMessage(normalizedForm.time);
+
+    if (validationMessage) {
+      setEditingForm(normalizedForm);
+      setErrorMessage(validationMessage);
+      return;
+    }
+
+    setIsSavingResult(true);
 
     try {
       const payload = await apiRequest<{ profile: UserProfile }>(`/api/profile/race-results/${resultId}`, {
         method: "PATCH",
         body: JSON.stringify({
-          title: editingForm.title,
-          distanceKm: Number(editingForm.distanceKm),
-          date: editingForm.date,
-          time: editingForm.time,
+          title: normalizedForm.title,
+          distanceKm: Number(normalizedForm.distanceKm),
+          date: normalizedForm.date,
+          time: normalizedForm.time,
         }),
       });
 
@@ -277,7 +360,8 @@ export function ProfilePage() {
                     <td>
                       <input
                         required
-                        pattern="^\\d{1,2}:[0-5]\\d$"
+                        aria-label={`${zone} from pace`}
+                        inputMode="numeric"
                         placeholder="6:30"
                         value={zones[zone].from}
                         onChange={(event) =>
@@ -294,7 +378,8 @@ export function ProfilePage() {
                     <td>
                       <input
                         required
-                        pattern="^\\d{1,2}:[0-5]\\d$"
+                        aria-label={`${zone} to pace`}
+                        inputMode="numeric"
                         placeholder="6:45"
                         value={zones[zone].to}
                         onChange={(event) =>
@@ -356,7 +441,7 @@ export function ProfilePage() {
             Time (mm:ss or hh:mm:ss)
             <input
               required
-              pattern="^([0-9]+:)?[0-5]\\d:[0-5]\\d$"
+              aria-label="Race result time"
               placeholder="1:42:30"
               value={resultForm.time}
               onChange={(event) => setResultForm((current) => ({ ...current, time: event.target.value }))}
@@ -424,7 +509,7 @@ export function ProfilePage() {
                         </td>
                         <td>
                           <input
-                            pattern="^([0-9]+:)?[0-5]\\d:[0-5]\\d$"
+                            aria-label="Edit race result time"
                             value={editingForm.time}
                             onChange={(event) =>
                               setEditingForm((current) => ({ ...current, time: event.target.value }))

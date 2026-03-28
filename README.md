@@ -98,9 +98,11 @@ Why this is the best free combination now:
 
 ### 3) Update Strava app callback
 
-In Strava developer settings, add:
+In Strava developer settings, set **Authorization Callback Domain** to:
 
-- `https://<your-render-service>.onrender.com/api/auth/strava/callback`
+- `<your-render-service>.onrender.com` (domain only, no `https://` or trailing slash)
+
+> **Note:** Strava only allows one app and one callback domain per account. This means you can only have local dev **or** production active at a time — not both simultaneously. To switch: update the callback domain in the Strava developer portal to `localhost` for local dev, or back to your Render domain for production. The switch takes ~10 seconds.
 
 ### 4) Validate deployment
 
