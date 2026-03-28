@@ -15,6 +15,9 @@
     "build": "npm run build --workspace @carrera-run/api && npm run build --workspace @carrera-run/web",
     "start": "npm run start --workspace @carrera-run/api"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "devDependencies": {
     "concurrently": "^9.1.2"
   }

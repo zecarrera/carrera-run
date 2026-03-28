@@ -10,7 +10,7 @@ async function getMongoClient(): Promise<MongoClient> {
   }
 
   if (!clientPromise) {
-    const client = new MongoClient(mongoUri);
+    const client = new MongoClient(mongoUri, { tls: true });
     clientPromise = client.connect();
   }
 
