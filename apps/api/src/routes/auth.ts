@@ -32,7 +32,7 @@ authRouter.get("/strava/callback", async (request, response, next) => {
       athlete: result.athlete,
     };
 
-    response.redirect(process.env.CLIENT_ORIGIN ?? "http://localhost:5173");
+    response.redirect(process.env.CLIENT_ORIGIN ?? "/");
   } catch (error) {
     next(error);
   }
