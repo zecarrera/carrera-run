@@ -8,6 +8,7 @@ import { ZodError } from "zod";
 import { activitiesRouter } from "./routes/activities.js";
 import { athleteRouter } from "./routes/athlete.js";
 import { authRouter } from "./routes/auth.js";
+import { coachRouter } from "./routes/coach.js";
 import { plansRouter } from "./routes/plans.js";
 import { profileRouter } from "./routes/profile.js";
 
@@ -57,6 +58,7 @@ app.get("/api/health", (_request, response) => {
 app.use("/api/auth", authRouter);
 app.use("/api/activities", activitiesRouter);
 app.use("/api/athlete", athleteRouter);
+app.use("/api/coach", coachRouter);
 app.use("/api/plans", plansRouter);
 app.use("/api/profile", profileRouter);
 

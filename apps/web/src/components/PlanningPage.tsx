@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { formatDate, formatDistance } from "../lib/format";
 import type { ActivityStatus, PlanActivity, PlanActivityType, TrainingPlan } from "../types";
+import { CoachPlanWizard } from "./CoachPlanWizard";
 
 type CreatePlanForm = {
   raceName: string;
@@ -85,6 +86,7 @@ export function PlanningPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmittingPlan, setIsSubmittingPlan] = useState(false);
   const [isSubmittingActivity, setIsSubmittingActivity] = useState(false);
+  const [showCoachWizard, setShowCoachWizard] = useState(false);
   const [isUpdatingActivityId, setIsUpdatingActivityId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -126,6 +128,14 @@ export function PlanningPage() {
   useEffect(() => {
     void loadPlans();
   }, []);
+
+  const handleCoachPlanCreated = (plan: TrainingPlan) => {
+    const updatedPlans = sortPlans([plan, ...plans]);
+    setPlans(updatedPlans);
+    setSelectedPlanId(plan.id);
+    setShowCoachWizard(false);
+    setSuccessMessage("Training plan created by coach.");
+  };
 
   const handleCreatePlan = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -279,7 +289,21 @@ export function PlanningPage() {
         <section className="panel planning-form-panel">
           <div className="panel-header">
             <h2>Create plan</h2>
+            <button
+              type="button"
+              className="button-secondary"
+              onClick={() => setShowCoachWizard((v) => !v)}
+            >
+              {showCoachWizard ? "Manual form" : "🤖 Build with Coach"}
+            </button>
           </div>
+
+          {showCoachWizard ? (
+            <CoachPlanWizard
+              onPlanCreated={handleCoachPlanCreated}
+              onClose={() => setShowCoachWizard(false)}
+            />
+          ) : (
           <form className="planning-form" onSubmit={handleCreatePlan}>
             <label className="filter-field">
               Race name
@@ -322,6 +346,7 @@ export function PlanningPage() {
               {isSubmittingPlan ? "Creating..." : "Create plan"}
             </button>
           </form>
+          )}
         </section>
 
         <section className="panel">

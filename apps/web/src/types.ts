@@ -86,3 +86,21 @@ export type UserProfile = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type CoachMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
+export type CoachProposedAction = {
+  type: "create_plan" | "modify_plan" | "add_activity" | "none";
+  reason: string;
+  payload?: Record<string, unknown>;
+};
+
+export type CoachResponse = {
+  answer: string;
+  followUpQuestions: string[];
+  proposedActions: CoachProposedAction[];
+  safetyNotes: string[];
+};
