@@ -211,9 +211,17 @@ function normalizeCoachResponse(rawText: string): CoachResponse {
 //   LLM_API_KEY   — required for cloud providers, omit for local Ollama
 //   COACH_MODEL   — e.g. gpt-4o-mini or llama3.1:8b (default: llama3.1:8b)
 async function queryLLM(systemPrompt: string, messages: CoachMessage[]): Promise<string> {
+  const isLocalOllama = !process.env.LLM_BASE_URL;
   const model = process.env.COACH_MODEL?.trim() || DEFAULT_COACH_MODEL;
   const baseUrl = (process.env.LLM_BASE_URL ?? "http://localhost:11434/v1").replace(/\/$/, "");
   const apiKey = process.env.LLM_API_KEY ?? "";
+
+  // Warn loudly when a cloud URL is configured but model is still the Ollama default
+  if (!isLocalOllama && model === DEFAULT_COACH_MODEL) {
+    throw new Error(
+      `Coach misconfigured: LLM_BASE_URL is set to a cloud provider but COACH_MODEL is still '${DEFAULT_COACH_MODEL}' (the Ollama default). Set COACH_MODEL to a model supported by your provider, e.g. 'gpt-4o-mini' for OpenAI or 'llama3-8b-8192' for Groq.`,
+    );
+  }
 
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (apiKey) {
@@ -235,8 +243,7 @@ async function queryLLM(systemPrompt: string, messages: CoachMessage[]): Promise
       }),
     });
   } catch {
-    const isDefault = !process.env.LLM_BASE_URL;
-    const hint = isDefault
+    const hint = isLocalOllama
       ? "at localhost:11434 — is Ollama running? Try: npm run ollama:start"
       : `at ${baseUrl} — check LLM_BASE_URL`;
     throw new Error(`Coach unavailable: could not reach LLM ${hint}`);
@@ -250,7 +257,10 @@ async function queryLLM(systemPrompt: string, messages: CoachMessage[]): Promise
     } catch {
       errorMsg = text;
     }
-    throw new Error(`Coach model request failed (${response.status}): ${errorMsg}`);
+    const modelHint = response.status === 404 || response.status === 400
+      ? ` — set COACH_MODEL to a model supported by your LLM provider (currently '${model}')`
+      : "";
+    throw new Error(`Coach model request failed (${response.status}): ${errorMsg}${modelHint}`);
   }
 
   const payload = (await response.json()) as {
