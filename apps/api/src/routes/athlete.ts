@@ -12,6 +12,15 @@ athleteRouter.get("/summary", async (request, response, next) => {
       return;
     }
 
+    // Dev mock: return a fake summary without hitting Strava
+    if (process.env.NODE_ENV !== "production" && stravaSession.tokens.access_token === "dev-mock-token") {
+      response.json({
+        connected: true,
+        summary: buildAthleteSummary(stravaSession.athlete, []),
+      });
+      return;
+    }
+
     const freshTokens = await ensureFreshToken(stravaSession.tokens);
     const athlete = stravaSession.athlete ?? (await fetchAthlete(freshTokens.access_token));
     const activities = await fetchActivities(freshTokens.access_token, 1, 20);

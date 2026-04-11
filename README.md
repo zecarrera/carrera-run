@@ -10,6 +10,7 @@ A small full-stack starter for connecting to the Strava API and displaying runni
 - React + TypeScript + Vite frontend in `apps/web`
 - Strava OAuth 2.0 authorization code flow handled on the backend
 - MongoDB for training plan persistence
+- OpenAI-compatible LLM (Ollama locally, any cloud provider in production) for the AI coach
 
 ## Features
 
@@ -19,6 +20,7 @@ A small full-stack starter for connecting to the Strava API and displaying runni
 - Activities table with date, distance, moving time, elevation, and pace
 - Activity detail panel in the UI
 - Planning page for race-focused training plans and activity tracking
+- **AI Coach**: conversational plan builder — asks questions, uses your Strava history, proposes a full training plan, and saves it on acceptance
 - Profile page for training zones (Z1-Z5 pace ranges) and race-results history
 
 ## Local Setup
@@ -29,30 +31,77 @@ A small full-stack starter for connecting to the Strava API and displaying runni
 4. Install dependencies with `npm install` from the repository root.
 5. Start the app with `npm run dev`.
 
-If you want a one-command local setup with MongoDB in Docker, use:
+For a one-command local setup with MongoDB **and** Ollama in Docker, use:
 
-- `npm run dev:local`
+```
+npm run dev:local
+```
 
-Useful Mongo helper scripts:
+Then pull the default model (first time only):
 
-- `npm run mongo:start`
-- `npm run mongo:stop`
-- `npm run mongo:logs`
+```
+npm run ollama:pull
+```
 
 Frontend runs on `http://localhost:5173` and proxies API requests to `http://localhost:4000`.
 
+### Dev bypass login (no Strava OAuth needed locally)
+
+If your Strava app's callback domain is set to production, you can still test locally with a mock session:
+
+```
+http://localhost:4000/api/auth/dev-login
+```
+
+This sets a fake "Dev Runner" session and shows clickable links to common Vite ports. You can also redirect explicitly:
+
+```
+http://localhost:4000/api/auth/dev-login?redirect=http://localhost:5174
+```
+
+> This route is **only available when `NODE_ENV !== production`** and is never exposed in deployed builds.
+
+### Helper scripts
+
+| Script | Description |
+|---|---|
+| `npm run dev:local` | Start Mongo + Ollama + API + Web |
+| `npm run mongo:start` | Start MongoDB Docker container |
+| `npm run mongo:stop` | Stop MongoDB Docker container |
+| `npm run mongo:logs` | Tail MongoDB logs |
+| `npm run ollama:start` | Start Ollama Docker container |
+| `npm run ollama:stop` | Stop Ollama Docker container |
+| `npm run ollama:pull` | Pull `llama3.1:8b` into Ollama |
+| `npm run ollama:logs` | Tail Ollama logs |
+
 ## Environment Variables
 
-- `STRAVA_CLIENT_ID`: Strava application client ID
-- `STRAVA_CLIENT_SECRET`: Strava application client secret
-- `STRAVA_REDIRECT_URI`: Backend callback endpoint
-- `STRAVA_SCOPES`: Requested Strava scopes
-- `SESSION_SECRET`: Session signing secret for local development
-- `CLIENT_ORIGIN`: Frontend origin allowed by the API
-- `NODE_ENV`: Runtime mode (`development` locally, `production` in Render)
-- `PORT`: API port
-- `MONGODB_URI`: MongoDB connection string used by planning endpoints
-- `MONGODB_DB_NAME`: MongoDB database name (default `carrera_run`)
+| Variable | Description |
+|---|---|
+| `STRAVA_CLIENT_ID` | Strava application client ID |
+| `STRAVA_CLIENT_SECRET` | Strava application client secret |
+| `STRAVA_REDIRECT_URI` | Backend OAuth callback endpoint |
+| `STRAVA_SCOPES` | Requested Strava scopes |
+| `SESSION_SECRET` | Session signing secret |
+| `CLIENT_ORIGIN` | Frontend origin (dev only — set to Vite's port) |
+| `NODE_ENV` | `development` locally, `production` on Render |
+| `PORT` | API port (default `4000`) |
+| `MONGODB_URI` | MongoDB connection string |
+| `MONGODB_DB_NAME` | MongoDB database name (default `carrera_run`) |
+| `LLM_BASE_URL` | OpenAI-compatible LLM base URL (default: `http://localhost:11434/v1` for Ollama) |
+| `LLM_API_KEY` | API key for cloud LLM providers (leave empty for local Ollama) |
+| `COACH_MODEL` | LLM model name (default: `llama3.1:8b`) |
+
+### AI Coach — production LLM options
+
+The coach works with any OpenAI-compatible provider. Set `LLM_BASE_URL`, `LLM_API_KEY`, and `COACH_MODEL` in your environment:
+
+| Provider | `LLM_BASE_URL` | `COACH_MODEL` example |
+|---|---|---|
+| Local Ollama | `http://localhost:11434/v1` | `llama3.1:8b` |
+| OpenAI | `https://api.openai.com/v1` | `gpt-4o-mini` |
+| Groq (free tier) | `https://api.groq.com/openai/v1` | `llama3-8b-8192` |
+| Any OpenAI-compat | your URL | model name |
 
 ## Deploy to Render (Free) + Mongo Atlas (Free)
 
@@ -95,6 +144,9 @@ Why this is the best free combination now:
 	- `STRAVA_REDIRECT_URI=https://<your-render-service>.onrender.com/api/auth/strava/callback`
 	- `MONGODB_URI=<your-atlas-uri>`
 	- `MONGODB_DB_NAME=carrera_run`
+	- `LLM_BASE_URL=<your-llm-endpoint>` (e.g. Groq or OpenAI)
+	- `LLM_API_KEY=<your-api-key>`
+	- `COACH_MODEL=<model-name>` (e.g. `gpt-4o-mini` or `llama3-8b-8192`)
 
 ### 3) Update Strava app callback
 
@@ -109,6 +161,7 @@ In Strava developer settings, set **Authorization Callback Domain** to:
 - Health check: `https://<your-render-service>.onrender.com/api/health`
 - Open app root URL and test Strava login
 - Create/read a plan to verify Atlas persistence
+- Go to Planning → "🤖 Build with Coach" to test the AI coach
 
 ### Free-tier notes
 
@@ -126,6 +179,10 @@ In Strava developer settings, set **Authorization Callback Domain** to:
 - `PATCH /api/plans/:id/activities/:activityId`
 - `DELETE /api/plans/:id/activities/:activityId`
 
+## Coach API
+
+- `POST /api/coach/chat` — body: `{ messages: [{ role, content }] }` — multi-turn conversation with the AI coach
+
 ## Profile API (MongoDB-backed)
 
 - `GET /api/profile`
@@ -139,3 +196,4 @@ In Strava developer settings, set **Authorization Callback Domain** to:
 - The app stores tokens in the server session for local development.
 - Secrets remain on the backend; the browser never sees the Strava client secret.
 - The current UI focuses on runs. Other activity types are filtered out of the dashboard metrics.
+

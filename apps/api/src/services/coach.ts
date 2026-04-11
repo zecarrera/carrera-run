@@ -116,15 +116,24 @@ function summarizeActivitiesByWeek(activities: NormalizedActivity[]): WeekSummar
 }
 
 async function fetchActivityHistory(accessToken: string): Promise<WeekSummary[]> {
+  if (accessToken === "dev-mock-token") {
+    return [];
+  }
+
   const sixMonthsAgo = Math.floor(Date.now() / 1000) - 6 * 30 * 24 * 60 * 60;
   const allActivities: NormalizedActivity[] = [];
 
-  // Fetch up to 2 pages of 200 activities each (400 total) covering ~6 months
-  for (let page = 1; page <= 2; page++) {
-    const batch = await fetchActivities(accessToken, page, 200, sixMonthsAgo);
-    const normalized = batch.map(normalizeActivity);
-    allActivities.push(...normalized);
-    if (batch.length < 200) break; // no more pages
+  try {
+    // Fetch up to 2 pages of 200 activities each (400 total) covering ~6 months
+    for (let page = 1; page <= 2; page++) {
+      const batch = await fetchActivities(accessToken, page, 200, sixMonthsAgo);
+      const normalized = batch.map(normalizeActivity);
+      allActivities.push(...normalized);
+      if (batch.length < 200) break; // no more pages
+    }
+  } catch {
+    // If activity fetch fails, continue without history rather than failing the whole chat
+    console.warn("Coach: could not fetch Strava activity history, proceeding without it.");
   }
 
   return summarizeActivitiesByWeek(allActivities);
@@ -195,78 +204,60 @@ function normalizeCoachResponse(rawText: string): CoachResponse {
   }
 }
 
-async function queryOllama(systemPrompt: string, messages: CoachMessage[]): Promise<string> {
+// LLM backend — uses the OpenAI-compatible /v1/chat/completions API.
+// Works with Ollama (default, local), OpenAI, Groq, Together AI, or any
+// OpenAI-compatible endpoint. Configure via:
+//   LLM_BASE_URL  — e.g. https://api.openai.com/v1 (default: http://localhost:11434/v1)
+//   LLM_API_KEY   — required for cloud providers, omit for local Ollama
+//   COACH_MODEL   — e.g. gpt-4o-mini or llama3.1:8b (default: llama3.1:8b)
+async function queryLLM(systemPrompt: string, messages: CoachMessage[]): Promise<string> {
   const model = process.env.COACH_MODEL?.trim() || DEFAULT_COACH_MODEL;
-  const baseUrl = process.env.OLLAMA_BASE_URL ?? "http://localhost:11434";
+  const baseUrl = (process.env.LLM_BASE_URL ?? "http://localhost:11434/v1").replace(/\/$/, "");
+  const apiKey = process.env.LLM_API_KEY ?? "";
 
-  const sendChatRequest = async (modelName: string) => {
-    const response = await fetch(`${baseUrl}/api/chat`, {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (apiKey) {
+    headers["Authorization"] = `Bearer ${apiKey}`;
+  }
+
+  let response: Response;
+  try {
+    response = await fetch(`${baseUrl}/chat/completions`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({
-        model: modelName,
-        stream: false,
-        options: { temperature: 0.2 },
+        model,
+        temperature: 0.2,
         messages: [
           { role: "system", content: systemPrompt },
           ...messages,
         ],
       }),
     });
+  } catch {
+    const isDefault = !process.env.LLM_BASE_URL;
+    const hint = isDefault
+      ? "at localhost:11434 — is Ollama running? Try: npm run ollama:start"
+      : `at ${baseUrl} — check LLM_BASE_URL`;
+    throw new Error(`Coach unavailable: could not reach LLM ${hint}`);
+  }
 
-    const responseText = await response.text();
-    let payload: Record<string, unknown> | null = null;
+  if (!response.ok) {
+    const text = await response.text();
+    let errorMsg: string;
     try {
-      payload = JSON.parse(responseText) as Record<string, unknown>;
+      errorMsg = (JSON.parse(text) as { error?: { message?: string } }).error?.message ?? text;
     } catch {
-      payload = null;
+      errorMsg = text;
     }
-
-    return { ok: response.ok, status: response.status, responseText, payload };
-  };
-
-  const getAvailableModels = async (): Promise<string[]> => {
-    const response = await fetch(`${baseUrl}/api/tags`);
-    if (!response.ok) return [];
-    const payload = (await response.json()) as { models?: { name: string }[] };
-    if (!Array.isArray(payload.models)) return [];
-    return payload.models
-      .map((entry) => entry.name)
-      .filter((value) => typeof value === "string" && value.length > 0);
-  };
-
-  const firstAttempt = await sendChatRequest(model);
-
-  if (firstAttempt.ok) {
-    return (firstAttempt.payload as Record<string, { content?: string }>)?.message?.content ?? "";
+    throw new Error(`Coach model request failed (${response.status}): ${errorMsg}`);
   }
 
-  const firstErrorMessage =
-    (firstAttempt.payload as Record<string, string>)?.error ?? firstAttempt.responseText;
-  const missingModel = /not found/i.test(firstErrorMessage);
+  const payload = (await response.json()) as {
+    choices?: { message?: { content?: string } }[];
+  };
 
-  if (missingModel) {
-    const availableModels = await getAvailableModels();
-    const alternateModel = availableModels.find((name) => name !== model);
-
-    if (alternateModel) {
-      const fallbackAttempt = await sendChatRequest(alternateModel);
-      if (fallbackAttempt.ok) {
-        return (fallbackAttempt.payload as Record<string, { content?: string }>)?.message?.content ?? "";
-      }
-    }
-
-    const installedText =
-      availableModels.length > 0
-        ? `Installed models: ${availableModels.slice(0, 5).join(", ")}`
-        : "No Ollama models are installed.";
-
-    throw new Error(
-      `Coach model request failed: model '${model}' was not found. ${installedText} Pull one with 'npm run ollama:pull' or set COACH_MODEL to an installed model.`,
-    );
-  }
-
-  throw new Error(`Coach model request failed: ${firstErrorMessage}`);
+  return payload.choices?.[0]?.message?.content ?? "";
 }
 
 export async function runCoachChat(input: RunCoachChatInput): Promise<CoachResponse> {
@@ -305,6 +296,6 @@ export async function runCoachChat(input: RunCoachChatInput): Promise<CoachRespo
     return msg;
   });
 
-  const modelText = await queryOllama(systemPrompt, messagesWithContext);
+  const modelText = await queryLLM(systemPrompt, messagesWithContext);
   return normalizeCoachResponse(modelText);
 }
