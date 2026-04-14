@@ -42,20 +42,57 @@ async function loadSystemPrompt(): Promise<string> {
     return cachedSystemPrompt;
   }
 
-  // Try cwd-relative path first (production), then relative to this file (development/tests)
+  // Try cwd-relative path first (production: cwd = apps/api/), then relative to this file (dev/tests)
   const cwdPath = resolve(process.cwd(), "prompts/coach-system.md");
   const srcRelPath = resolve(__dirname, "../../../prompts/coach-system.md");
 
+  let basePrompt: string | null = null;
   for (const promptPath of [cwdPath, srcRelPath]) {
     try {
-      cachedSystemPrompt = await readFile(promptPath, "utf8");
-      return cachedSystemPrompt;
+      basePrompt = await readFile(promptPath, "utf8");
+      break;
     } catch {
       // try next path
     }
   }
 
-  throw new Error("Could not find prompts/coach-system.md");
+  if (!basePrompt) {
+    throw new Error("Could not find prompts/coach-system.md");
+  }
+
+  // Knowledge base files — loaded once and appended to the system prompt.
+  // Paths are tried relative to cwd (apps/api/ in production) and then relative to __dirname.
+  const knowledgeFiles = [
+    { label: "Training Types & Workout Prescriptions", rel: "coaching-methodology/training-types.md" },
+    { label: "Pace Zones & Training Intensity",        rel: "coaching-methodology/pace-zones.md" },
+    { label: "Marathon Training Framework",            rel: "coaching-methodology/marathon-framework.md" },
+    { label: "Sample Athlete Profiles",                rel: "athlete-context/sample-profiles.md" },
+  ];
+
+  // Base paths for the knowledge directory (cwd-relative and src-relative)
+  const knowledgeCwdBase  = resolve(process.cwd(), "../../.github/knowledge");
+  const knowledgeSrcBase  = resolve(__dirname, "../../../../.github/knowledge");
+
+  const knowledgeSections: string[] = [];
+
+  for (const { label, rel } of knowledgeFiles) {
+    for (const base of [knowledgeCwdBase, knowledgeSrcBase]) {
+      try {
+        const content = await readFile(resolve(base, rel), "utf8");
+        knowledgeSections.push(`### ${label}\n\n${content.trim()}`);
+        break;
+      } catch {
+        // try next base path
+      }
+    }
+  }
+
+  const knowledgeBlock = knowledgeSections.length > 0
+    ? `\n\n---\n\n## Coaching Knowledge Base\n\nApply this knowledge when building or adjusting plans.\n\n${knowledgeSections.join("\n\n---\n\n")}`
+    : "";
+
+  cachedSystemPrompt = basePrompt + knowledgeBlock;
+  return cachedSystemPrompt;
 }
 
 interface WeekSummary {
