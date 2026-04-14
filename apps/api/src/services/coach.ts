@@ -175,6 +175,52 @@ async function fetchActivityHistory(accessToken: string): Promise<WeekSummary[]>
   return summarizeActivitiesByWeek(allActivities);
 }
 
+interface WeeklyPatternActivity {
+  dayOfWeek: number; // 0=Sun 1=Mon 2=Tue 3=Wed 4=Thu 5=Fri 6=Sat
+  type: "Run" | "Strength" | "Flexibility";
+  distanceKm?: number;
+  paceMinPerKm?: number;
+  durationMinutes?: number;
+  notes?: string;
+}
+
+/**
+ * Expands a compact weekly pattern into individual dated activities covering
+ * the full plan window. The same pattern repeats every week.
+ */
+function expandWeeklyPattern(
+  pattern: WeeklyPatternActivity[],
+  startDate: string,
+  endDate: string,
+): Record<string, unknown>[] {
+  const activities: Record<string, unknown>[] = [];
+  const current = new Date(`${startDate}T00:00:00Z`);
+  const end = new Date(`${endDate}T00:00:00Z`);
+
+  while (current <= end) {
+    const dow = current.getUTCDay();
+    const dateStr = current.toISOString().slice(0, 10);
+
+    for (const t of pattern) {
+      if (t.dayOfWeek === dow) {
+        const entry: Record<string, unknown> = { date: dateStr, type: t.type };
+        if (t.notes) entry.notes = t.notes;
+        if (t.type === "Run") {
+          if (t.distanceKm !== undefined) entry.distanceKm = t.distanceKm;
+          if (t.paceMinPerKm !== undefined) entry.paceMinPerKm = t.paceMinPerKm;
+        } else {
+          if (t.durationMinutes !== undefined) entry.durationMinutes = t.durationMinutes;
+        }
+        activities.push(entry);
+      }
+    }
+
+    current.setUTCDate(current.getUTCDate() + 1);
+  }
+
+  return activities;
+}
+
 function normalizeCoachResponse(rawText: string): CoachResponse {
   const fallback: CoachResponse = {
     answer: "I can help with plan creation or plan updates.",
@@ -233,13 +279,35 @@ function normalizeCoachResponse(rawText: string): CoachResponse {
               action.type === "none"
                 ? action.type
                 : "none";
+
+            let payload =
+              typeof action.payload === "object" && action.payload !== null
+                ? (action.payload as Record<string, unknown>)
+                : undefined;
+
+            // Expand weeklyPattern → activities so the frontend/API receives
+            // the same flat activities array regardless of which format the model used.
+            if (
+              payload &&
+              Array.isArray(payload.weeklyPattern) &&
+              typeof payload.startDate === "string" &&
+              typeof payload.endDate === "string"
+            ) {
+              const { weeklyPattern, ...rest } = payload;
+              payload = {
+                ...rest,
+                activities: expandWeeklyPattern(
+                  weeklyPattern as WeeklyPatternActivity[],
+                  payload.startDate,
+                  payload.endDate,
+                ),
+              };
+            }
+
             return {
               type,
               reason: typeof action.reason === "string" ? action.reason : "No reason provided.",
-              payload:
-                typeof action.payload === "object" && action.payload !== null
-                  ? (action.payload as Record<string, unknown>)
-                  : undefined,
+              payload,
             };
           })
       : [{ type: "none" as const, reason: "No structured actions were provided." }],
