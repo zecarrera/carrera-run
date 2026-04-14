@@ -22,6 +22,7 @@ A small full-stack starter for connecting to the Strava API and displaying runni
 - Planning page for race-focused training plans and activity tracking
 - **AI Coach**: conversational plan builder — asks questions, uses your Strava history, proposes a full training plan, and saves it on acceptance
 - **Plan import**: upload a JSON file to create a plan with all activities in one step (see [Import format](#plan-import-format))
+- **Plan delete**: remove a training plan (with confirmation) from the Plans list
 - Profile page for training zones (Z1-Z5 pace ranges) and race-results history
 
 ## Local Setup
@@ -177,6 +178,7 @@ In Strava developer settings, set **Authorization Callback Domain** to:
 - `POST /api/plans/import` — create a plan from a JSON file (see below)
 - `GET /api/plans/:id`
 - `PATCH /api/plans/:id`
+- `DELETE /api/plans/:id`
 - `POST /api/plans/:id/activities`
 - `PATCH /api/plans/:id/activities/:activityId`
 - `DELETE /api/plans/:id/activities/:activityId`

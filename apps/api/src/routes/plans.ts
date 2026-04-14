@@ -9,6 +9,7 @@ import {
 import {
   addPlanActivity,
   createPlan,
+  deletePlan,
   deletePlanActivity,
   getPlanById,
   importPlan,
@@ -124,6 +125,21 @@ plansRouter.patch("/:id/activities/:activityId", async (request, response, next)
     }
 
     response.json({ plan });
+  } catch (error) {
+    next(error);
+  }
+});
+
+plansRouter.delete("/:id", async (request, response, next) => {
+  try {
+    const deleted = await deletePlan(request.planUserId!, request.params.id);
+
+    if (!deleted) {
+      response.status(404).json({ message: "Plan not found." });
+      return;
+    }
+
+    response.status(204).end();
   } catch (error) {
     next(error);
   }

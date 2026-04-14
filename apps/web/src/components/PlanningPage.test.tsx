@@ -196,4 +196,73 @@ describe("PlanningPage", () => {
 
     expect(await screen.findByText("User can only have one active plan at a time.")).toBeInTheDocument();
   });
+
+  // ── Delete plan ───────────────────────────────────────────────────────────
+
+  it("shows a delete button for each plan", async () => {
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [createdPlanFixture] }));
+
+    render(<PlanningPage />);
+    await screen.findByText("Spring Marathon");
+
+    expect(
+      screen.getByRole("button", { name: `Delete ${createdPlanFixture.raceName}` }),
+    ).toBeInTheDocument();
+  });
+
+  it("does not delete when the user cancels the confirmation", async () => {
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [createdPlanFixture] }));
+    vi.stubGlobal("confirm", vi.fn().mockReturnValue(false));
+
+    const user = userEvent.setup();
+    render(<PlanningPage />);
+    await screen.findByText("Spring Marathon");
+
+    await user.click(screen.getByRole("button", { name: `Delete ${createdPlanFixture.raceName}` }));
+
+    // No DELETE call should have been made
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(screen.getByText("Spring Marathon")).toBeInTheDocument();
+  });
+
+  it("deletes a plan successfully and removes it from the list", async () => {
+    fetchMock
+      .mockResolvedValueOnce(createJsonResponse({ plans: [createdPlanFixture] }))
+      .mockResolvedValueOnce({ ok: true, json: vi.fn() } as unknown as Response);
+
+    vi.stubGlobal("confirm", vi.fn().mockReturnValue(true));
+
+    const user = userEvent.setup();
+    render(<PlanningPage />);
+    await screen.findByText("Spring Marathon");
+
+    await user.click(screen.getByRole("button", { name: `Delete ${createdPlanFixture.raceName}` }));
+
+    await waitFor(() => {
+      expect(screen.queryByText("Spring Marathon")).not.toBeInTheDocument();
+    });
+
+    expect(await screen.findByText(/deleted/i)).toBeInTheDocument();
+
+    const deleteCall = fetchMock.mock.calls[1];
+    expect(deleteCall[0]).toBe(`/api/plans/${createdPlanFixture.id}`);
+    expect((deleteCall[1] as RequestInit).method).toBe("DELETE");
+  });
+
+  it("shows an error when the delete API call fails", async () => {
+    fetchMock
+      .mockResolvedValueOnce(createJsonResponse({ plans: [createdPlanFixture] }))
+      .mockResolvedValueOnce(createJsonResponse({ message: "Plan not found." }, false));
+
+    vi.stubGlobal("confirm", vi.fn().mockReturnValue(true));
+
+    const user = userEvent.setup();
+    render(<PlanningPage />);
+    await screen.findByText("Spring Marathon");
+
+    await user.click(screen.getByRole("button", { name: `Delete ${createdPlanFixture.raceName}` }));
+
+    expect(await screen.findByText("Plan not found.")).toBeInTheDocument();
+    expect(screen.getByText("Spring Marathon")).toBeInTheDocument();
+  });
 });

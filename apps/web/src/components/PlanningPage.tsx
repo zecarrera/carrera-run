@@ -88,6 +88,7 @@ export function PlanningPage() {
   const [isSubmittingActivity, setIsSubmittingActivity] = useState(false);
   const [showCoachWizard, setShowCoachWizard] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
+  const [isDeletingPlanId, setIsDeletingPlanId] = useState<string | null>(null);
   const [isUpdatingActivityId, setIsUpdatingActivityId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -187,6 +188,29 @@ export function PlanningPage() {
       setErrorMessage(error instanceof Error ? error.message : "Unable to import plan.");
     } finally {
       setIsImporting(false);
+    }
+  };
+
+  const handleDeletePlan = async (plan: TrainingPlan) => {
+    if (!window.confirm(`Delete "${plan.raceName}"? This cannot be undone.`)) {
+      return;
+    }
+
+    setIsDeletingPlanId(plan.id);
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    try {
+      await apiRequest<void>(`/api/plans/${plan.id}`, { method: "DELETE" });
+
+      const updatedPlans = sortPlans(plans.filter((p) => p.id !== plan.id));
+      setPlans(updatedPlans);
+      setSelectedPlanId(updatedPlans.length ? updatedPlans[0].id : null);
+      setSuccessMessage(`Plan "${plan.raceName}" deleted.`);
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to delete plan.");
+    } finally {
+      setIsDeletingPlanId(null);
     }
   };
 
@@ -429,7 +453,7 @@ export function PlanningPage() {
           ) : (
             <ul className="plan-list">
               {plans.map((plan) => (
-                <li key={plan.id}>
+                <li key={plan.id} className="plan-list-row">
                   <button
                     type="button"
                     className={`plan-list-item${plan.id === selectedPlanId ? " active" : ""}`}
@@ -442,6 +466,15 @@ export function PlanningPage() {
                       </p>
                     </div>
                     <span className={`status-pill ${plan.status}`}>{plan.status}</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="button-danger plan-delete-btn"
+                    aria-label={`Delete ${plan.raceName}`}
+                    disabled={isDeletingPlanId === plan.id}
+                    onClick={() => void handleDeletePlan(plan)}
+                  >
+                    {isDeletingPlanId === plan.id ? "…" : "🗑"}
                   </button>
                 </li>
               ))}

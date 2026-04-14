@@ -351,6 +351,17 @@ export async function deletePlanActivity(userId: string, planId: string, activit
   return mapDocument(updated);
 }
 
+export async function deletePlan(userId: string, planId: string): Promise<boolean> {
+  const objectId = toObjectId(planId);
+  if (!objectId) {
+    return false;
+  }
+
+  const collection = await getPlansCollection();
+  const result = await collection.deleteOne({ _id: objectId, userId });
+  return result.deletedCount > 0;
+}
+
 interface ImportPlanInput {
   userId: string;
   raceName: string;

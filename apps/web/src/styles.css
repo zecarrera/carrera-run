@@ -411,6 +411,47 @@ tbody tr.selected {
   gap: 0.65rem;
 }
 
+.plan-list-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.plan-list-row .plan-list-item {
+  flex: 1;
+  min-width: 0;
+}
+
+.plan-delete-btn {
+  flex-shrink: 0;
+  padding: 0.5rem 0.65rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.button-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.85rem 1.2rem;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: #c0392b;
+  border: 1px solid rgba(192, 57, 43, 0.25);
+}
+
+.button-danger:hover:not(:disabled) {
+  background: rgba(192, 57, 43, 0.08);
+}
+
+.button-danger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .plan-list-item {
   width: 100%;
   border: 1px solid rgba(17, 32, 49, 0.1);
