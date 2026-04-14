@@ -183,10 +183,30 @@ function normalizeCoachResponse(rawText: string): CoachResponse {
     safetyNotes: [],
   };
 
+  // Strip markdown code fences the model sometimes wraps around the JSON
+  let candidate = rawText.trim();
+  const fenceMatch = candidate.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/);
+  if (fenceMatch) {
+    candidate = fenceMatch[1].trim();
+  }
+
+  // If the model prefixed the JSON with prose, find the outermost object
+  const jsonStart = candidate.indexOf("{");
+  const jsonEnd = candidate.lastIndexOf("}");
+  if (jsonStart > 0 && jsonEnd > jsonStart) {
+    candidate = candidate.slice(jsonStart, jsonEnd + 1);
+  }
+
+  if (!candidate) {
+    console.warn("[Coach] Empty response from model.");
+    return fallback;
+  }
+
   let parsed: unknown;
   try {
-    parsed = JSON.parse(rawText.trim());
+    parsed = JSON.parse(candidate);
   } catch {
+    console.warn("[Coach] Could not parse model response as JSON:", rawText.slice(0, 200));
     return fallback;
   }
 
