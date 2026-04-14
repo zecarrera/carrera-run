@@ -66,7 +66,6 @@ async function loadSystemPrompt(): Promise<string> {
     { label: "Training Types & Workout Prescriptions", rel: "coaching-methodology/training-types.md" },
     { label: "Pace Zones & Training Intensity",        rel: "coaching-methodology/pace-zones.md" },
     { label: "Marathon Training Framework",            rel: "coaching-methodology/marathon-framework.md" },
-    { label: "Sample Athlete Profiles",                rel: "athlete-context/sample-profiles.md" },
   ];
 
   // Base paths for the knowledge directory (cwd-relative and src-relative)
