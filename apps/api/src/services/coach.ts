@@ -337,29 +337,24 @@ export async function runCoachChat(input: RunCoachChatInput): Promise<CoachRespo
     input.stravaAccessToken ? fetchActivityHistory(input.stravaAccessToken) : Promise.resolve([]),
   ]);
 
-  const context = {
-    userId: input.userId,
-    plans,
-    profile,
-    activityHistory: {
-      note: "Weekly summaries of the runner's Strava activity over the last ~6 months (most recent first).",
-      weeks: activityWeeks,
-    },
-  };
+  // Keep only the 8 most recent weeks to minimise token usage on free-tier providers.
+  const recentWeeks = activityWeeks.slice(0, 8);
 
-  // Inject context into the first user message so every turn has full awareness
+  // Build a lean context object — omit empty fields to save tokens.
+  const context: Record<string, unknown> = {};
+  if (profile) context.profile = profile;
+  if (plans.length) context.plans = plans;
+  if (recentWeeks.length) context.activityHistory = { weeks: recentWeeks };
+
+  // Inject context into the first user message only (compact JSON — no pretty-print).
   const messagesWithContext: CoachMessage[] = input.messages.map((msg, index) => {
     if (index === 0 && msg.role === "user") {
+      const contextBlock = Object.keys(context).length
+        ? `Context:${JSON.stringify(context)}\n\n`
+        : "";
       return {
         role: "user",
-        content: [
-          "App context (use this to understand the runner's history and current plans):",
-          "",
-          JSON.stringify(context, null, 2),
-          "",
-          "Runner message:",
-          msg.content,
-        ].join("\n"),
+        content: `${contextBlock}${msg.content}`,
       };
     }
     return msg;

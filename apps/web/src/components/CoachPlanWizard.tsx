@@ -21,6 +21,13 @@ interface CoachPlanWizardProps {
   onClose: () => void;
 }
 
+const EXAMPLE_PROMPTS = [
+  "5k race in 6 weeks, 3 days/week (Tue/Thu/Sat), target sub-30 min, no injuries",
+  "10k race in 10 weeks, 4 days/week, target ~55 min, currently running ~20 km/week",
+  "Half marathon in 16 weeks, 4 days/week, first half marathon, base ~30 km/week",
+  "Marathon in 20 weeks, 5 days/week, have run halfs before, target finish under 4 h",
+];
+
 async function apiRequest<T>(url: string, init?: RequestInit): Promise<T> {
   const response = await fetch(url, {
     credentials: "include",
@@ -63,6 +70,23 @@ function formatPaceMinPerKm(paceMinPerKm: number): string {
   return `${mins}:${String(secs).padStart(2, "0")}/km`;
 }
 
+/** Guard against the model leaking raw JSON into the answer field. */
+function sanitizeAnswer(text: string): string {
+  const trimmed = text.trim();
+  // If the whole answer looks like a JSON object, try to extract the answer field from it
+  if (trimmed.startsWith("{")) {
+    try {
+      const parsed = JSON.parse(trimmed) as { answer?: string };
+      if (typeof parsed.answer === "string" && parsed.answer.trim()) {
+        return parsed.answer.trim();
+      }
+    } catch {
+      // not valid JSON — fall through and return as-is
+    }
+  }
+  return trimmed;
+}
+
 export function CoachPlanWizard({ onPlanCreated, onClose }: CoachPlanWizardProps) {
   const [messages, setMessages] = useState<CoachMessage[]>([]);
   const [input, setInput] = useState("");
@@ -73,12 +97,6 @@ export function CoachPlanWizard({ onPlanCreated, onClose }: CoachPlanWizardProps
   const [proposedPlan, setProposedPlan] = useState<ProposedPlanPayload | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  // Start the conversation automatically
-  useEffect(() => {
-    void sendMessage("Hello, I'd like to build a training plan.");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -105,7 +123,7 @@ export function CoachPlanWizard({ onPlanCreated, onClose }: CoachPlanWizardProps
 
       const assistantMessage: CoachMessage = {
         role: "assistant",
-        content: coach.answer,
+        content: sanitizeAnswer(coach.answer),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -176,6 +194,7 @@ export function CoachPlanWizard({ onPlanCreated, onClose }: CoachPlanWizardProps
 
   const followUpQuestions = latestResponse?.followUpQuestions ?? [];
   const safetyNotes = latestResponse?.safetyNotes ?? [];
+  const hasStarted = messages.length > 0;
 
   return (
     <div className="panel coach-wizard">
@@ -187,6 +206,19 @@ export function CoachPlanWizard({ onPlanCreated, onClose }: CoachPlanWizardProps
       </div>
 
       <div className="coach-messages">
+        {/* Static greeting — shown before any API call to save a full LLM round-trip */}
+        {!hasStarted && (
+          <div className="coach-bubble coach-bubble--assistant">
+            <span className="coach-bubble-label">Coach</span>
+            <p>
+              Hey! I'm your running coach. Tell me about your race goal and I'll build a personalised
+              training plan for you. Include your race distance, target date, how many days per week
+              you can train, and any target pace or finish time — the more you share upfront, the
+              faster we can get to your plan.
+            </p>
+          </div>
+        )}
+
         {messages.map((msg, index) => (
           <div key={index} className={`coach-bubble coach-bubble--${msg.role}`}>
             {msg.role === "assistant" && <span className="coach-bubble-label">Coach</span>}
@@ -269,7 +301,27 @@ export function CoachPlanWizard({ onPlanCreated, onClose }: CoachPlanWizardProps
         <div ref={bottomRef} />
       </div>
 
-      {followUpQuestions.length > 0 && !isLoading && (
+      {/* Example prompts — shown only before the first message to save tokens */}
+      {!hasStarted && !isLoading && (
+        <div className="coach-examples">
+          <p className="coach-examples-label">Quick start — click to use:</p>
+          <div className="coach-quick-replies">
+            {EXAMPLE_PROMPTS.map((prompt, i) => (
+              <button
+                key={i}
+                type="button"
+                className="coach-quick-reply"
+                onClick={() => handleQuickReply(prompt)}
+              >
+                {prompt}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Follow-up suggestions — shown after the coach responds */}
+      {hasStarted && followUpQuestions.length > 0 && !isLoading && (
         <div className="coach-quick-replies">
           {followUpQuestions.map((question, i) => (
             <button
@@ -292,7 +344,7 @@ export function CoachPlanWizard({ onPlanCreated, onClose }: CoachPlanWizardProps
           ref={inputRef}
           type="text"
           className="coach-input"
-          placeholder="Reply to your coach…"
+          placeholder="Tell your coach about your goal…"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={isLoading || isSaving}
