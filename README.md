@@ -21,6 +21,7 @@ A small full-stack starter for connecting to the Strava API and displaying runni
 - Activity detail panel in the UI
 - Planning page for race-focused training plans and activity tracking
 - **AI Coach**: conversational plan builder — asks questions, uses your Strava history, proposes a full training plan, and saves it on acceptance
+- **Plan import**: upload a JSON file to create a plan with all activities in one step (see [Import format](#plan-import-format))
 - Profile page for training zones (Z1-Z5 pace ranges) and race-results history
 
 ## Local Setup
@@ -173,11 +174,42 @@ In Strava developer settings, set **Authorization Callback Domain** to:
 
 - `GET /api/plans`
 - `POST /api/plans`
+- `POST /api/plans/import` — create a plan from a JSON file (see below)
 - `GET /api/plans/:id`
 - `PATCH /api/plans/:id`
 - `POST /api/plans/:id/activities`
 - `PATCH /api/plans/:id/activities/:activityId`
 - `DELETE /api/plans/:id/activities/:activityId`
+
+### Plan import format
+
+Upload a `.json` file via the **⬆ Import JSON** button on the Planning page, or POST directly to `/api/plans/import`:
+
+```json
+{
+  "raceName": "Boston Marathon",
+  "raceDistanceKm": 42.2,
+  "startDate": "2024-01-01",
+  "endDate": "2024-04-15",
+  "activities": [
+    { "date": "2024-01-02", "type": "Run", "distanceKm": 10, "paceMinPerKm": 5.5, "notes": "Easy run" },
+    { "date": "2024-01-03", "type": "Strength", "durationMinutes": 45 },
+    { "date": "2024-01-04", "type": "Flexibility", "durationMinutes": 20 }
+  ]
+}
+```
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `raceName` | string | ✅ | Max 160 chars |
+| `raceDistanceKm` | number | ✅ | Positive, max 500 |
+| `startDate` | string | ✅ | `YYYY-MM-DD` |
+| `endDate` | string | ✅ | `YYYY-MM-DD`, ≥ startDate |
+| `activities` | array | ✅ | Can be empty `[]` |
+
+**Run activity**: requires `distanceKm` (number) and `paceMinPerKm` (number).  
+**Strength / Flexibility activity**: requires `durationMinutes` (number).  
+All activity `date` values must fall within the plan window. `id`, `userId`, `createdAt`, `updatedAt` are ignored — generated server-side. `status` defaults to `not_started`.
 
 ## Coach API
 
