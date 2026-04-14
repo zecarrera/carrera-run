@@ -209,7 +209,60 @@ function normalizeCoachResponse(rawText: string): CoachResponse {
 // OpenAI-compatible endpoint. Configure via:
 //   LLM_BASE_URL  — e.g. https://api.openai.com/v1 (default: http://localhost:11434/v1)
 //   LLM_API_KEY   — required for cloud providers, omit for local Ollama
-//   COACH_MODEL   — e.g. gpt-4o-mini or llama3.1:8b (default: llama3.1:8b)
+//   COACH_MODEL   — e.g. gpt-4o-mini or llama-3.1-8b-instant (default: llama3.1:8b for local Ollama)
+
+// Cache for available models: fetched once per process, refreshed after MODELS_CACHE_TTL_MS.
+const MODELS_CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+let modelsCacheTime = 0;
+let cachedModelIds: Set<string> | null = null;
+
+/**
+ * Validates that the configured COACH_MODEL is available on the provider.
+ * Uses the OpenAI-compatible GET /models endpoint (supported by Groq, OpenAI, etc.).
+ * Results are cached for 24 hours to stay well within free-tier rate limits.
+ * Logs a warning on mismatch but never throws — chat should still be attempted.
+ */
+async function validateConfiguredModel(baseUrl: string, apiKey: string, model: string): Promise<void> {
+  const now = Date.now();
+  if (cachedModelIds && now - modelsCacheTime < MODELS_CACHE_TTL_MS) {
+    // Use cached list
+    if (!cachedModelIds.has(model)) {
+      console.warn(
+        `[Coach] Warning: COACH_MODEL '${model}' was not found in the provider's model list. ` +
+        `The model may be deprecated or misspelled. Check available models at your provider ` +
+        `(e.g. https://console.groq.com/docs/models for Groq).`,
+      );
+    }
+    return;
+  }
+
+  try {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (apiKey) headers["Authorization"] = `Bearer ${apiKey}`;
+
+    const response = await fetch(`${baseUrl}/models`, { method: "GET", headers });
+    if (!response.ok) {
+      console.warn(`[Coach] Could not fetch model list from provider (${response.status}) — skipping model validation.`);
+      return;
+    }
+
+    const payload = (await response.json()) as { data?: { id: string }[] };
+    const ids = (payload.data ?? []).map((m) => m.id);
+    cachedModelIds = new Set(ids);
+    modelsCacheTime = now;
+
+    if (!cachedModelIds.has(model)) {
+      console.warn(
+        `[Coach] Warning: COACH_MODEL '${model}' was not found in the provider's model list ` +
+        `(available: ${ids.slice(0, 5).join(", ")}${ids.length > 5 ? ", …" : ""}). ` +
+        `The model may be deprecated or misspelled. Check https://console.groq.com/docs/models for Groq.`,
+      );
+    }
+  } catch {
+    console.warn("[Coach] Could not reach provider models endpoint — skipping model validation.");
+  }
+}
+
 async function queryLLM(systemPrompt: string, messages: CoachMessage[]): Promise<string> {
   const isLocalOllama = !process.env.LLM_BASE_URL;
   const model = process.env.COACH_MODEL?.trim() || DEFAULT_COACH_MODEL;
@@ -219,8 +272,13 @@ async function queryLLM(systemPrompt: string, messages: CoachMessage[]): Promise
   // Warn loudly when a cloud URL is configured but model is still the Ollama default
   if (!isLocalOllama && model === DEFAULT_COACH_MODEL) {
     throw new Error(
-      `Coach misconfigured: LLM_BASE_URL is set to a cloud provider but COACH_MODEL is still '${DEFAULT_COACH_MODEL}' (the Ollama default). Set COACH_MODEL to a model supported by your provider, e.g. 'gpt-4o-mini' for OpenAI or 'llama3-8b-8192' for Groq.`,
+      `Coach misconfigured: LLM_BASE_URL is set to a cloud provider but COACH_MODEL is still '${DEFAULT_COACH_MODEL}' (the Ollama default). Set COACH_MODEL to a model supported by your provider, e.g. 'gpt-4o-mini' for OpenAI or 'llama-3.1-8b-instant' for Groq.`,
     );
+  }
+
+  // Validate the configured model against the provider's list (cloud only; cached 24h).
+  if (!isLocalOllama) {
+    await validateConfiguredModel(baseUrl, apiKey, model);
   }
 
   const headers: Record<string, string> = { "Content-Type": "application/json" };
@@ -258,7 +316,7 @@ async function queryLLM(systemPrompt: string, messages: CoachMessage[]): Promise
       errorMsg = text;
     }
     const modelHint = response.status === 404 || response.status === 400
-      ? ` — set COACH_MODEL to a model supported by your LLM provider (currently '${model}')`
+      ? ` — set COACH_MODEL to a model supported by your LLM provider (currently '${model}'). See https://console.groq.com/docs/models for Groq.`
       : "";
     throw new Error(`Coach model request failed (${response.status}): ${errorMsg}${modelHint}`);
   }
@@ -269,6 +327,7 @@ async function queryLLM(systemPrompt: string, messages: CoachMessage[]): Promise
 
   return payload.choices?.[0]?.message?.content ?? "";
 }
+
 
 export async function runCoachChat(input: RunCoachChatInput): Promise<CoachResponse> {
   const [systemPrompt, plans, profile, activityWeeks] = await Promise.all([
