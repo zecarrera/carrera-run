@@ -100,7 +100,7 @@ The coach works with any OpenAI-compatible provider. Set `LLM_BASE_URL`, `LLM_AP
 |---|---|---|
 | Local Ollama | `http://localhost:11434/v1` | `llama3.1:8b` |
 | OpenAI | `https://api.openai.com/v1` | `gpt-4o-mini` |
-| Groq (free tier) | `https://api.groq.com/openai/v1` | `llama3-8b-8192` |
+| Groq (free tier) | `https://api.groq.com/openai/v1` | `llama-3.1-8b-instant` |
 | Any OpenAI-compat | your URL | model name |
 
 ## Deploy to Render (Free) + Mongo Atlas (Free)
@@ -146,7 +146,7 @@ Why this is the best free combination now:
 	- `MONGODB_DB_NAME=carrera_run`
 	- `LLM_BASE_URL=<your-llm-endpoint>` (e.g. Groq or OpenAI)
 	- `LLM_API_KEY=<your-api-key>`
-	- `COACH_MODEL=<model-name>` (e.g. `gpt-4o-mini` or `llama3-8b-8192`)
+	- `COACH_MODEL=<model-name>` (e.g. `gpt-4o-mini` or `llama-3.1-8b-instant`)
 
 ### 3) Update Strava app callback
 
