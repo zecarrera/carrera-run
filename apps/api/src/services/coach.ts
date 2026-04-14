@@ -450,13 +450,37 @@ export async function runCoachChat(input: RunCoachChatInput): Promise<CoachRespo
     input.stravaAccessToken ? fetchActivityHistory(input.stravaAccessToken) : Promise.resolve([]),
   ]);
 
-  // Keep only the 8 most recent weeks to minimise token usage on free-tier providers.
-  const recentWeeks = activityWeeks.slice(0, 8);
+  // Keep only the 6 most recent weeks to stay within free-tier TPM limits.
+  const recentWeeks = activityWeeks.slice(0, 6);
 
   // Build a lean context object — omit empty fields to save tokens.
+  // Strip activity arrays from plans: the coach only needs plan metadata to
+  // avoid proposing overlapping plans; sending all activities would use
+  // thousands of tokens and bust the 6 000 TPM limit on the first message.
   const context: Record<string, unknown> = {};
-  if (profile) context.profile = profile;
-  if (plans.length) context.plans = plans;
+  if (profile) {
+    // Only include fields the coach actually uses for plan personalisation.
+    const profileCtx: Record<string, unknown> = {};
+    if (profile.trainingZones) profileCtx.trainingZones = profile.trainingZones;
+    if (profile.raceResults?.length) {
+      profileCtx.recentRaces = profile.raceResults.slice(0, 3).map((r) => ({
+        title: r.title,
+        distanceKm: r.distanceKm,
+        elapsedTimeSeconds: r.elapsedTimeSeconds,
+        date: r.date,
+      }));
+    }
+    if (Object.keys(profileCtx).length) context.profile = profileCtx;
+  }
+  if (plans.length) {
+    context.existingPlans = plans.map((p) => ({
+      raceName: p.raceName,
+      raceDistanceKm: p.raceDistanceKm,
+      startDate: p.startDate,
+      endDate: p.endDate,
+      status: p.status,
+    }));
+  }
   if (recentWeeks.length) context.activityHistory = { weeks: recentWeeks };
 
   // Inject context into the first user message only (compact JSON — no pretty-print).
