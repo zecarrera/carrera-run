@@ -97,7 +97,9 @@ export function HomePage({ summary }: HomePageProps) {
         const response = await fetch("/api/plans", { credentials: "include" });
         if (!response.ok) return;
         const payload = (await response.json()) as { plans: TrainingPlan[] };
-        const active = payload.plans.find((p) => p.status === "active");
+        const active =
+          payload.plans.find((p) => p.status === "active") ??
+          payload.plans.find((p) => p.status === "upcoming");
         if (!active) {
           setWeekActivities([]);
           return;
