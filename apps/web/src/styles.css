@@ -601,6 +601,88 @@ tbody tr.selected {
   align-items: flex-start;
 }
 
+.subtle-label-link {
+  text-decoration: none;
+  color: rgba(17, 32, 49, 0.55);
+  font-size: 0.85rem;
+}
+
+.subtle-label-link:hover {
+  color: #de6331;
+  text-decoration: underline;
+}
+
+.week-activity-actions {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.week-activity-comment {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.week-activity-comment input {
+  flex: 1;
+  min-width: 160px;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(17, 32, 49, 0.2);
+  font-size: 0.82rem;
+  background: #fff;
+}
+
+.action-btn {
+  padding: 0.3rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.action-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.action-btn--done {
+  background: rgba(34, 139, 34, 0.1);
+  color: #1a7a1a;
+  border-color: rgba(34, 139, 34, 0.25);
+}
+
+.action-btn--done:hover:not(:disabled) {
+  background: rgba(34, 139, 34, 0.18);
+}
+
+.action-btn--modified {
+  background: rgba(222, 99, 49, 0.1);
+  color: #b84d18;
+  border-color: rgba(222, 99, 49, 0.25);
+}
+
+.action-btn--modified:hover:not(:disabled) {
+  background: rgba(222, 99, 49, 0.18);
+}
+
+.action-btn--skip {
+  background: rgba(17, 32, 49, 0.06);
+  color: rgba(17, 32, 49, 0.6);
+  border-color: rgba(17, 32, 49, 0.15);
+}
+
+.action-btn--skip:hover:not(:disabled) {
+  background: rgba(17, 32, 49, 0.12);
+}
+
+
 .planning-action-btn {
   padding: 0.45rem 0.95rem;
   font-size: 0.8rem;
