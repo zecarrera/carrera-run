@@ -51,6 +51,14 @@ export const createActivitySchema = z.discriminatedUnion("type", [
   }),
 ]);
 
+export const importPlanSchema = z.object({
+  raceName: z.string().min(1).max(160),
+  raceDistanceKm: z.number().positive().max(500),
+  startDate: z.string(),
+  endDate: z.string(),
+  activities: z.array(createActivitySchema).default([]),
+});
+
 export const updateActivitySchema = z
   .object({
     date: z.string().optional(),

@@ -107,4 +107,93 @@ describe("PlanningPage", () => {
     expect(await screen.findByText("Race date must be after start date.")).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
+
+  // ── Import plan ───────────────────────────────────────────────────────────
+
+  it("shows the import button on the page", async () => {
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [] }));
+    render(<PlanningPage />);
+    await screen.findByText("Build your training plan.");
+    expect(screen.getByRole("button", { name: /import json/i })).toBeInTheDocument();
+  });
+
+  it("imports a plan successfully from a JSON file", async () => {
+    const importedPlan: TrainingPlan = {
+      ...createdPlanFixture,
+      id: "plan-imported",
+      raceName: "Imported Marathon",
+    };
+
+    fetchMock
+      .mockResolvedValueOnce(createJsonResponse({ plans: [] }))
+      .mockResolvedValueOnce(createJsonResponse({ plan: importedPlan }));
+
+    render(<PlanningPage />);
+    await screen.findByText("Build your training plan.");
+
+    const jsonContent = JSON.stringify({
+      raceName: "Imported Marathon",
+      raceDistanceKm: 42.2,
+      startDate: "2026-04-01",
+      endDate: "2026-08-01",
+      activities: [],
+    });
+    const file = new File([jsonContent], "plan.json", { type: "application/json" });
+
+    const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]')!;
+    await userEvent.upload(fileInput, file);
+
+    expect(await screen.findByText(/imported successfully/i)).toBeInTheDocument();
+    expect(screen.getByText("Imported Marathon")).toBeInTheDocument();
+
+    const importCall = fetchMock.mock.calls[1];
+    expect(importCall[0]).toBe("/api/plans/import");
+    expect((importCall[1] as RequestInit).method).toBe("POST");
+  });
+
+  it("shows an error when the imported file is not valid JSON", async () => {
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [] }));
+    render(<PlanningPage />);
+    await screen.findByText("Build your training plan.");
+
+    const file = new File(["not json at all"], "bad.json", { type: "application/json" });
+    const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]')!;
+    await userEvent.upload(fileInput, file);
+
+    expect(await screen.findByText(/valid JSON/i)).toBeInTheDocument();
+  });
+
+  it("shows an error when the imported JSON is missing required fields", async () => {
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [] }));
+    render(<PlanningPage />);
+    await screen.findByText("Build your training plan.");
+
+    const file = new File(['{"raceName":"Test"}'], "incomplete.json", { type: "application/json" });
+    const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]')!;
+    await userEvent.upload(fileInput, file);
+
+    expect(await screen.findByText(/invalid import file/i)).toBeInTheDocument();
+  });
+
+  it("shows server error when the import API rejects the file", async () => {
+    fetchMock
+      .mockResolvedValueOnce(createJsonResponse({ plans: [] }))
+      .mockResolvedValueOnce(createJsonResponse({ message: "User can only have one active plan at a time." }, false));
+
+    render(<PlanningPage />);
+    await screen.findByText("Build your training plan.");
+
+    const jsonContent = JSON.stringify({
+      raceName: "Conflicting Marathon",
+      raceDistanceKm: 42.2,
+      startDate: "2026-04-01",
+      endDate: "2026-08-01",
+      activities: [],
+    });
+    const file = new File([jsonContent], "plan.json", { type: "application/json" });
+    const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]')!;
+    await userEvent.upload(fileInput, file);
+
+    expect(await screen.findByText("User can only have one active plan at a time.")).toBeInTheDocument();
+  });
 });

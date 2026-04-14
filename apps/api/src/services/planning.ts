@@ -350,3 +350,49 @@ export async function deletePlanActivity(userId: string, planId: string, activit
 
   return mapDocument(updated);
 }
+
+interface ImportPlanInput {
+  userId: string;
+  raceName: string;
+  raceDistanceKm: number;
+  startDate: string;
+  endDate: string;
+  activities: CreateActivityInput[];
+}
+
+export async function importPlan(input: ImportPlanInput): Promise<TrainingPlan> {
+  assertDateRange(input.startDate, input.endDate);
+  await assertNoOverlappingPlan(input.userId, input.startDate, input.endDate);
+
+  for (const activity of input.activities) {
+      throw new Error('Activity date "' + activity.date + '" must use YYYY-MM-DD format.');
+    }
+    if (activity.date < input.startDate || activity.date > input.endDate) {
+      throw new Error('Activity date "' + activity.date + '" must be within the plan window (' + input.startDate + ' – ' + input.endDate + ').');
+    }
+    ensureActivityForType(activity);
+  }
+
+  const now = new Date();
+  const activities: PlanActivity[] = input.activities.map((a) => ({
+    ...a,
+    id: randomUUID(),
+    status: a.status ?? "not_started",
+  } as PlanActivity));
+
+  const document: Omit<TrainingPlanDocument, "_id"> = {
+    userId: input.userId,
+    raceName: input.raceName,
+    raceDistanceKm: input.raceDistanceKm,
+    startDate: input.startDate,
+    endDate: input.endDate,
+    activities,
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  const collection = await getPlansCollection();
+  const result = await collection.insertOne(document as TrainingPlanDocument);
+
+  return mapDocument({ ...document, _id: result.insertedId });
+}

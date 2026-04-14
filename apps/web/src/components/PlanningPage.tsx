@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { formatDate, formatDistance } from "../lib/format";
 import type { ActivityStatus, PlanActivity, PlanActivityType, TrainingPlan } from "../types";
 import { CoachPlanWizard } from "./CoachPlanWizard";
@@ -87,12 +87,14 @@ export function PlanningPage() {
   const [isSubmittingPlan, setIsSubmittingPlan] = useState(false);
   const [isSubmittingActivity, setIsSubmittingActivity] = useState(false);
   const [showCoachWizard, setShowCoachWizard] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
   const [isUpdatingActivityId, setIsUpdatingActivityId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [planForm, setPlanForm] = useState<CreatePlanForm>(EMPTY_PLAN_FORM);
   const [activityForm, setActivityForm] = useState<CreateActivityForm>(EMPTY_ACTIVITY_FORM);
   const [activityDrafts, setActivityDrafts] = useState<Record<string, ActivityUpdateDraft>>({});
+  const importFileRef = useRef<HTMLInputElement>(null);
 
   const selectedPlan = useMemo(
     () => plans.find((plan) => plan.id === selectedPlanId) ?? null,
@@ -135,6 +137,57 @@ export function PlanningPage() {
     setSelectedPlanId(plan.id);
     setShowCoachWizard(false);
     setSuccessMessage("Training plan created by coach.");
+  };
+
+  const handleImportPlan = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    setIsImporting(true);
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    let parsed: unknown;
+    try {
+      const text = await file.text();
+      parsed = JSON.parse(text);
+    } catch {
+      setErrorMessage("Could not read file. Make sure it is a valid JSON file.");
+      setIsImporting(false);
+      return;
+    }
+
+    if (
+      !parsed ||
+      typeof parsed !== "object" ||
+      !("raceName" in parsed) ||
+      !("startDate" in parsed) ||
+      !("endDate" in parsed) ||
+      !("activities" in parsed)
+    ) {
+      setErrorMessage(
+        'Invalid import file. Expected JSON with "raceName", "raceDistanceKm", "startDate", "endDate", and "activities".',
+      );
+      setIsImporting(false);
+      return;
+    }
+
+    try {
+      const payload = await apiRequest<{ plan: TrainingPlan }>("/api/plans/import", {
+        method: "POST",
+        body: JSON.stringify(parsed),
+      });
+
+      const updatedPlans = sortPlans([payload.plan, ...plans]);
+      setPlans(updatedPlans);
+      setSelectedPlanId(payload.plan.id);
+      setSuccessMessage(`Plan "${payload.plan.raceName}" imported successfully.`);
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to import plan.");
+    } finally {
+      setIsImporting(false);
+    }
   };
 
   const handleCreatePlan = async (event: FormEvent<HTMLFormElement>) => {
@@ -289,13 +342,31 @@ export function PlanningPage() {
         <section className="panel planning-form-panel">
           <div className="panel-header">
             <h2>Create plan</h2>
-            <button
-              type="button"
-              className="button-secondary"
-              onClick={() => setShowCoachWizard((v) => !v)}
-            >
-              {showCoachWizard ? "Manual form" : "🤖 Build with Coach"}
-            </button>
+            <div className="panel-header-actions">
+              <button
+                type="button"
+                className="button-secondary"
+                onClick={() => importFileRef.current?.click()}
+                disabled={isImporting}
+              >
+                {isImporting ? "Importing…" : "⬆ Import JSON"}
+              </button>
+              <input
+                ref={importFileRef}
+                type="file"
+                accept=".json,application/json"
+                style={{ display: "none" }}
+                onChange={handleImportPlan}
+                aria-label="Import plan from JSON file"
+              />
+              <button
+                type="button"
+                className="button-secondary"
+                onClick={() => setShowCoachWizard((v) => !v)}
+              >
+                {showCoachWizard ? "Manual form" : "🤖 Build with Coach"}
+              </button>
+            </div>
           </div>
 
           {showCoachWizard ? (

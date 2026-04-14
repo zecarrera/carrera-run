@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createActivitySchema,
   createPlanSchema,
+  importPlanSchema,
   updateActivitySchema,
   updatePlanSchema,
 } from "../schemas/plans.js";
@@ -10,6 +11,7 @@ import {
   createPlan,
   deletePlanActivity,
   getPlanById,
+  importPlan,
   listPlans,
   updatePlan,
   updatePlanActivity,
@@ -46,6 +48,20 @@ plansRouter.get("/:id", async (request, response, next) => {
     }
 
     response.json({ plan });
+  } catch (error) {
+    next(error);
+  }
+});
+
+plansRouter.post("/import", async (request, response, next) => {
+  try {
+    const body = importPlanSchema.parse(request.body);
+    const plan = await importPlan({
+      userId: request.planUserId!,
+      ...body,
+    });
+
+    response.status(201).json({ plan });
   } catch (error) {
     next(error);
   }
