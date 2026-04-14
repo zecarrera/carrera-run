@@ -70,22 +70,6 @@ function formatPaceMinPerKm(paceMinPerKm: number): string {
   return `${mins}:${String(secs).padStart(2, "0")}/km`;
 }
 
-/** Guard against the model leaking raw JSON into the answer field. */
-function sanitizeAnswer(text: string): string {
-  const trimmed = text.trim();
-  // If the whole answer looks like a JSON object, try to extract the answer field from it
-  if (trimmed.startsWith("{")) {
-    try {
-      const parsed = JSON.parse(trimmed) as { answer?: string };
-      if (typeof parsed.answer === "string" && parsed.answer.trim()) {
-        return parsed.answer.trim();
-      }
-    } catch {
-      // not valid JSON — fall through and return as-is
-    }
-  }
-  return trimmed;
-}
 
 export function CoachPlanWizard({ onPlanCreated, onClose }: CoachPlanWizardProps) {
   const [messages, setMessages] = useState<CoachMessage[]>([]);
@@ -123,7 +107,7 @@ export function CoachPlanWizard({ onPlanCreated, onClose }: CoachPlanWizardProps
 
       const assistantMessage: CoachMessage = {
         role: "assistant",
-        content: sanitizeAnswer(coach.answer),
+        content: coach.answer,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);

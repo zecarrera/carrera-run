@@ -176,85 +176,17 @@ async function fetchActivityHistory(accessToken: string): Promise<WeekSummary[]>
   return summarizeActivitiesByWeek(allActivities);
 }
 
-/**
- * Tries every reasonable strategy to extract a human-readable answer string
- * from model output that may be raw JSON, markdown-wrapped JSON, or plain text.
- * Returns null when no clean text can be extracted.
- */
-function extractCleanAnswer(text: string): string | null {
-  const trimmed = text.trim();
-  if (!trimmed) return null;
-
-  // Strip markdown code fences first (```json ... ``` or ``` ... ```)
-  const fenceMatch = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/);
-  const candidate = fenceMatch ? fenceMatch[1].trim() : trimmed;
-
-  // Try to parse as JSON and pull out the answer field
-  const tryParse = (s: string): string | null => {
-    try {
-      const parsed = JSON.parse(s) as unknown;
-      if (parsed && typeof parsed === "object") {
-        const answer = (parsed as Record<string, unknown>).answer;
-        if (typeof answer === "string" && answer.trim()) {
-          // Guard against double-encoded answer (model wraps JSON inside answer field)
-          const inner = extractCleanAnswer(answer);
-          return inner ?? answer.trim();
-        }
-      }
-    } catch {
-      // not JSON — that's fine
-    }
-    return null;
-  };
-
-  const fromCandidate = tryParse(candidate);
-  if (fromCandidate) return fromCandidate;
-
-  // If it looks like plain prose (no leading {), return as-is
-  if (!candidate.startsWith("{")) return candidate;
-
-  // Try to find JSON buried inside surrounding text
-  const jsonStart = candidate.indexOf("{");
-  const jsonEnd = candidate.lastIndexOf("}");
-  if (jsonStart >= 0 && jsonEnd > jsonStart) {
-    const fromSlice = tryParse(candidate.slice(jsonStart, jsonEnd + 1));
-    if (fromSlice) return fromSlice;
-  }
-
-  // Last resort: return the raw text if it doesn't look like pure JSON
-  return candidate.startsWith("{") ? null : candidate;
-}
-
 function normalizeCoachResponse(rawText: string): CoachResponse {
-  // Attempt to extract a clean answer before anything else, so the fallback
-  // is never raw JSON even when the structured parse fails.
-  const cleanAnswerFallback =
-    extractCleanAnswer(rawText) ?? "I can help with plan creation or plan updates.";
-
   const fallback: CoachResponse = {
-    answer: cleanAnswerFallback,
+    answer: "I can help with plan creation or plan updates.",
     followUpQuestions: [],
     proposedActions: [{ type: "none", reason: "Could not parse structured response from model." }],
     safetyNotes: [],
   };
 
-  const trimmed = rawText.trim();
-
-  // Strip markdown fences before attempting JSON parse
-  const fenceMatch = trimmed.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/);
-  const jsonCandidate = fenceMatch ? fenceMatch[1].trim() : trimmed;
-
-  // Find outermost JSON object if there's surrounding text
-  const jsonStart = jsonCandidate.indexOf("{");
-  const jsonEnd = jsonCandidate.lastIndexOf("}");
-  const jsonText =
-    jsonStart >= 0 && jsonEnd > jsonStart
-      ? jsonCandidate.slice(jsonStart, jsonEnd + 1)
-      : jsonCandidate;
-
   let parsed: unknown;
   try {
-    parsed = JSON.parse(jsonText);
+    parsed = JSON.parse(rawText.trim());
   } catch {
     return fallback;
   }
@@ -263,8 +195,7 @@ function normalizeCoachResponse(rawText: string): CoachResponse {
   const p = parsed as Record<string, unknown>;
   if (typeof p.answer !== "string" || !p.answer.trim()) return fallback;
 
-  // Sanitize the answer field itself in case the model double-encoded JSON into it
-  const answer = extractCleanAnswer(p.answer) ?? p.answer.trim();
+  const answer = p.answer.trim();
 
   return {
     answer,

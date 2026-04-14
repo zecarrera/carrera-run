@@ -136,31 +136,6 @@ describe("CoachPlanWizard", () => {
     expect(screen.getByRole("button", { name: "Around 35 minutes" })).toBeInTheDocument();
   });
 
-  it("sanitizes raw JSON leaked into the coach answer field", async () => {
-    // Simulate the model returning a full JSON blob as the answer string
-    const rawJson = JSON.stringify({
-      answer: "Here is your personalised plan summary.",
-      followUpQuestions: [],
-      proposedActions: [{ type: "none", reason: "test" }],
-      safetyNotes: [],
-    });
-
-    fetchMock.mockResolvedValueOnce(
-      createJsonResponse({
-        coach: makeCoachResponse({ answer: rawJson }),
-      }),
-    );
-
-    const user = userEvent.setup();
-    render(<CoachPlanWizard onPlanCreated={noop} onClose={noop} />);
-
-    await user.type(screen.getByPlaceholderText(/tell your coach/i), "Hi{Enter}");
-
-    // Should show the clean extracted text, not raw JSON
-    expect(await screen.findByText("Here is your personalised plan summary.")).toBeInTheDocument();
-    expect(screen.queryByText(/followUpQuestions/)).not.toBeInTheDocument();
-  });
-
   // ── Plan proposal ─────────────────────────────────────────────────────────
 
   it("renders the proposed plan card when the coach returns a create_plan action", async () => {
