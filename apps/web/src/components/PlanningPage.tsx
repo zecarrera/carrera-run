@@ -593,6 +593,7 @@ export function PlanningPage() {
                       <th>Date</th>
                       <th>Type</th>
                       <th>Details</th>
+                      <th>Notes</th>
                       <th>Status</th>
                       <th>Comment</th>
                       <th>Actions</th>
@@ -616,6 +617,7 @@ export function PlanningPage() {
                                 ? `${activity.distanceKm?.toFixed(1) ?? "-"} km • ${activity.paceMinPerKm?.toFixed(2) ?? "-"} min/km`
                                 : `${activity.durationMinutes ?? "-"} min`}
                             </td>
+                            <td className="activity-notes-cell">{activity.notes ?? "—"}</td>
                             <td>
                               <select
                                 value={draft.status}

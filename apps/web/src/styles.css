@@ -606,6 +606,13 @@ tbody tr.selected {
   font-size: 0.8rem;
 }
 
+.activity-notes-cell {
+  max-width: 200px;
+  white-space: normal;
+  color: rgba(17, 32, 49, 0.65);
+  font-size: 0.85rem;
+}
+
 .planning-feedback {
   padding: 0.95rem 1.1rem;
 }
