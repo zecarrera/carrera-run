@@ -365,12 +365,13 @@ export async function importPlan(input: ImportPlanInput): Promise<TrainingPlan> 
   await assertNoOverlappingPlan(input.userId, input.startDate, input.endDate);
 
   for (const activity of input.activities) {
+    if (!isValidIsoDate(activity.date)) {
       throw new Error('Activity date "' + activity.date + '" must use YYYY-MM-DD format.');
     }
     if (activity.date < input.startDate || activity.date > input.endDate) {
-      throw new Error('Activity date "' + activity.date + '" must be within the plan window (' + input.startDate + ' – ' + input.endDate + ').');
+      throw new Error('Activity date "' + activity.date + '" must be within the plan window (' + input.startDate + ' \u2013 ' + input.endDate + ').');
     }
-    ensureActivityForType(activity);
+    ensureActivityForType({ ...activity, status: activity.status ?? "not_started" } as PlanActivity);
   }
 
   const now = new Date();
