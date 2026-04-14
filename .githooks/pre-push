@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# Pre-push hook: build → test
+# Runs automatically before every `git push`.
+# Install once with: npm run prepare
+
+set -e
+
+echo "🔨  Building API (tsc)..."
+npm run build --workspace @carrera-run/api
+
+echo "🔨  Building Web (tsc + vite)..."
+npm run build --workspace @carrera-run/web
+
+echo "🧪  Running tests..."
+npm test --workspace @carrera-run/web
+
+echo "✅  All checks passed."

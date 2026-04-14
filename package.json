@@ -17,6 +17,8 @@
     "dev:local": "npm run mongo:start && npm run ollama:start && npm run dev",
     "dev": "concurrently \"npm run dev --workspace @carrera-run/api\" \"npm run dev --workspace @carrera-run/web\"",
     "build": "npm run build --workspace @carrera-run/api && npm run build --workspace @carrera-run/web",
+    "test": "npm test --workspace @carrera-run/web",
+    "prepare": "git config core.hooksPath .githooks",
     "start": "npm run start --workspace @carrera-run/api"
   },
   "engines": {
