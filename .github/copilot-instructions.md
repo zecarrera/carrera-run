@@ -13,15 +13,45 @@ Rules:
 - If you modify existing logic covered by a test, update the test.
 - If you add non-trivial logic (parsing, validation, business rules, state transitions), add a test.
 - Run existing tests before and after your change: `npm test --workspace @carrera-run/web`.
+- **Always review test files after completing a feature** — ask: "Does this change break existing tests? Are there untested code paths?"
 
-### 2. Documentation
+### 2. README
 
-Always check whether documentation needs updating:
+Always check `README.md` after every change and update it when:
 
-- **`README.md`** — Update when: environment variables change, new scripts are added, API endpoints change, setup steps change, or user-facing features are added/removed.
+- A new user-facing feature is added or removed
+- An API endpoint is added, changed, or removed
+- Environment variables change (also update `.env.example`)
+- Setup steps, scripts, or deployment instructions change
+- A new import/export format or data contract is introduced
+
+The README is the primary reference for developers and users — keep it accurate.
+
+### 3. Other documentation
+
 - **`.github/agents/`** — Update the relevant agent file when its scope, rules, or referenced knowledge changes.
 - **`.github/knowledge/`** — Update coaching methodology or athlete context files when coaching logic or domain rules change.
 - **`.env.example`** — Keep in sync with any new or changed environment variables.
+
+### 4. Skills files
+
+After completing a feature or significant change, review whether a new skills file is warranted:
+
+- Skills files live in `.github/skills/` and describe how to use a specific feature or workflow (e.g. how to build a training plan, how to interpret pace zones).
+- Create a new skill file when a feature is complex enough that a user or agent would benefit from structured guidance on how to use it.
+- Update an existing skill file when the underlying feature changes in a way that makes the guidance stale.
+- Ask yourself: "Would an AI agent or a new developer need step-by-step context to use this correctly?"
+
+### 5. Self-updating instructions
+
+After significant changes or repeated patterns observed across sessions, update this file (`copilot-instructions.md`) to capture:
+
+- New conventions adopted (naming, patterns, error handling)
+- New tools or libraries added to the stack
+- Lessons learned from bugs or regressions (e.g. a class of error to always guard against)
+- New rules requested by the team during chat interactions
+
+This keeps Copilot's behaviour consistent across sessions without needing to re-explain context.
 
 ## Repository overview
 
