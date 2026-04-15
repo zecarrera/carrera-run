@@ -228,7 +228,11 @@ describe("PlanningPage", () => {
   it("deletes a plan successfully and removes it from the list", async () => {
     fetchMock
       .mockResolvedValueOnce(createJsonResponse({ plans: [createdPlanFixture] }))
-      .mockResolvedValueOnce({ ok: true, json: vi.fn() } as unknown as Response);
+      .mockResolvedValueOnce({
+        ok: true,
+        status: 204,
+        json: vi.fn().mockRejectedValue(new SyntaxError("no body")),
+      } as unknown as Response);
 
     vi.stubGlobal("confirm", vi.fn().mockReturnValue(true));
 
