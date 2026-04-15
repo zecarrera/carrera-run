@@ -6,3 +6,4 @@ apps/api/.env
 coverage
 z_extra_files/
 *.tsbuildinfo
+figma/
