@@ -734,6 +734,37 @@ tbody tr.selected {
     padding: 1rem 0 2rem;
   }
 
+  /* Header: stack nav below logo + disconnect */
+  .header-inner {
+    flex-wrap: wrap;
+    gap: 0.4rem 0.75rem;
+    padding: 0.5rem 0;
+  }
+
+  .header-logo {
+    order: 1;
+    flex: 1;
+  }
+
+  .header-inner > form {
+    order: 2;
+  }
+
+  .header-nav {
+    order: 3;
+    width: 100%;
+    flex: none;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .nav-link {
+    flex: 1;
+    text-align: center;
+    padding: 0.45rem 0.3rem;
+    font-size: 0.8rem;
+  }
+
   .hero-card,
   .panel,
   .summary-card {
@@ -767,6 +798,71 @@ tbody tr.selected {
   .planning-form button {
     width: 100%;
     justify-self: stretch;
+  }
+
+  /* Touch targets */
+  .action-btn {
+    min-height: 44px;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.82rem;
+  }
+
+  .plan-delete-btn {
+    min-height: 44px;
+  }
+
+  /* Plan list: allow wrapping on very narrow screens */
+  .plan-list-row {
+    flex-wrap: wrap;
+  }
+
+  /* Activities table: hide Elevation column */
+  .hide-mobile {
+    display: none;
+  }
+
+  /* Planning activities table: card layout */
+  .plan-activities-table thead {
+    display: none;
+  }
+
+  .plan-activities-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 0.75rem 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 12px;
+    background: rgba(17, 32, 49, 0.03);
+    border-bottom: 1px solid rgba(17, 32, 49, 0.06);
+    row-gap: 0.4rem;
+  }
+
+  .plan-activities-table td {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    align-items: start;
+    padding: 0.1rem 0;
+    border-bottom: none;
+    gap: 0.4rem;
+  }
+
+  .plan-activities-table td::before {
+    content: attr(data-label);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: rgba(17, 32, 49, 0.5);
+    font-weight: 600;
+    padding-top: 0.2rem;
+  }
+
+  /* Actions cell spans full width with no label */
+  .plan-activities-table td[data-label="Actions"] {
+    grid-template-columns: 1fr;
+  }
+
+  .plan-activities-table td[data-label="Actions"]::before {
+    display: none;
   }
 }
 
@@ -1023,5 +1119,12 @@ tbody tr.selected {
   .coach-plan-actions button {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Also hide Pace column on very small screens */
+  .hide-xs {
+    display: none;
   }
 }

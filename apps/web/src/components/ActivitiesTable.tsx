@@ -26,9 +26,9 @@ export function ActivitiesTable({ activities, onSelect, selectedActivityId, page
               <th>Date</th>
               <th>Name</th>
               <th>Distance</th>
-              <th>Pace</th>
+              <th className="hide-xs">Pace</th>
               <th>Time</th>
-              <th>Elevation</th>
+              <th className="hide-mobile">Elevation</th>
             </tr>
           </thead>
           <tbody>
@@ -44,9 +44,9 @@ export function ActivitiesTable({ activities, onSelect, selectedActivityId, page
                   <div className="subtle">{activity.type}</div>
                 </td>
                 <td>{formatDistance(activity.distanceKm)}</td>
-                <td>{formatPace(activity.averagePaceSecondsPerKm)}</td>
+                <td className="hide-xs">{formatPace(activity.averagePaceSecondsPerKm)}</td>
                 <td>{formatDuration(activity.movingTimeSeconds)}</td>
-                <td>{Math.round(activity.elevationGainMeters)} m</td>
+                <td className="hide-mobile">{Math.round(activity.elevationGainMeters)} m</td>
               </tr>
             ))}
           </tbody>

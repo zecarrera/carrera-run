@@ -589,7 +589,7 @@ export function PlanningPage() {
               <p className="subtle">No activities in this plan yet.</p>
             ) : (
               <div className="table-wrap">
-                <table>
+                <table className="plan-activities-table">
                   <thead>
                     <tr>
                       <th>Date</th>
@@ -612,15 +612,15 @@ export function PlanningPage() {
 
                         return (
                           <tr key={activity.id}>
-                            <td>{formatDate(activity.date)}</td>
-                            <td>{activity.type}</td>
-                            <td>
+                            <td data-label="Date">{formatDate(activity.date)}</td>
+                            <td data-label="Type">{activity.type}</td>
+                            <td data-label="Details">
                               {activity.type === "Run"
                                 ? `${activity.distanceKm?.toFixed(1) ?? "-"} km • ${activity.paceMinPerKm?.toFixed(2) ?? "-"} min/km`
                                 : `${activity.durationMinutes ?? "-"} min`}
                             </td>
-                            <td className="activity-notes-cell">{activity.notes ?? "—"}</td>
-                            <td>
+                            <td data-label="Notes" className="activity-notes-cell">{activity.notes ?? "—"}</td>
+                            <td data-label="Status">
                               <select
                                 value={draft.status}
                                 onChange={(event) =>
@@ -636,7 +636,7 @@ export function PlanningPage() {
                                 ))}
                               </select>
                             </td>
-                            <td>
+                            <td data-label="Comment">
                               <input
                                 value={draft.comment}
                                 placeholder={
@@ -649,7 +649,7 @@ export function PlanningPage() {
                                 }
                               />
                             </td>
-                            <td>
+                            <td data-label="Actions">
                               <button
                                 className="button-secondary planning-action-btn"
                                 type="button"
