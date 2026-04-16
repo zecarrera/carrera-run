@@ -1,0 +1,492 @@
+{
+  "raceName": "TestMarathon",
+  "raceDistanceKm": 42,
+  "startDate": "2026-04-15",
+  "endDate": "2026-07-12",
+  "activities": [
+    {
+      "date": "2026-04-15",
+      "type": "Run",
+      "distanceKm": 8,
+      "paceMinPerKm": 6.3,
+      "notes": "[BASE W1] Easy aerobic run (Z1). Conversational pace, relaxed effort. Form cues: relax shoulders, shorten stride if HR drifts."
+    },
+    {
+      "date": "2026-04-16",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 6.3,
+      "notes": "[BASE W1] Easy aerobic run (Z1)."
+    },
+    {
+      "date": "2026-04-16",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-04-18",
+      "type": "Run",
+      "distanceKm": 13,
+      "paceMinPerKm": 6.2,
+      "notes": "[BASE W1] Long run (Z3 aerobic). Smooth, even effort. Do not finish fast."
+    },
+    {
+      "date": "2026-04-20",
+      "type": "Run",
+      "distanceKm": 8,
+      "paceMinPerKm": 6.3,
+      "notes": "[BASE W2] Easy run (Z1). Keep fully aerobic."
+    },
+    {
+      "date": "2026-04-21",
+      "type": "Strength",
+      "durationMinutes": 45
+    },
+    {
+      "date": "2026-04-22",
+      "type": "Run",
+      "distanceKm": 9,
+      "paceMinPerKm": 6.3,
+      "notes": "[BASE W2] Easy run (Z1). Optional: 6×15s relaxed strides at the very end (not sprints)."
+    },
+    {
+      "date": "2026-04-23",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 6.3,
+      "notes": "[BASE W2] Easy aerobic run (Z1)."
+    },
+    {
+      "date": "2026-04-23",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-04-25",
+      "type": "Run",
+      "distanceKm": 14,
+      "paceMinPerKm": 6.2,
+      "notes": "[BASE W2] Long run (Z3). Build from 13→14 km. Even pace throughout."
+    },
+    {
+      "date": "2026-04-27",
+      "type": "Run",
+      "distanceKm": 8,
+      "paceMinPerKm": 6.3,
+      "notes": "[BASE W3] Easy run (Z1)."
+    },
+    {
+      "date": "2026-04-28",
+      "type": "Strength",
+      "durationMinutes": 45
+    },
+    {
+      "date": "2026-04-29",
+      "type": "Run",
+      "distanceKm": 10,
+      "paceMinPerKm": 5.9,
+      "notes": "[BASE W3] Aerobic fartlek — base phase quality: 2 km easy WU + 8×1 min float (5:35/km) / 2 min easy jog + 2 km CD. Total effort stays aerobic, RPE 5–6/10. NOT threshold."
+    },
+    {
+      "date": "2026-04-30",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 6.3,
+      "notes": "[BASE W3] Easy recovery run (Z1)."
+    },
+    {
+      "date": "2026-04-30",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-05-02",
+      "type": "Run",
+      "distanceKm": 15,
+      "paceMinPerKm": 6.2,
+      "notes": "[BASE W3] Long run (Z3). Longest so far. Maintain aerobic control to the finish."
+    },
+    {
+      "date": "2026-05-04",
+      "type": "Run",
+      "distanceKm": 6,
+      "paceMinPerKm": 6.3,
+      "notes": "[BASE W4 — DOWN] Easy run. Volume reduced ~30% this week for absorption."
+    },
+    {
+      "date": "2026-05-05",
+      "type": "Strength",
+      "durationMinutes": 35
+    },
+    {
+      "date": "2026-05-06",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 6.3,
+      "notes": "[BASE W4 — DOWN] Easy aerobic run. Keep it light."
+    },
+    {
+      "date": "2026-05-07",
+      "type": "Run",
+      "distanceKm": 6,
+      "paceMinPerKm": 6.3,
+      "notes": "[BASE W4 — DOWN] Easy run."
+    },
+    {
+      "date": "2026-05-07",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-05-09",
+      "type": "Run",
+      "distanceKm": 11,
+      "paceMinPerKm": 6.2,
+      "notes": "[BASE W4 — DOWN] Reduced long run for recovery. Strictly aerobic."
+    },
+    {
+      "date": "2026-05-11",
+      "type": "Run",
+      "distanceKm": 8,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W5] Easy run (Z1)."
+    },
+    {
+      "date": "2026-05-12",
+      "type": "Strength",
+      "durationMinutes": 45
+    },
+    {
+      "date": "2026-05-13",
+      "type": "Run",
+      "distanceKm": 10,
+      "paceMinPerKm": 5.3,
+      "notes": "[BUILD W5] First threshold session: 2 km easy WU + 2×10 min at threshold (4:55/km) with 3 min easy jog between + 2 km CD. RPE 7–8/10. ONE quality session only this week."
+    },
+    {
+      "date": "2026-05-14",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W5] Easy recovery run (Z1). Next day after threshold — keep it easy."
+    },
+    {
+      "date": "2026-05-14",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-05-16",
+      "type": "Run",
+      "distanceKm": 15,
+      "paceMinPerKm": 6.2,
+      "notes": "[BUILD W5] Long run (Z3). Even effort, no hard finish."
+    },
+    {
+      "date": "2026-05-18",
+      "type": "Run",
+      "distanceKm": 9,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W6] Easy run (Z1)."
+    },
+    {
+      "date": "2026-05-19",
+      "type": "Strength",
+      "durationMinutes": 45
+    },
+    {
+      "date": "2026-05-20",
+      "type": "Run",
+      "distanceKm": 11,
+      "paceMinPerKm": 5.2,
+      "notes": "[BUILD W6] Threshold: 2 km WU + 3×10 min at 4:55/km with 3 min easy jog + 2 km CD."
+    },
+    {
+      "date": "2026-05-21",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W6] Easy run."
+    },
+    {
+      "date": "2026-05-21",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-05-23",
+      "type": "Run",
+      "distanceKm": 16,
+      "paceMinPerKm": 6.2,
+      "notes": "[BUILD W6] Long run (Z3). First +15 km run. Keep aerobic."
+    },
+    {
+      "date": "2026-05-25",
+      "type": "Run",
+      "distanceKm": 9,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W7] Easy run."
+    },
+    {
+      "date": "2026-05-26",
+      "type": "Strength",
+      "durationMinutes": 45
+    },
+    {
+      "date": "2026-05-27",
+      "type": "Run",
+      "distanceKm": 12,
+      "paceMinPerKm": 5.2,
+      "notes": "[BUILD W7] Marathon-specific: 2 km WU + 3×3 km at marathon pace (5:15/km) with 1 km easy jog between + 1 km CD. Practise race rhythm."
+    },
+    {
+      "date": "2026-05-28",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W7] Easy recovery run."
+    },
+    {
+      "date": "2026-05-28",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-05-30",
+      "type": "Run",
+      "distanceKm": 17,
+      "paceMinPerKm": 6.2,
+      "notes": "[BUILD W7] Long run (Z3). Steady aerobic effort. Optional last 2 km at marathon pace if feeling good."
+    },
+    {
+      "date": "2026-06-01",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W8 — DOWN] Easy run. Volume cut ~30% this week."
+    },
+    {
+      "date": "2026-06-02",
+      "type": "Strength",
+      "durationMinutes": 35
+    },
+    {
+      "date": "2026-06-03",
+      "type": "Run",
+      "distanceKm": 8,
+      "paceMinPerKm": 5.8,
+      "notes": "[BUILD W8 — DOWN] Light fartlek: 2 km WU + 8×1 min float (5:20/km) / 2 min easy + 2 km CD. Keep it controlled."
+    },
+    {
+      "date": "2026-06-04",
+      "type": "Run",
+      "distanceKm": 6,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W8 — DOWN] Easy run."
+    },
+    {
+      "date": "2026-06-04",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-06-06",
+      "type": "Run",
+      "distanceKm": 13,
+      "paceMinPerKm": 6.2,
+      "notes": "[BUILD W8 — DOWN] Shorter long run for absorption."
+    },
+    {
+      "date": "2026-06-08",
+      "type": "Run",
+      "distanceKm": 9,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W9] Easy run."
+    },
+    {
+      "date": "2026-06-09",
+      "type": "Strength",
+      "durationMinutes": 45
+    },
+    {
+      "date": "2026-06-10",
+      "type": "Run",
+      "distanceKm": 12,
+      "paceMinPerKm": 5.1,
+      "notes": "[BUILD W9] Mixed quality: 2 km WU + 4×8 min threshold (4:55/km) / 2 min easy + 2×3 min VO2 effort (4:20/km) / 3 min jog + 2 km CD. 48–72 h from last hard session."
+    },
+    {
+      "date": "2026-06-11",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W9] Easy run."
+    },
+    {
+      "date": "2026-06-11",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-06-13",
+      "type": "Run",
+      "distanceKm": 18,
+      "paceMinPerKm": 6.2,
+      "notes": "[BUILD W9] Long run (Z3). First +17 km. Focus on aerobic comfort and fueling strategy."
+    },
+    {
+      "date": "2026-06-15",
+      "type": "Run",
+      "distanceKm": 10,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W10 — PEAK] Easy run."
+    },
+    {
+      "date": "2026-06-16",
+      "type": "Strength",
+      "durationMinutes": 45
+    },
+    {
+      "date": "2026-06-17",
+      "type": "Run",
+      "distanceKm": 13,
+      "paceMinPerKm": 5.0,
+      "notes": "[BUILD W10 — PEAK] Threshold: 2 km WU + 4×10 min at 4:55/km / 3 min easy jog + 2 km CD. Highest threshold volume so far."
+    },
+    {
+      "date": "2026-06-18",
+      "type": "Run",
+      "distanceKm": 8,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W10 — PEAK] Easy run."
+    },
+    {
+      "date": "2026-06-18",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-06-20",
+      "type": "Run",
+      "distanceKm": 19,
+      "paceMinPerKm": 6.2,
+      "notes": "[BUILD W10 — PEAK] Long run (Z3). Peak long run block. Practice mid-run fueling. Last 3 km at marathon pace (5:15/km) if comfortable."
+    },
+    {
+      "date": "2026-06-22",
+      "type": "Run",
+      "distanceKm": 10,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W11 — PEAK] Easy run."
+    },
+    {
+      "date": "2026-06-23",
+      "type": "Strength",
+      "durationMinutes": 45
+    },
+    {
+      "date": "2026-06-24",
+      "type": "Run",
+      "distanceKm": 13,
+      "paceMinPerKm": 5.2,
+      "notes": "[BUILD W11 — PEAK] Marathon-specific: 2 km WU + 2×5 km at marathon pace (5:15/km) / 1 km easy + 1 km CD. Key session: confirm race rhythm is sustainable."
+    },
+    {
+      "date": "2026-06-25",
+      "type": "Run",
+      "distanceKm": 8,
+      "paceMinPerKm": 6.3,
+      "notes": "[BUILD W11 — PEAK] Easy run. Last big week — soak it in."
+    },
+    {
+      "date": "2026-06-25",
+      "type": "Flexibility",
+      "durationMinutes": 20
+    },
+    {
+      "date": "2026-06-27",
+      "type": "Run",
+      "distanceKm": 20,
+      "paceMinPerKm": 6.2,
+      "notes": "[BUILD W11 — PEAK] Final peak long run 20 km. Controlled aerobic effort. Refine fueling plan. Do NOT finish hard."
+    },
+    {
+      "date": "2026-06-29",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 6.3,
+      "notes": "[TAPER W12] Easy run. Volume begins dropping. Feel the freshness returning."
+    },
+    {
+      "date": "2026-06-30",
+      "type": "Strength",
+      "durationMinutes": 30
+    },
+    {
+      "date": "2026-07-01",
+      "type": "Run",
+      "distanceKm": 9,
+      "paceMinPerKm": 5.1,
+      "notes": "[TAPER W12] Quality maintained, volume shorter: 2 km WU + 3×8 min at threshold (4:55/km) / 3 min easy + 2 km CD. Intensity preserved per C&P polimento principle."
+    },
+    {
+      "date": "2026-07-02",
+      "type": "Run",
+      "distanceKm": 5,
+      "paceMinPerKm": 6.3,
+      "notes": "[TAPER W12] Easy shakeout."
+    },
+    {
+      "date": "2026-07-02",
+      "type": "Flexibility",
+      "durationMinutes": 15
+    },
+    {
+      "date": "2026-07-04",
+      "type": "Run",
+      "distanceKm": 14,
+      "paceMinPerKm": 6.2,
+      "notes": "[TAPER W12] Reduced long run (14 km from 20 km peak). Keep aerobic pace — no heroics."
+    },
+    {
+      "date": "2026-07-06",
+      "type": "Run",
+      "distanceKm": 5,
+      "paceMinPerKm": 6.3,
+      "notes": "[TAPER W13] Easy run. Legs feel flat — normal. Trust the process."
+    },
+    {
+      "date": "2026-07-08",
+      "type": "Run",
+      "distanceKm": 7,
+      "paceMinPerKm": 5.2,
+      "notes": "[TAPER W13] Short quality: 2 km WU + 3×6 min at marathon-to-threshold feel (5:00–5:15/km) / 3 min easy + 2 km CD. Keep the edge sharp, volume minimal."
+    },
+    {
+      "date": "2026-07-09",
+      "type": "Run",
+      "distanceKm": 4,
+      "paceMinPerKm": 6.3,
+      "notes": "[TAPER W13] Very easy shakeout + 3×15s relaxed strides at the end."
+    },
+    {
+      "date": "2026-07-09",
+      "type": "Flexibility",
+      "durationMinutes": 15
+    },
+    {
+      "date": "2026-07-11",
+      "type": "Run",
+      "distanceKm": 3,
+      "paceMinPerKm": 6.3,
+      "notes": "[TAPER W13] Pre-race shakeout only. 3 km, very relaxed. Sleep and hydration are your priority today."
+    },
+    {
+      "date": "2026-07-12",
+      "type": "Run",
+      "distanceKm": 42,
+      "paceMinPerKm": 5.25,
+      "notes": "[RACE DAY] TestMarathon. Strategy: start at 5:18–5:20/km for first 10 km, settle to 5:15/km from km 10–30, then run by feel. Fuel every 30–40 min from km 5 onwards. Stay patient — the race starts at km 30."
+    }
+  ]
+}

@@ -44,15 +44,17 @@ describe("PlanningPage", () => {
     const user = userEvent.setup();
     render(<PlanningPage />);
 
-    await screen.findByText("Build your training plan.");
+    await screen.findByText("Training Plans");
+
+    // Open create plan modal
+    await user.click(screen.getByRole("button", { name: /create plan/i }));
 
     await user.type(screen.getByLabelText("Race name"), "  Spring Marathon  ");
     await user.type(screen.getByLabelText("Race distance (km)"), "42.2");
     await user.type(screen.getByLabelText("Start date"), "2026-04-01");
     await user.type(screen.getByLabelText("Race date (end date)"), "2026-08-01");
 
-    const createPlanButton = screen.getByRole("button", { name: "Create plan" });
-    const createPlanForm = createPlanButton.closest("form");
+    const createPlanForm = screen.getByLabelText("Race name").closest("form");
     expect(createPlanForm).not.toBeNull();
     fireEvent.submit(createPlanForm!);
 
@@ -92,19 +94,21 @@ describe("PlanningPage", () => {
     const user = userEvent.setup();
     render(<PlanningPage />);
 
-    await screen.findByText("Build your training plan.");
+    await screen.findByText("Training Plans");
+
+    // Open create plan modal
+    await user.click(screen.getByRole("button", { name: /create plan/i }));
 
     await user.type(screen.getByLabelText("Race name"), "Spring Marathon");
     await user.type(screen.getByLabelText("Race distance (km)"), "42.2");
     await user.type(screen.getByLabelText("Start date"), "2026-08-01");
     await user.type(screen.getByLabelText("Race date (end date)"), "2026-04-01");
 
-    const createPlanButton = screen.getByRole("button", { name: "Create plan" });
-    const createPlanForm = createPlanButton.closest("form");
+    const createPlanForm = screen.getByLabelText("Race name").closest("form");
     expect(createPlanForm).not.toBeNull();
     fireEvent.submit(createPlanForm!);
 
-    expect(await screen.findByText("Race date must be after start date.")).toBeInTheDocument();
+    expect(await screen.findAllByText("Race date must be after start date.")).not.toHaveLength(0);
     expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
@@ -113,8 +117,8 @@ describe("PlanningPage", () => {
   it("shows the import button on the page", async () => {
     fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [] }));
     render(<PlanningPage />);
-    await screen.findByText("Build your training plan.");
-    expect(screen.getByRole("button", { name: /import json/i })).toBeInTheDocument();
+    await screen.findByText("Training Plans");
+    expect(screen.getByRole("button", { name: /import plan/i })).toBeInTheDocument();
   });
 
   it("imports a plan successfully from a JSON file", async () => {
@@ -129,7 +133,7 @@ describe("PlanningPage", () => {
       .mockResolvedValueOnce(createJsonResponse({ plan: importedPlan }));
 
     render(<PlanningPage />);
-    await screen.findByText("Build your training plan.");
+    await screen.findByText("Training Plans");
 
     const jsonContent = JSON.stringify({
       raceName: "Imported Marathon",
@@ -154,7 +158,7 @@ describe("PlanningPage", () => {
   it("shows an error when the imported file is not valid JSON", async () => {
     fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [] }));
     render(<PlanningPage />);
-    await screen.findByText("Build your training plan.");
+    await screen.findByText("Training Plans");
 
     const file = new File(["not json at all"], "bad.json", { type: "application/json" });
     const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]')!;
@@ -166,7 +170,7 @@ describe("PlanningPage", () => {
   it("shows an error when the imported JSON is missing required fields", async () => {
     fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [] }));
     render(<PlanningPage />);
-    await screen.findByText("Build your training plan.");
+    await screen.findByText("Training Plans");
 
     const file = new File(['{"raceName":"Test"}'], "incomplete.json", { type: "application/json" });
     const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]')!;
@@ -181,7 +185,7 @@ describe("PlanningPage", () => {
       .mockResolvedValueOnce(createJsonResponse({ message: "User can only have one active plan at a time." }, false));
 
     render(<PlanningPage />);
-    await screen.findByText("Build your training plan.");
+    await screen.findByText("Training Plans");
 
     const jsonContent = JSON.stringify({
       raceName: "Conflicting Marathon",
@@ -202,8 +206,12 @@ describe("PlanningPage", () => {
   it("shows a delete button for each plan", async () => {
     fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [createdPlanFixture] }));
 
+    const user = userEvent.setup();
     render(<PlanningPage />);
     await screen.findByText("Spring Marathon");
+
+    // Navigate to plan detail view
+    await user.click(screen.getAllByRole("button").find((b) => b.textContent?.includes("Spring Marathon"))!);
 
     expect(
       screen.getByRole("button", { name: `Delete ${createdPlanFixture.raceName}` }),
@@ -218,11 +226,14 @@ describe("PlanningPage", () => {
     render(<PlanningPage />);
     await screen.findByText("Spring Marathon");
 
+    // Navigate to plan detail view
+    await user.click(screen.getAllByRole("button").find((b) => b.textContent?.includes("Spring Marathon"))!);
+
     await user.click(screen.getByRole("button", { name: `Delete ${createdPlanFixture.raceName}` }));
 
     // No DELETE call should have been made
     expect(fetchMock).toHaveBeenCalledTimes(1);
-    expect(screen.getByText("Spring Marathon")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Spring Marathon");
   });
 
   it("deletes a plan successfully and removes it from the list", async () => {
@@ -240,10 +251,14 @@ describe("PlanningPage", () => {
     render(<PlanningPage />);
     await screen.findByText("Spring Marathon");
 
+    // Navigate to plan detail view
+    await user.click(screen.getAllByRole("button").find((b) => b.textContent?.includes("Spring Marathon"))!);
+
     await user.click(screen.getByRole("button", { name: `Delete ${createdPlanFixture.raceName}` }));
 
+    // After delete, navigates back to list — plan should be gone
     await waitFor(() => {
-      expect(screen.queryByText("Spring Marathon")).not.toBeInTheDocument();
+      expect(screen.queryByRole("heading", { level: 1, name: "Spring Marathon" })).not.toBeInTheDocument();
     });
 
     expect(await screen.findByText(/deleted/i)).toBeInTheDocument();
@@ -264,9 +279,13 @@ describe("PlanningPage", () => {
     render(<PlanningPage />);
     await screen.findByText("Spring Marathon");
 
+    // Navigate to plan detail view
+    await user.click(screen.getAllByRole("button").find((b) => b.textContent?.includes("Spring Marathon"))!);
+
     await user.click(screen.getByRole("button", { name: `Delete ${createdPlanFixture.raceName}` }));
 
     expect(await screen.findByText("Plan not found.")).toBeInTheDocument();
-    expect(screen.getByText("Spring Marathon")).toBeInTheDocument();
+    // Still on detail view after failed delete
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Spring Marathon");
   });
 });
