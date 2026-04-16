@@ -1,33 +1,19 @@
 :root {
-  /* ── Design tokens (Figma theme + logo colours) ─────────────────────── */
-  --bg: #0a0a0a;
-  --bg-surface: #1a1a1a;
-  --bg-surface-hover: #252525;
-  --bg-input: #2a2a2a;
+  /* ── Design tokens (dark neutral theme — matches Figma screenshots) ── */
+  --bg: #161616;               /* page / body background */
+  --bg-surface: #222222;       /* card / panel surface */
+  --bg-surface-hover: #2a2a2a; /* hover state for surfaces */
+  --bg-input: #1c1c1c;         /* input backgrounds */
   --fg: #ffffff;
-  --fg-muted: #a0a0a0;
-  --primary: #fc5200;
+  --fg-muted: #909090;
+  --primary: #fc5200;          /* logo orange */
   --primary-light: #ff7a3c;
-  --accent: #00c4e6;
-  --border: #2a2a2a;
-  --border-mid: #333333;
+  --accent: #00c4e6;           /* logo cyan */
+  --border: #2d2d2d;
+  --border-mid: #3a3a3a;
   --destructive: #ef4444;
-  --shadow: rgba(0, 0, 0, 0.4);
-  /* ─────────────────────────────────────────────────────────────────────── */
-  --bg: #141e2d;                       /* logo badge navy */
-  --bg-surface: rgba(28, 42, 58, 0.85); /* panel / card */
-  --bg-surface-hover: rgba(35, 52, 72, 0.9);
-  --bg-input: rgba(15, 24, 38, 0.85);
-  --fg: #f0f4f8;                       /* near-white text */
-  --fg-muted: #8fa3b8;                 /* secondary text */
-  --primary: #fc5200;                  /* logo orange (Figma primary) */
-  --primary-light: #ff7a3c;            /* gradient end */
-  --accent: #00c4e6;                   /* logo cyan speed lines */
-  --border: rgba(255, 255, 255, 0.08);
-  --border-mid: rgba(255, 255, 255, 0.14);
-  --destructive: #ef4444;
-  --shadow: rgba(0, 0, 0, 0.3);
-  /* ─────────────────────────────────────────────────────────────────────── */
+  --shadow: rgba(0, 0, 0, 0.5);
+  /* ─────────────────────────────────────────────────────────────────── */
 
   font-family: "Avenir Next", "Segoe UI", sans-serif;
   color: var(--fg);
@@ -1418,7 +1404,7 @@ tbody tr.selected {
 
 .progress-track {
   height: 6px;
-  background: #2a2a2a;
+  background: var(--bg-surface-hover);
   border-radius: 999px;
   margin-bottom: 1rem;
   overflow: hidden;
@@ -1694,6 +1680,11 @@ tbody tr.selected {
   color: var(--fg-muted);
 }
 
+/* card-actions-row (text row below meta) is never shown — icon buttons in card-actions handle both layouts */
+.card-actions-row {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .dashboard {
     padding: 1.25rem 1rem 2rem;
@@ -1703,24 +1694,27 @@ tbody tr.selected {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* On mobile, card actions go below instead of right side */
+  /* On mobile, keep action buttons on the right side as icon-only squares */
   .plan-activity-card-top {
-    flex-direction: column;
     align-items: flex-start;
   }
 
   .card-actions {
-    display: none;
+    gap: 0.25rem;
   }
 
-  .card-actions-row {
-    display: flex;
+  .card-action-btn {
+    min-width: 32px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    font-size: 0; /* hide text label, keep icon */
   }
-}
 
-@media (min-width: 769px) {
-  .card-actions-row {
-    display: none;
+  .card-action-btn svg {
+    width: 15px;
+    height: 15px;
+    opacity: 1;
   }
 }
 
