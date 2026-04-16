@@ -2627,3 +2627,322 @@ tbody tr.selected {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================
+   Activities page
+   ============================================================ */
+
+.activities-page {
+  padding: 1.5rem 2rem;
+  max-width: 1100px;
+  width: 100%;
+}
+
+.activities-page-header {
+  margin-bottom: 1.5rem;
+}
+
+.activities-page-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+  color: var(--fg);
+}
+
+.activities-page-header p {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.activities-status-msg {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+}
+
+.activities-status-msg.error {
+  color: var(--destructive);
+}
+
+/* Stats row */
+.activities-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.activity-stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.activity-stat-value {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.1;
+}
+
+.activity-stat-label {
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Filter row */
+.activities-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.activities-filter-toggle {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--fg-muted);
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.activities-filter-toggle:hover {
+  background: var(--bg-surface-hover);
+  color: var(--fg);
+}
+
+.activities-filter-toggle.active {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.filter-active-dot {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.activities-loading-inline {
+  font-size: 0.82rem;
+  color: var(--fg-muted);
+}
+
+/* Filter panel */
+.activities-filter-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.activities-filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.activities-filter-field input,
+.activities-filter-field select {
+  background: var(--bg-input);
+  border: 1px solid var(--border-mid);
+  color: var(--fg);
+  padding: 0.4rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  min-width: 130px;
+}
+
+.activities-filter-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-self: flex-end;
+}
+
+/* Activity list */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.activity-list-empty {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+  padding: 1rem 0;
+}
+
+.activity-list-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem 1.25rem;
+  transition: border-color 0.15s;
+}
+
+.activity-list-card:hover {
+  border-color: var(--border-mid);
+}
+
+.activity-list-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.activity-list-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.activity-list-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.activity-list-date {
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--bg-input);
+  color: var(--fg-muted);
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.activity-view-btn {
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-mid);
+  color: var(--fg);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.3rem 0.9rem;
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.1s, border-color 0.1s;
+}
+
+.activity-view-btn:hover {
+  background: var(--border-mid);
+  border-color: var(--fg-muted);
+}
+
+.activity-list-card-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+  flex-wrap: wrap;
+}
+
+.activity-list-card-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.activity-list-card-meta strong {
+  color: var(--fg);
+}
+
+/* Pagination */
+.activities-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.activities-pagination-btn {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-mid);
+  color: var(--fg);
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.1s;
+}
+
+.activities-pagination-btn:hover {
+  background: var(--bg-surface-hover);
+}
+
+.activities-pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.activities-pagination-page {
+  font-size: 0.85rem;
+  color: var(--fg-muted);
+}
+
+/* Responsive — activities */
+@media (max-width: 640px) {
+  .activities-page {
+    padding: 1rem;
+  }
+
+  .activities-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .activity-stat-value {
+    font-size: 1.5rem;
+  }
+
+  .activity-list-card {
+    padding: 0.8rem 1rem;
+  }
+
+  .activity-list-card-meta {
+    gap: 1rem;
+  }
+
+  .activities-filter-panel {
+    flex-direction: column;
+  }
+
+  .activities-filter-field input,
+  .activities-filter-field select {
+    min-width: unset;
+    width: 100%;
+  }
+}
