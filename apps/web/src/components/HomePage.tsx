@@ -1,52 +1,32 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { formatDate, formatDistance, formatDuration } from "../lib/format";
+import { formatDuration } from "../lib/format";
 import type { Activity, ActivityStatus, AthleteSummary, PlanActivity, TrainingPlan } from "../types";
 
 type HomePageProps = {
   summary: AthleteSummary;
 };
 
-type MonthTotals = {
+type WeekTotals = {
   runs: number;
   distanceKm: number;
   movingTimeSeconds: number;
   elevationGainMeters: number;
 };
 
-const STATUS_LABELS: Record<string, string> = {
-  not_started: "Not started",
-  completed: "Completed",
-  completed_with_changes: "Modified",
-  skipped: "Skipped",
-};
-
-function getMonthStart(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  return `${year}-${month}-01`;
-}
-
-function getMonthEnd(): string {
-  const now = new Date();
-  return now.toISOString().slice(0, 10);
-}
-
 function getWeekBounds(): { start: string; end: string } {
   const now = new Date();
   const day = now.getDay();
-  const diffToMonday = (day === 0 ? -6 : 1 - day);
+  const diffToMonday = day === 0 ? -6 : 1 - day;
   const monday = new Date(now);
   monday.setDate(now.getDate() + diffToMonday);
   const sunday = new Date(monday);
   sunday.setDate(monday.getDate() + 6);
-
   const fmt = (d: Date) => d.toISOString().slice(0, 10);
   return { start: fmt(monday), end: fmt(sunday) };
 }
 
-function computeMonthTotals(activities: Activity[]): MonthTotals {
+function computeWeekTotals(activities: Activity[]): WeekTotals {
   const runs = activities.filter((a) => a.type.toLowerCase().includes("run"));
   return runs.reduce(
     (acc, run) => ({
@@ -59,45 +39,243 @@ function computeMonthTotals(activities: Activity[]): MonthTotals {
   );
 }
 
-function getMonthLabel(): string {
-  return new Date().toLocaleString("default", { month: "long", year: "numeric" });
+function getTodayLabel(): string {
+  return new Date().toLocaleDateString("default", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 }
 
-export function HomePage({ summary }: HomePageProps) {
-  const [monthTotals, setMonthTotals] = useState<MonthTotals | null>(null);
+function getDayName(dateStr: string): string {
+  return new Date(dateStr + "T12:00:00").toLocaleDateString("default", { weekday: "long" });
+}
+
+/** Parse notes into title + description.
+ *  If notes has " - " or ": " split there, otherwise use type as title. */
+function parseActivityLabel(activity: PlanActivity): { title: string; desc: string } {
+  const notes = activity.notes ?? "";
+  const colonIdx = notes.indexOf(": ");
+  const dashIdx = notes.indexOf(" - ");
+  const splitIdx = colonIdx !== -1 ? colonIdx : dashIdx !== -1 ? dashIdx : -1;
+  if (splitIdx !== -1) {
+    return {
+      title: notes.slice(0, splitIdx).trim(),
+      desc: notes.slice(splitIdx + (colonIdx !== -1 ? 2 : 3)).trim(),
+    };
+  }
+  return { title: activity.type, desc: notes };
+}
+
+/* ── Icon components ──────────────────────────────────────────────────────── */
+
+function CalendarIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  );
+}
+
+function DistanceIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+      <polyline points="17 6 23 6 23 12" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+  );
+}
+
+function CheckCircleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="9 12 11 14 15 10" />
+    </svg>
+  );
+}
+
+function XIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
+}
+
+function EditIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+    </svg>
+  );
+}
+
+/* ── Activity card ────────────────────────────────────────────────────────── */
+
+function ActivityCard({
+  activity,
+  isNext,
+  isBusy,
+  showComment,
+  commentDraft,
+  onDone,
+  onSkip,
+  onPartial,
+  onCommentChange,
+  onCommentSave,
+  onCommentCancel,
+}: {
+  activity: PlanActivity;
+  isNext: boolean;
+  isBusy: boolean;
+  showComment: boolean;
+  commentDraft: string;
+  onDone: () => void;
+  onSkip: () => void;
+  onPartial: () => void;
+  onCommentChange: (v: string) => void;
+  onCommentSave: () => void;
+  onCommentCancel: () => void;
+}) {
+  const { title, desc } = parseActivityLabel(activity);
+  const isActioned = activity.status !== "not_started";
+  const isCompleted =
+    activity.status === "completed" || activity.status === "completed_with_changes";
+
+  const metaItems = [
+    { icon: <CalendarIcon />, label: getDayName(activity.date) },
+    ...(activity.distanceKm != null
+      ? [{ icon: <DistanceIcon />, label: `${activity.distanceKm.toFixed(0)} km` }]
+      : []),
+    ...(activity.durationMinutes != null
+      ? [{ icon: <ClockIcon />, label: `${activity.durationMinutes} min` }]
+      : []),
+  ];
+
+  const actionButtons = !isActioned && (
+    <>
+      <button type="button" className="card-action-btn card-action-btn--done" disabled={isBusy} onClick={onDone}>
+        <CheckCircleIcon /> Done
+      </button>
+      <button type="button" className="card-action-btn card-action-btn--skip" disabled={isBusy} onClick={onSkip}>
+        <XIcon /> Skip
+      </button>
+      <button type="button" className="card-action-btn card-action-btn--partial" disabled={isBusy} onClick={onPartial}>
+        <EditIcon /> Partially Done
+      </button>
+    </>
+  );
+
+  return (
+    <div className={`plan-activity-card${isNext ? " is-next" : ""}`}>
+      <div className="plan-activity-card-top">
+        <div className="plan-activity-card-title-row">
+          {isNext && <span className="badge-next">Next Activity</span>}
+          {isCompleted && (
+            <span className="badge-completed">
+              <CheckCircleIcon /> Completed
+            </span>
+          )}
+          <h3 className="plan-activity-card-title">{title}</h3>
+        </div>
+        {/* Desktop actions — stacked column on right */}
+        {!isActioned && <div className="card-actions">{actionButtons}</div>}
+      </div>
+
+      {desc && <p className="plan-activity-card-desc">{desc}</p>}
+
+      <div className="plan-activity-card-meta">
+        {metaItems.map((item, i) => (
+          <span key={i} className="plan-activity-card-meta-item">
+            {item.icon}
+            {item.label}
+          </span>
+        ))}
+      </div>
+
+      {/* Mobile actions — row below meta */}
+      {!isActioned && <div className="card-actions-row">{actionButtons}</div>}
+
+      {/* Comment input for Partially Done */}
+      {showComment && (
+        <div className="card-comment-row">
+          <input
+            type="text"
+            placeholder="What changed? (required)"
+            value={commentDraft}
+            onChange={(e) => onCommentChange(e.target.value)}
+            autoFocus
+          />
+          <button
+            type="button"
+            className="card-action-btn card-action-btn--done"
+            disabled={isBusy || !commentDraft.trim()}
+            onClick={onCommentSave}
+          >
+            {isBusy ? "Saving…" : "Save"}
+          </button>
+          <button type="button" className="card-action-btn card-action-btn--skip" onClick={onCommentCancel}>
+            Cancel
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Main component ───────────────────────────────────────────────────────── */
+
+export function HomePage(_props: HomePageProps) {
+  const [weekTotals, setWeekTotals] = useState<WeekTotals | null>(null);
   const [activePlan, setActivePlan] = useState<TrainingPlan | null>(null);
   const [weekActivities, setWeekActivities] = useState<PlanActivity[]>([]);
-  const [isLoadingMonth, setIsLoadingMonth] = useState(true);
   const [isLoadingWeek, setIsLoadingWeek] = useState(true);
   const [updatingActivityId, setUpdatingActivityId] = useState<string | null>(null);
   const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({});
   const [showCommentFor, setShowCommentFor] = useState<string | null>(null);
 
+  // Fetch this week's Strava activities for progress bars + stats
   useEffect(() => {
     const load = async () => {
       try {
-        const after = getMonthStart();
-        const before = getMonthEnd();
-        const response = await fetch(
-          `/api/activities?page=1&perPage=100&after=${encodeURIComponent(after)}&before=${encodeURIComponent(before)}`,
-          { credentials: "include" }
+        const { start, end } = getWeekBounds();
+        const res = await fetch(
+          `/api/activities?page=1&perPage=100&after=${encodeURIComponent(start)}&before=${encodeURIComponent(end)}`,
+          { credentials: "include" },
         );
-        if (!response.ok) return;
-        const payload = (await response.json()) as { activities: Activity[] };
-        setMonthTotals(computeMonthTotals(payload.activities));
-      } finally {
-        setIsLoadingMonth(false);
+        if (!res.ok) return;
+        const payload = (await res.json()) as { activities: Activity[] };
+        setWeekTotals(computeWeekTotals(payload.activities));
+      } catch {
+        // non-critical
       }
     };
     void load();
   }, []);
 
+  // Fetch plan + week activities
   useEffect(() => {
     const load = async () => {
       try {
-        const response = await fetch("/api/plans", { credentials: "include" });
-        if (!response.ok) return;
-        const payload = (await response.json()) as { plans: TrainingPlan[] };
+        const res = await fetch("/api/plans", { credentials: "include" });
+        if (!res.ok) return;
+        const payload = (await res.json()) as { plans: TrainingPlan[] };
         const plan =
           payload.plans.find((p) => p.status === "active") ??
           payload.plans.find((p) => p.status === "upcoming");
@@ -123,198 +301,161 @@ export function HomePage({ summary }: HomePageProps) {
     if (!activePlan) return;
     setUpdatingActivityId(activity.id);
     try {
-      const response = await fetch(
-        `/api/plans/${activePlan.id}/activities/${activity.id}`,
-        {
-          method: "PATCH",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status, comment: comment ?? "" }),
-        },
-      );
-      if (!response.ok) return;
-      const result = (await response.json()) as { plan: TrainingPlan };
-      // Refresh the week activities from the updated plan
+      const res = await fetch(`/api/plans/${activePlan.id}/activities/${activity.id}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status, comment: comment ?? "" }),
+      });
+      if (!res.ok) return;
+      const result = (await res.json()) as { plan: TrainingPlan };
       const { start, end } = getWeekBounds();
-      const updated = [...result.plan.activities]
-        .filter((a) => a.date >= start && a.date <= end)
-        .sort((a, b) => a.date.localeCompare(b.date));
-      setWeekActivities(updated);
+      setWeekActivities(
+        [...result.plan.activities]
+          .filter((a) => a.date >= start && a.date <= end)
+          .sort((a, b) => a.date.localeCompare(b.date)),
+      );
+      setActivePlan(result.plan);
       setShowCommentFor(null);
-      setCommentDrafts((d) => { const next = { ...d }; delete next[activity.id]; return next; });
+      setCommentDrafts((d) => {
+        const next = { ...d };
+        delete next[activity.id];
+        return next;
+      });
     } finally {
       setUpdatingActivityId(null);
     }
   };
 
-  const { recentRun, athlete } = summary;
+  // Compute plan-based progress targets (planned run activities this week)
+  const plannedRuns = weekActivities.filter((a) => a.type === "Run");
+  const targetDistanceKm = plannedRuns.reduce((s, a) => s + (a.distanceKm ?? 0), 0);
+  const targetRuns = plannedRuns.length;
+
+  const actualDistanceKm = weekTotals?.distanceKm ?? 0;
+  const actualRuns = weekTotals?.runs ?? 0;
+
+  const distancePct =
+    targetDistanceKm > 0 ? Math.min(100, (actualDistanceKm / targetDistanceKm) * 100) : 0;
+  const runsPct = targetRuns > 0 ? Math.min(100, (actualRuns / targetRuns) * 100) : 0;
+
+  const nextIdx = weekActivities.findIndex((a) => a.status === "not_started");
 
   return (
-    <main className="shell dashboard-shell">
-      <section className="hero-card compact">
-        <div>
-          <p className="eyebrow">Welcome back</p>
-          <h1>{athlete.displayName}</h1>
-          <p>
-            {recentRun
-              ? `Last run: ${recentRun.name} on ${formatDate(recentRun.startDate)} for ${formatDistance(recentRun.distanceKm)}.`
-              : "Your runs will appear here once Strava returns activity data."}
-          </p>
-        </div>
-      </section>
+    <div className="dashboard">
+      {/* Page title */}
+      <div className="dashboard-header">
+        <h1>Dashboard</h1>
+        <p className="dashboard-date">{getTodayLabel()}</p>
+      </div>
 
-      <section className="home-grid">
-        <section className="panel">
-          <div className="panel-header">
-            <h2>{getMonthLabel()}</h2>
-          </div>
-          {isLoadingMonth ? (
-            <p className="subtle">Loading...</p>
-          ) : !monthTotals || monthTotals.runs === 0 ? (
-            <p className="subtle">No runs recorded this month yet.</p>
-          ) : (
-            <div className="month-stats-grid">
-              <article className="summary-card">
-                <span>Runs</span>
-                <strong>{monthTotals.runs}</strong>
-              </article>
-              <article className="summary-card">
+      {/* This Week's Progress */}
+      {(targetDistanceKm > 0 || targetRuns > 0) && (
+        <section className="progress-card">
+          <h2>This Week&apos;s Progress</h2>
+          {targetDistanceKm > 0 && (
+            <>
+              <div className="progress-row">
                 <span>Distance</span>
-                <strong>{formatDistance(monthTotals.distanceKm)}</strong>
-              </article>
-              <article className="summary-card">
-                <span>Moving time</span>
-                <strong>{formatDuration(monthTotals.movingTimeSeconds)}</strong>
-              </article>
-              <article className="summary-card">
-                <span>Elevation</span>
-                <strong>{Math.round(monthTotals.elevationGainMeters)} m</strong>
-              </article>
-            </div>
+                <span>
+                  {actualDistanceKm.toFixed(1)} / {targetDistanceKm.toFixed(0)} km
+                </span>
+              </div>
+              <div className="progress-track">
+                <div className="progress-fill" style={{ width: `${distancePct}%` }} />
+              </div>
+            </>
+          )}
+          {targetRuns > 0 && (
+            <>
+              <div className="progress-row">
+                <span>Runs</span>
+                <span>
+                  {actualRuns} / {targetRuns}
+                </span>
+              </div>
+              <div className="progress-track">
+                <div className="progress-fill" style={{ width: `${runsPct}%` }} />
+              </div>
+            </>
           )}
         </section>
+      )}
 
-        <section className="panel">
-          <div className="panel-header">
-            <h2>Your Planning</h2>
-            {activePlan && (
-              <Link to="/planning" className="subtle-label subtle-label-link">
-                {activePlan.raceName}
-              </Link>
-            )}
-          </div>
-          {isLoadingWeek ? (
-            <p className="subtle">Loading...</p>
-          ) : weekActivities.length === 0 ? (
-            <div className="empty-week">
-              <p className="subtle">No activities planned for this week.</p>
-              <Link to="/planning" className="button-secondary">
-                Go to planning
-              </Link>
-            </div>
-          ) : (
-            <ul className="week-activity-list">
-              {weekActivities.map((activity) => {
-                const isActioned = activity.status !== "not_started";
-                const isBusy = updatingActivityId === activity.id;
-                const isShowingComment = showCommentFor === activity.id;
+      {/* This Week's Plan */}
+      <section>
+        <div className="section-header">
+          <h2>This Week&apos;s Plan</h2>
+          <Link to="/planning" className="view-all-link">
+            View All
+          </Link>
+        </div>
 
-                return (
-                  <li key={activity.id} className="week-activity-item">
-                    <div className="week-activity-meta">
-                      <span className="week-activity-date">{formatDate(activity.date)}</span>
-                      <span className={`status-pill ${activity.status}`}>
-                        {STATUS_LABELS[activity.status] ?? activity.status}
-                      </span>
-                    </div>
-                    <div className="week-activity-details">
-                      <strong>{activity.type}</strong>
-                      {activity.distanceKm != null && (
-                        <span>{formatDistance(activity.distanceKm)}</span>
-                      )}
-                      {activity.durationMinutes != null && (
-                        <span>{activity.durationMinutes} min</span>
-                      )}
-                      {activity.notes && <p className="week-activity-notes">{activity.notes}</p>}
-                    </div>
-
-                    {!isActioned && (
-                      <div className="week-activity-actions">
-                        <button
-                          type="button"
-                          className="action-btn action-btn--done"
-                          disabled={isBusy}
-                          onClick={() => void updateActivityStatus(activity, "completed")}
-                        >
-                          ✓ Done
-                        </button>
-                        <button
-                          type="button"
-                          className="action-btn action-btn--modified"
-                          disabled={isBusy}
-                          onClick={() =>
-                            setShowCommentFor((c) => (c === activity.id ? null : activity.id))
-                          }
-                        >
-                          ✎ Modified
-                        </button>
-                        <button
-                          type="button"
-                          className="action-btn action-btn--skip"
-                          disabled={isBusy}
-                          onClick={() => void updateActivityStatus(activity, "skipped")}
-                        >
-                          ✕ Skip
-                        </button>
-                      </div>
-                    )}
-
-                    {isShowingComment && (
-                      <div className="week-activity-comment">
-                        <input
-                          type="text"
-                          placeholder="What changed? (required)"
-                          value={commentDrafts[activity.id] ?? ""}
-                          onChange={(e) =>
-                            setCommentDrafts((d) => ({ ...d, [activity.id]: e.target.value }))
-                          }
-                        />
-                        <button
-                          type="button"
-                          className="action-btn action-btn--done"
-                          disabled={isBusy || !(commentDrafts[activity.id] ?? "").trim()}
-                          onClick={() =>
-                            void updateActivityStatus(
-                              activity,
-                              "completed_with_changes",
-                              commentDrafts[activity.id],
-                            )
-                          }
-                        >
-                          {isBusy ? "Saving…" : "Save"}
-                        </button>
-                        <button
-                          type="button"
-                          className="action-btn action-btn--skip"
-                          onClick={() => setShowCommentFor(null)}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-          {!isLoadingWeek && !activePlan && weekActivities.length === 0 && (
+        {isLoadingWeek ? (
+          <p className="subtle">Loading...</p>
+        ) : weekActivities.length === 0 ? (
+          <div style={{ marginBottom: "1.5rem" }}>
+            <p className="subtle" style={{ marginBottom: "0.75rem" }}>
+              No activities planned for this week.
+            </p>
             <Link to="/planning" className="button-secondary">
-              Create a training plan
+              {activePlan ? "View plan" : "Create a training plan"}
             </Link>
-          )}
-        </section>
+          </div>
+        ) : (
+          <div className="plan-activity-list">
+            {weekActivities.map((activity, index) => (
+              <ActivityCard
+                key={activity.id}
+                activity={activity}
+                isNext={index === nextIdx}
+                isBusy={updatingActivityId === activity.id}
+                showComment={showCommentFor === activity.id}
+                commentDraft={commentDrafts[activity.id] ?? ""}
+                onDone={() => void updateActivityStatus(activity, "completed")}
+                onSkip={() => void updateActivityStatus(activity, "skipped")}
+                onPartial={() =>
+                  setShowCommentFor((c) => (c === activity.id ? null : activity.id))
+                }
+                onCommentChange={(v) =>
+                  setCommentDrafts((d) => ({ ...d, [activity.id]: v }))
+                }
+                onCommentSave={() =>
+                  void updateActivityStatus(
+                    activity,
+                    "completed_with_changes",
+                    commentDrafts[activity.id],
+                  )
+                }
+                onCommentCancel={() => setShowCommentFor(null)}
+              />
+            ))}
+          </div>
+        )}
       </section>
-    </main>
+
+      {/* Weekly stats */}
+      {weekTotals && weekTotals.runs > 0 && (
+        <div className="dashboard-stats">
+          <div className="dashboard-stat-card">
+            <strong>{weekTotals.distanceKm.toFixed(0)}</strong>
+            <span>km this week</span>
+          </div>
+          <div className="dashboard-stat-card">
+            <strong>{weekTotals.runs}</strong>
+            <span>runs completed</span>
+          </div>
+          <div className="dashboard-stat-card">
+            <strong>{formatDuration(weekTotals.movingTimeSeconds)}</strong>
+            <span>moving time</span>
+          </div>
+          <div className="dashboard-stat-card">
+            <strong>{Math.round(weekTotals.elevationGainMeters)}m</strong>
+            <span>elevation</span>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 

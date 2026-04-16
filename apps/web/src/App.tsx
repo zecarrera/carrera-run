@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ActivitiesPage } from "./components/ActivitiesPage";
-import { Header } from "./components/Header";
+import { Navigation } from "./components/Navigation";
 import { HomePage } from "./components/HomePage";
 import { PlanningPage } from "./components/PlanningPage";
 import { ProfilePage } from "./components/ProfilePage";
@@ -87,13 +87,17 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage summary={summary} />} />
-        <Route path="/activities" element={<ActivitiesPage />} />
-        <Route path="/planning" element={<PlanningPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-      </Routes>
+      <div className="app-layout">
+        <Navigation />
+        <div className="app-main">
+          <Routes>
+            <Route path="/" element={<HomePage summary={summary} />} />
+            <Route path="/activities" element={<ActivitiesPage />} />
+            <Route path="/planning" element={<PlanningPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Routes>
+        </div>
+      </div>
     </BrowserRouter>
   );
 }
