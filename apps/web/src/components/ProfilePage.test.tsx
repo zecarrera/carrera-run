@@ -46,7 +46,9 @@ describe("ProfilePage", () => {
     const user = userEvent.setup();
     render(<ProfilePage />);
 
-    await screen.findByText("Training zones and race history.");
+    // Wait for page to load then open configure form
+    await screen.findByRole("button", { name: "Configure" });
+    await user.click(screen.getByRole("button", { name: "Configure" }));
 
     const z1FromInput = screen.getByLabelText("Z1 from pace");
     await user.clear(z1FromInput);
@@ -74,7 +76,9 @@ describe("ProfilePage", () => {
     const user = userEvent.setup();
     render(<ProfilePage />);
 
-    await screen.findByText("Training zones and race history.");
+    // Wait for page to load then open configure form
+    await screen.findByRole("button", { name: "Configure" });
+    await user.click(screen.getByRole("button", { name: "Configure" }));
 
     const z1FromInput = screen.getByLabelText("Z1 from pace");
     await user.clear(z1FromInput);
@@ -93,7 +97,9 @@ describe("ProfilePage", () => {
     const user = userEvent.setup();
     render(<ProfilePage />);
 
-    await screen.findByText("Training zones and race history.");
+    // Wait for page to load then open add race form
+    await screen.findByRole("button", { name: "Add Race" });
+    await user.click(screen.getByRole("button", { name: "Add Race" }));
 
     await user.type(screen.getByLabelText("Race title"), "10K Test");
     await user.type(screen.getByLabelText("Distance (km)"), "10");
@@ -125,7 +131,9 @@ describe("ProfilePage", () => {
     const user = userEvent.setup();
     render(<ProfilePage />);
 
-    await screen.findByText("Training zones and race history.");
+    // Wait for page to load then open add race form
+    await screen.findByRole("button", { name: "Add Race" });
+    await user.click(screen.getByRole("button", { name: "Add Race" }));
 
     await user.type(screen.getByLabelText("Race title"), "10K Test");
     await user.type(screen.getByLabelText("Distance (km)"), "10");

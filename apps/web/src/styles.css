@@ -2940,3 +2940,576 @@ tbody tr.selected {
     width: 100%;
   }
 }
+
+/* ============================================================
+   Profile page
+   ============================================================ */
+
+.profile-page {
+  padding: 1.5rem 2rem;
+  max-width: 900px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.profile-loading {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+  padding: 1rem 0;
+}
+
+/* ── Header card ──────────────────────────────────────────── */
+
+.profile-header-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2.5px solid var(--primary);
+  background: rgba(252, 82, 0, 0.15);
+  color: var(--primary);
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.03em;
+}
+
+.profile-display-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--fg);
+}
+
+/* ── Profile card shell ───────────────────────────────────── */
+
+.profile-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.profile-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.profile-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.profile-card-title svg {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.profile-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--bg-surface-hover);
+  border: 1px solid var(--border-mid);
+  color: var(--fg);
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 0.35rem 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.profile-card-btn:hover {
+  background: var(--border-mid);
+}
+
+/* ── Zone view rows ───────────────────────────────────────── */
+
+.zone-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.zone-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+
+.zone-row:last-child {
+  border-bottom: none;
+}
+
+.zone-row:hover {
+  background: var(--bg-surface-hover);
+}
+
+.zone-row-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.zone-row-info > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.zone-row-info strong {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.zone-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.zone-sub-label {
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+}
+
+.zone-row-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.zone-stat-label {
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.zone-stat-value {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+/* ── Zone edit form ───────────────────────────────────────── */
+
+.zone-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.zone-edit-rows {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.zone-edit-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.zone-edit-row:last-child {
+  border-bottom: none;
+}
+
+.zone-edit-name {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.zone-edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.zone-edit-field input {
+  background: var(--bg-input);
+  border: 1px solid var(--border-mid);
+  color: var(--fg);
+  padding: 0.35rem 0.6rem;
+  border-radius: 7px;
+  font-size: 0.88rem;
+  width: 80px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.zone-edit-field input:focus {
+  border-color: var(--primary);
+}
+
+.zone-edit-actions {
+  display: flex;
+  gap: 0.6rem;
+  padding-top: 0.25rem;
+}
+
+/* ── Race results list ────────────────────────────────────── */
+
+.race-result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.race-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+
+.race-result-row:last-child {
+  border-bottom: none;
+}
+
+.race-result-row:hover {
+  background: var(--bg-surface-hover);
+}
+
+.race-result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.race-result-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.race-result-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+
+.race-result-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--bg-input);
+  color: var(--fg-muted);
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.race-result-date {
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+}
+
+.race-result-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.race-result-time-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+}
+
+.race-result-time-label {
+  font-size: 0.72rem;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.race-result-time-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.race-result-actions {
+  display: flex;
+  gap: 0.25rem;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.race-result-row:hover .race-result-actions {
+  opacity: 1;
+}
+
+.race-result-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--border-mid);
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.race-result-action-btn:hover {
+  background: var(--bg-surface-hover);
+  color: var(--fg);
+}
+
+.race-result-action-btn--delete:hover {
+  color: var(--destructive);
+  border-color: var(--destructive);
+}
+
+.race-result-action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.race-result-edit-row {
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.race-result-edit-row:last-child {
+  border-bottom: none;
+}
+
+.race-result-edit-fields {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.race-result-edit-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ── Add Race form ────────────────────────────────────────── */
+
+.add-race-form {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.add-race-form-actions {
+  align-self: end;
+}
+
+.profile-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.profile-form-field input {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-mid);
+  color: var(--fg);
+  padding: 0.4rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.profile-form-field input:focus {
+  border-color: var(--primary);
+}
+
+/* ── Personal Records ─────────────────────────────────────── */
+
+.pr-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.pr-card {
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pr-card-label {
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+}
+
+.pr-card-time {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.1;
+}
+
+.pr-card-pace {
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+}
+
+/* ── Feedback ─────────────────────────────────────────────── */
+
+.profile-empty {
+  color: var(--fg-muted);
+  font-size: 0.88rem;
+}
+
+.profile-feedback {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+}
+
+.profile-error {
+  color: var(--destructive);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.profile-success {
+  color: #22c55e;
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .profile-page {
+    padding: 1rem;
+  }
+
+  .profile-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.2rem;
+  }
+
+  .profile-display-name {
+    font-size: 1.4rem;
+  }
+
+  .zone-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .zone-row-stat {
+    flex-direction: row;
+    align-items: center;
+    align-self: flex-start;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  .zone-edit-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .zone-edit-name {
+    grid-column: 1 / -1;
+  }
+
+  .add-race-form {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .race-result-edit-fields {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .race-result-actions {
+    opacity: 1;
+  }
+
+  .pr-grid {
+    grid-template-columns: 1fr;
+  }
+}

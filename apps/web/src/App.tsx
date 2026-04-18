@@ -94,7 +94,7 @@ export default function App() {
             <Route path="/" element={<HomePage summary={summary} />} />
             <Route path="/activities" element={<ActivitiesPage />} />
             <Route path="/planning" element={<PlanningPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/profile" element={<ProfilePage summary={summary} />} />
           </Routes>
         </div>
       </div>
