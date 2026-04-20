@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createRaceResultSchema,
   updateRaceResultSchema,
+  updateVideoChannelsSchema,
   updateZonesSchema,
 } from "../schemas/profile.js";
 import {
@@ -10,6 +11,7 @@ import {
   getProfile,
   updateRaceResult,
   updateTrainingZones,
+  updateVideoChannels,
 } from "../services/profile.js";
 
 const profileRouter = Router();
@@ -80,6 +82,16 @@ profileRouter.delete("/race-results/:resultId", async (request, response, next) 
       return;
     }
 
+    response.json({ profile });
+  } catch (error) {
+    next(error);
+  }
+});
+
+profileRouter.put("/video-channels", async (request, response, next) => {
+  try {
+    const body = updateVideoChannelsSchema.parse(request.body);
+    const profile = await updateVideoChannels(request.planUserId!, body.preferredChannels, body.allowOtherChannels);
     response.json({ profile });
   } catch (error) {
     next(error);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDuration } from "../lib/format";
-import type { Activity, ActivityStatus, AthleteSummary, PlanActivity, TrainingPlan } from "../types";
+import type { Activity, ActivityStatus, AthleteSummary, PlanActivity, TrainingPlan, VideoRecommendation } from "../types";
 
 type HomePageProps = {
   summary: AthleteSummary;
@@ -46,6 +46,10 @@ function getTodayLabel(): string {
     month: "long",
     day: "numeric",
   });
+}
+
+function getTodayString(): string {
+  return new Date().toISOString().slice(0, 10);
 }
 
 function getDayName(dateStr: string): string {
@@ -126,11 +130,122 @@ function EditIcon() {
   );
 }
 
+function YoutubeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+      <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z" />
+    </svg>
+  );
+}
+
+function ExternalLinkIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+      <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  );
+}
+
 /* ── Activity card ────────────────────────────────────────────────────────── */
+
+function VideoRecommendationPanel({ activityType }: { activityType: string }) {
+  const [expanded, setExpanded] = useState(false);
+  const [videos, setVideos] = useState<VideoRecommendation[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleExpand = async () => {
+    if (expanded) {
+      setExpanded(false);
+      return;
+    }
+    setExpanded(true);
+    if (videos.length > 0) return; // already fetched
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(
+        `/api/videos/recommendation?activityType=${encodeURIComponent(activityType)}`,
+        { credentials: "include" },
+      );
+      if (!res.ok) {
+        setError("Could not load recommendation.");
+        return;
+      }
+      const payload = (await res.json()) as { recommendations: VideoRecommendation[] };
+      setVideos(payload.recommendations);
+    } catch {
+      setError("Could not load recommendation.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const roleLabel: Record<string, string> = {
+    "warm-up": "Pre-run Warm-up",
+    "cool-down": "Post-run Cool-down",
+    general: "Recommended",
+  };
+
+  return (
+    <div className="video-rec-section">
+      <div className="video-rec-header">
+        <span className="video-rec-label">
+          <YoutubeIcon /> Recommended Video
+        </span>
+      </div>
+      <button
+        type="button"
+        className="video-rec-toggle"
+        onClick={() => void handleExpand()}
+        aria-expanded={expanded}
+      >
+        <YoutubeIcon />
+        {expanded ? "Hide Recommendation" : "View Recommendation"}
+      </button>
+      {expanded && (
+        <div className="video-rec-content">
+          {loading && <p className="subtle" style={{ padding: "0.5rem 0" }}>Loading…</p>}
+          {error && <p className="subtle" style={{ padding: "0.5rem 0", color: "var(--color-error)" }}>{error}</p>}
+          {!loading && !error && videos.length === 0 && (
+            <p className="subtle" style={{ padding: "0.5rem 0" }}>No recommendation available.</p>
+          )}
+          {videos.map((video) => (
+            <a
+              key={video.videoId}
+              href={`https://www.youtube.com/watch?v=${video.videoId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="video-card"
+            >
+              <div className="video-thumbnail-wrap">
+                <img
+                  src={`https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`}
+                  alt={video.title}
+                  className="video-thumbnail"
+                  loading="lazy"
+                />
+                <span className="video-ext-icon"><ExternalLinkIcon /></span>
+                {video.role !== "general" && (
+                  <span className="video-role-badge">{roleLabel[video.role]}</span>
+                )}
+              </div>
+              <p className="video-title">{video.title}</p>
+              <p className="video-channel">{video.channelName}</p>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ActivityCard({
   activity,
   isNext,
+  isToday,
   isBusy,
   showComment,
   commentDraft,
@@ -143,6 +258,7 @@ function ActivityCard({
 }: {
   activity: PlanActivity;
   isNext: boolean;
+  isToday: boolean;
   isBusy: boolean;
   showComment: boolean;
   commentDraft: string;
@@ -211,6 +327,11 @@ function ActivityCard({
 
       {/* Mobile actions — row below meta */}
       {!isActioned && <div className="card-actions-row">{actionButtons}</div>}
+
+      {/* Video recommendation — shown for today's non-skipped activities */}
+      {isToday && activity.status !== "skipped" && (
+        <VideoRecommendationPanel activityType={activity.type} />
+      )}
 
       {/* Comment input for Partially Done */}
       {showComment && (
@@ -409,6 +530,7 @@ export function HomePage(_props: HomePageProps) {
                 key={activity.id}
                 activity={activity}
                 isNext={index === nextIdx}
+                isToday={activity.date === getTodayString()}
                 isBusy={updatingActivityId === activity.id}
                 showComment={showCommentFor === activity.id}
                 commentDraft={commentDrafts[activity.id] ?? ""}

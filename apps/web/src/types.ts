@@ -83,8 +83,19 @@ export type UserProfile = {
   userId: string;
   trainingZones: TrainingZones | null;
   raceResults: RaceResult[];
+  preferredChannels: string[];
+  allowOtherChannels: boolean;
   createdAt: string;
   updatedAt: string;
+};
+
+export type VideoRole = "warm-up" | "cool-down" | "general";
+
+export type VideoRecommendation = {
+  videoId: string;
+  title: string;
+  channelName: string;
+  role: VideoRole;
 };
 
 export type CoachMessage = {

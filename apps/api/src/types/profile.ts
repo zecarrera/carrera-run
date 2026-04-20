@@ -20,6 +20,8 @@ export interface UserProfile {
   userId: string;
   trainingZones: TrainingZones | null;
   raceResults: RaceResult[];
+  preferredChannels: string[];
+  allowOtherChannels: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -29,6 +31,8 @@ export interface UserProfileDocument {
   userId: string;
   trainingZones: TrainingZones | null;
   raceResults: RaceResult[];
+  preferredChannels: string[];
+  allowOtherChannels: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

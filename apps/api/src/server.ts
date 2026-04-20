@@ -11,6 +11,7 @@ import { authRouter } from "./routes/auth.js";
 import { coachRouter } from "./routes/coach.js";
 import { plansRouter } from "./routes/plans.js";
 import { profileRouter } from "./routes/profile.js";
+import { videosRouter } from "./routes/videos.js";
 import { MOCK_ACCESS_TOKEN } from "./services/strava-mock.js";
 
 dotenv.config({ path: resolve(process.cwd(), ".env") });
@@ -89,6 +90,7 @@ app.use("/api/athlete", athleteRouter);
 app.use("/api/coach", coachRouter);
 app.use("/api/plans", plansRouter);
 app.use("/api/profile", profileRouter);
+app.use("/api/videos", videosRouter);
 
 if (isProduction) {
   app.use(express.static(webDistPath));

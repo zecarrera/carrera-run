@@ -214,6 +214,14 @@ function EditIcon() {
   );
 }
 
+function YoutubeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
+      <path d="M23.5 6.2a3 3 0 00-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 00.5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 002.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 002.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z" />
+    </svg>
+  );
+}
+
 /* ── Component ────────────────────────────────────────────────────────────── */
 
 export function ProfilePage({ summary }: { summary?: AthleteSummary }) {
@@ -229,6 +237,10 @@ export function ProfilePage({ summary }: { summary?: AthleteSummary }) {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isConfiguringZones, setIsConfiguringZones] = useState(false);
   const [showAddRaceForm, setShowAddRaceForm] = useState(false);
+  const [channelInput, setChannelInput] = useState("");
+  const [preferredChannels, setPreferredChannels] = useState<string[]>([]);
+  const [allowOtherChannels, setAllowOtherChannels] = useState(true);
+  const [isSavingChannels, setIsSavingChannels] = useState(false);
 
   const sortedRaceResults = useMemo(
     () => [...(profile?.raceResults ?? [])].sort((a, b) => b.date.localeCompare(a.date)),
@@ -244,6 +256,8 @@ export function ProfilePage({ summary }: { summary?: AthleteSummary }) {
       const payload = await apiRequest<{ profile: UserProfile }>("/api/profile");
       setProfile(payload.profile);
       setZones(toZoneDraft(payload.profile));
+      setPreferredChannels(payload.profile.preferredChannels ?? []);
+      setAllowOtherChannels(payload.profile.allowOtherChannels ?? true);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Unable to load profile.");
     } finally {
@@ -376,6 +390,35 @@ export function ProfilePage({ summary }: { summary?: AthleteSummary }) {
       setErrorMessage(error instanceof Error ? error.message : "Unable to delete race result.");
     } finally {
       setIsSavingResult(false);
+    }
+  };
+
+  const handleAddChannel = () => {
+    const trimmed = channelInput.trim();
+    if (!trimmed || preferredChannels.includes(trimmed)) return;
+    setPreferredChannels((prev) => [...prev, trimmed]);
+    setChannelInput("");
+  };
+
+  const handleRemoveChannel = (channel: string) => {
+    setPreferredChannels((prev) => prev.filter((c) => c !== channel));
+  };
+
+  const handleSaveChannels = async () => {
+    setIsSavingChannels(true);
+    setErrorMessage(null);
+    setSuccessMessage(null);
+    try {
+      const payload = await apiRequest<{ profile: UserProfile }>("/api/profile/video-channels", {
+        method: "PUT",
+        body: JSON.stringify({ preferredChannels, allowOtherChannels }),
+      });
+      setProfile(payload.profile);
+      setSuccessMessage("Video preferences saved.");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to save preferences.");
+    } finally {
+      setIsSavingChannels(false);
     }
   };
 
@@ -683,6 +726,83 @@ export function ProfilePage({ summary }: { summary?: AthleteSummary }) {
           </div>
         </section>
       )}
+
+      {/* ── Video Recommendations ──────────────────────────────────────── */}
+      <section className="profile-card">
+        <div className="profile-card-header">
+          <div className="profile-card-title">
+            <YoutubeIcon />
+            <span>Video Recommendations</span>
+          </div>
+        </div>
+
+        <p className="profile-card-subtitle">
+          Preferred YouTube Channels
+        </p>
+        <p className="profile-card-hint">
+          Manage the channels you want to receive training video recommendations from
+        </p>
+
+        <div className="channel-list">
+          {preferredChannels.map((channel) => (
+            <div key={channel} className="channel-item">
+              <span className="channel-item-name">{channel}</span>
+              <button
+                type="button"
+                className="channel-item-remove"
+                onClick={() => handleRemoveChannel(channel)}
+                aria-label={`Remove ${channel}`}
+              >
+                ×
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="channel-add-row">
+          <input
+            type="text"
+            className="channel-add-input"
+            placeholder="Channel name..."
+            value={channelInput}
+            onChange={(e) => setChannelInput(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); handleAddChannel(); } }}
+            aria-label="Channel name"
+          />
+          <button
+            type="button"
+            className="channel-add-btn"
+            onClick={handleAddChannel}
+            disabled={!channelInput.trim()}
+          >
+            + Add
+          </button>
+        </div>
+
+        <label className="channel-allow-other">
+          <input
+            type="checkbox"
+            checked={allowOtherChannels}
+            onChange={(e) => setAllowOtherChannels(e.target.checked)}
+          />
+          <span>
+            <strong>Allow recommendations from other channels</strong>
+            <br />
+            <span className="channel-allow-other-hint">
+              When enabled, you&apos;ll receive recommendations from channels outside your preferred list
+            </span>
+          </span>
+        </label>
+
+        <button
+          type="button"
+          className="profile-save-btn"
+          disabled={isSavingChannels}
+          onClick={() => void handleSaveChannels()}
+        >
+          {isSavingChannels ? "Saving…" : "Save preferences"}
+        </button>
+      </section>
 
       {/* ── Feedback ───────────────────────────────────────────────────── */}
       {(errorMessage ?? successMessage) && (

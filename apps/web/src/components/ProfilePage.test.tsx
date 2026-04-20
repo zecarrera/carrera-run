@@ -15,6 +15,8 @@ const profileFixture: UserProfile = {
     Z5: { fromSecondsPerKm: 240, toSecondsPerKm: 279 },
   },
   raceResults: [],
+  preferredChannels: [],
+  allowOtherChannels: true,
   createdAt: "2026-03-01T00:00:00.000Z",
   updatedAt: "2026-03-01T00:00:00.000Z",
 };
@@ -148,5 +150,81 @@ describe("ProfilePage", () => {
       await screen.findByText("Race time must use mm:ss or hh:mm:ss format, for example 42:30 or 1:42:30."),
     ).toBeInTheDocument();
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  // ── Video channel management ─────────────────────────────────────────────
+
+  it("shows the Video Recommendations section with channel input", async () => {
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ profile: profileFixture }));
+    render(<ProfilePage />);
+    expect(await screen.findByText("Video Recommendations")).toBeInTheDocument();
+    expect(screen.getByLabelText("Channel name")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "+ Add" })).toBeInTheDocument();
+  });
+
+  it("loads existing preferred channels from profile", async () => {
+    const profileWithChannels: UserProfile = {
+      ...profileFixture,
+      preferredChannels: ["The Run Experience", "Sage Running"],
+    };
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ profile: profileWithChannels }));
+    render(<ProfilePage />);
+    expect(await screen.findByText("The Run Experience")).toBeInTheDocument();
+    expect(screen.getByText("Sage Running")).toBeInTheDocument();
+  });
+
+  it("adds a channel and shows it in the list", async () => {
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ profile: profileFixture }));
+    const user = userEvent.setup();
+    render(<ProfilePage />);
+    await screen.findByText("Video Recommendations");
+
+    const input = screen.getByLabelText("Channel name");
+    await user.type(input, "Global Triathlon Network");
+    await user.click(screen.getByRole("button", { name: "+ Add" }));
+
+    expect(screen.getByText("Global Triathlon Network")).toBeInTheDocument();
+    expect(input).toHaveValue(""); // input cleared after add
+  });
+
+  it("removes a channel from the list", async () => {
+    const profileWithChannels: UserProfile = {
+      ...profileFixture,
+      preferredChannels: ["The Run Experience"],
+    };
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ profile: profileWithChannels }));
+    const user = userEvent.setup();
+    render(<ProfilePage />);
+    await screen.findByText("The Run Experience");
+
+    await user.click(screen.getByRole("button", { name: "Remove The Run Experience" }));
+    expect(screen.queryByText("The Run Experience")).not.toBeInTheDocument();
+  });
+
+  it("saves channel preferences via PUT /api/profile/video-channels", async () => {
+    fetchMock
+      .mockResolvedValueOnce(createJsonResponse({ profile: profileFixture }))
+      .mockResolvedValueOnce(createJsonResponse({ profile: { ...profileFixture, preferredChannels: ["Sage Running"] } }));
+
+    const user = userEvent.setup();
+    render(<ProfilePage />);
+    await screen.findByText("Video Recommendations");
+
+    // Add a channel then save
+    await user.type(screen.getByLabelText("Channel name"), "Sage Running");
+    await user.click(screen.getByRole("button", { name: "+ Add" }));
+    await user.click(screen.getByRole("button", { name: "Save preferences" }));
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(2));
+
+    const saveCall = fetchMock.mock.calls[1];
+    expect(saveCall[0]).toBe("/api/profile/video-channels");
+    const body = JSON.parse(String((saveCall[1] as RequestInit).body)) as {
+      preferredChannels: string[];
+      allowOtherChannels: boolean;
+    };
+    expect(body.preferredChannels).toContain("Sage Running");
+    expect(typeof body.allowOtherChannels).toBe("boolean");
+    expect(await screen.findByText("Video preferences saved.")).toBeInTheDocument();
   });
 });

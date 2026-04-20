@@ -20,6 +20,8 @@ A small full-stack starter for connecting to the Strava API and displaying runni
 - Activities table with date, distance, moving time, elevation, and pace
 - Activity detail panel in the UI
 - Planning page for race-focused training plans and activity tracking
+- **YouTube video recommendations**: today's activity card on the dashboard shows a "Recommended Video" section — Run activities get warm-up + cool-down suggestions; Strength/Flexibility get a relevant training video. Powered by YouTube Data API v3 when `YOUTUBE_API_KEY` is set, or a static curated list as fallback
+- **Channel preferences** on the Profile page — manage preferred YouTube channels and an "allow other channels" fallback toggle
 - **AI Coach**: conversational plan builder — asks questions, uses your Strava history, proposes a full training plan, and saves it on acceptance
 - **Plan import**: upload a JSON file to create a plan with all activities in one step (see [Import format](#plan-import-format))
 - **Plan delete**: remove a training plan (with confirmation) from the Plans list
@@ -97,6 +99,7 @@ http://localhost:4000/api/auth/dev-login?redirect=http://localhost:5174
 | `LLM_API_KEY` | API key for cloud LLM providers (leave empty for local Ollama) |
 | `COACH_MODEL` | LLM model name (default: `llama3.1:8b`) |
 | `STRAVA_MOCK` | Set to `true` to auto-inject a mock Strava session (auto-set by `dev:local`) |
+| `YOUTUBE_API_KEY` | Google Cloud API key for YouTube Data API v3. When set, video recommendations are fetched dynamically from YouTube. When unset, a static curated list is used as fallback. |
 
 ### AI Coach — production LLM options
 
@@ -225,9 +228,14 @@ All activity `date` values must fall within the plan window. `id`, `userId`, `cr
 
 - `GET /api/profile`
 - `PUT /api/profile/zones`
+- `PUT /api/profile/video-channels` — body: `{ preferredChannels: string[], allowOtherChannels: boolean }`
 - `POST /api/profile/race-results`
 - `PATCH /api/profile/race-results/:resultId`
 - `DELETE /api/profile/race-results/:resultId`
+
+## Videos API
+
+- `GET /api/videos/recommendation?activityType=Run|Strength|Flexibility` — returns 1–2 `VideoRecommendation` objects filtered by the user's preferred channels. Uses YouTube Data API v3 when `YOUTUBE_API_KEY` is set; falls back to a static curated list otherwise.
 
 ## Notes
 

@@ -8,6 +8,11 @@ const zoneSchema = z.object({
   to: z.string().regex(pacePattern, "Pace must use mm:ss format."),
 });
 
+export const updateVideoChannelsSchema = z.object({
+  preferredChannels: z.array(z.string().trim().min(1).max(100)).max(20),
+  allowOtherChannels: z.boolean(),
+});
+
 export const updateZonesSchema = z.object({
   Z1: zoneSchema,
   Z2: zoneSchema,

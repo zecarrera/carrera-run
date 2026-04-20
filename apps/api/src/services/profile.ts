@@ -104,6 +104,8 @@ function mapDocument(document: UserProfileDocument): UserProfile {
     userId: document.userId,
     trainingZones: document.trainingZones,
     raceResults: [...document.raceResults].sort((first, second) => second.date.localeCompare(first.date)),
+    preferredChannels: document.preferredChannels ?? [],
+    allowOtherChannels: document.allowOtherChannels ?? true,
     createdAt: document.createdAt.toISOString(),
     updatedAt: document.updatedAt.toISOString(),
   };
@@ -128,6 +130,8 @@ async function ensureProfileDocument(userId: string) {
     userId,
     trainingZones: null,
     raceResults: [],
+    preferredChannels: [],
+    allowOtherChannels: true,
     createdAt: now,
     updatedAt: now,
   } as Omit<UserProfileDocument, "_id"> as UserProfileDocument);
@@ -137,6 +141,8 @@ async function ensureProfileDocument(userId: string) {
     userId,
     trainingZones: null,
     raceResults: [],
+    preferredChannels: [],
+    allowOtherChannels: true,
     createdAt: now,
     updatedAt: now,
   };
@@ -162,6 +168,8 @@ export async function updateTrainingZones(userId: string, zonesInput: ZonesInput
       $setOnInsert: {
         userId,
         raceResults: [],
+        preferredChannels: [],
+        allowOtherChannels: true,
         createdAt: now,
       },
     },
@@ -202,6 +210,8 @@ export async function createRaceResult(userId: string, input: CreateRaceResultIn
       $setOnInsert: {
         userId,
         trainingZones: null,
+        preferredChannels: [],
+        allowOtherChannels: true,
         createdAt: now,
       },
     },
@@ -283,6 +293,36 @@ export async function deleteRaceResult(userId: string, resultId: string) {
   const updated = await collection.findOne({ userId });
   if (!updated) {
     return null;
+  }
+
+  return mapDocument(updated);
+}
+
+export async function updateVideoChannels(
+  userId: string,
+  preferredChannels: string[],
+  allowOtherChannels: boolean,
+) {
+  const collection = await getProfilesCollection();
+  const now = new Date();
+
+  await collection.updateOne(
+    { userId },
+    {
+      $set: { preferredChannels, allowOtherChannels, updatedAt: now },
+      $setOnInsert: {
+        userId,
+        trainingZones: null,
+        raceResults: [],
+        createdAt: now,
+      },
+    },
+    { upsert: true },
+  );
+
+  const updated = await collection.findOne({ userId });
+  if (!updated) {
+    throw new Error("Unable to update video channel preferences.");
   }
 
   return mapDocument(updated);
