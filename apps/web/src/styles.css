@@ -2200,7 +2200,7 @@ tbody tr.selected {
 
 .plan-detail-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 280px minmax(0, 1fr);
   gap: 1.25rem;
   align-items: flex-start;
 }
@@ -2214,6 +2214,8 @@ tbody tr.selected {
   padding: 1.25rem;
   position: sticky;
   top: 1.5rem;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .plan-calendar-section h3 {
@@ -2347,6 +2349,8 @@ tbody tr.selected {
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 1.25rem;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .weekly-schedule-section h3 {
@@ -2619,6 +2623,14 @@ tbody tr.selected {
 
   .add-activity-form {
     grid-template-columns: 1fr;
+  }
+
+  .plan-activity-desc {
+    white-space: normal;
+  }
+
+  .plan-activity-row {
+    flex-wrap: wrap;
   }
 }
 
