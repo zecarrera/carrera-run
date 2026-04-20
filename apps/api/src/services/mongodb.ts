@@ -10,7 +10,10 @@ async function getMongoClient(): Promise<MongoClient> {
   }
 
   if (!clientPromise) {
-    const client = new MongoClient(mongoUri, { tls: true });
+    // Enable TLS only for remote (Atlas) connections — local mongodb:// URIs
+    // don't use TLS and will fail if tls:true is forced.
+    const useTls = mongoUri.startsWith("mongodb+srv://");
+    const client = new MongoClient(mongoUri, { tls: useTls });
     clientPromise = client.connect();
   }
 

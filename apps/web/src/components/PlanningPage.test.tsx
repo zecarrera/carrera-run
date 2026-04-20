@@ -17,6 +17,21 @@ const createdPlanFixture: TrainingPlan = {
   updatedAt: "2026-03-01T00:00:00.000Z",
 };
 
+/** Plan starting on a Wednesday (2026-04-01) with one run activity */
+const planWithRunFixture: TrainingPlan = {
+  ...createdPlanFixture,
+  activities: [
+    {
+      id: "act-1",
+      date: "2026-04-01", // Wednesday — in Week 1 (Mar 29–Apr 4)
+      type: "Run",
+      distanceKm: 10,
+      paceMinPerKm: 5.5,
+      status: "not_started",
+    },
+  ],
+};
+
 function createJsonResponse(body: unknown, ok = true) {
   return {
     ok,
@@ -287,5 +302,39 @@ describe("PlanningPage", () => {
     expect(await screen.findByText("Plan not found.")).toBeInTheDocument();
     // Still on detail view after failed delete
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Spring Marathon");
+  });
+
+  // ── Plan detail: weekly schedule ─────────────────────────────────────────
+
+  it("shows run distance and pace in the weekly schedule", async () => {
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [planWithRunFixture] }));
+
+    const user = userEvent.setup();
+    render(<PlanningPage />);
+    await screen.findByText("Spring Marathon");
+
+    await user.click(screen.getAllByRole("button").find((b) => b.textContent?.includes("Spring Marathon"))!);
+
+    // Expand the first week accordion (use getAllByRole and take the first)
+    const weekBtns = await screen.findAllByRole("button", { name: /week 1/i });
+    await user.click(weekBtns[0]);
+
+    expect(await screen.findByText(/10 km/)).toBeInTheDocument();
+    expect(screen.getByText(/5\.5 min\/km/)).toBeInTheDocument();
+  });
+
+  it("weeks in the weekly schedule always start on Sunday", async () => {
+    // Plan starts on Wednesday 2026-04-01 — week 1 should start on Sunday 2026-03-29
+    fetchMock.mockResolvedValueOnce(createJsonResponse({ plans: [createdPlanFixture] }));
+
+    const user = userEvent.setup();
+    render(<PlanningPage />);
+    await screen.findByText("Spring Marathon");
+
+    await user.click(screen.getAllByRole("button").find((b) => b.textContent?.includes("Spring Marathon"))!);
+
+    // The date "Mar 29" should appear in the plan detail week headers
+    // (the Sunday before the plan start date of Apr 1)
+    expect(await screen.findByText(/Mar 29/)).toBeInTheDocument();
   });
 });

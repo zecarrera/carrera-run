@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import { buildAuthorizationUrl, exchangeCodeForToken } from "../services/strava.js";
+import { MOCK_ACCESS_TOKEN } from "../services/strava-mock.js";
 import { autoCompletePlanActivities } from "../services/sync.js";
 
 const authRouter = Router();
@@ -52,7 +53,7 @@ if (process.env.NODE_ENV !== "production") {
   authRouter.get("/dev-login", (request, response) => {
     request.session.strava = {
       tokens: {
-        access_token: "dev-mock-token",
+        access_token: MOCK_ACCESS_TOKEN,
         refresh_token: "dev-mock-refresh",
         expires_at: Math.floor(Date.now() / 1000) + 3600,
         expires_in: 3600,

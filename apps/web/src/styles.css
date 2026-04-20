@@ -2482,6 +2482,13 @@ tbody tr.selected {
   white-space: nowrap;
 }
 
+.plan-activity-meta {
+  font-size: 0.78rem;
+  color: var(--primary);
+  font-weight: 500;
+  margin: 0 0 0.1rem;
+}
+
 .log-activity-btn {
   background: none;
   border: 1px solid var(--border-mid);

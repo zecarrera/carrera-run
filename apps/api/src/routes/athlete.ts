@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { buildAthleteSummary, ensureFreshToken, fetchActivities, fetchAthlete, normalizeActivity } from "../services/strava.js";
+import { isMockSession } from "../services/strava-mock.js";
 
 const athleteRouter = Router();
 
@@ -13,7 +14,7 @@ athleteRouter.get("/summary", async (request, response, next) => {
     }
 
     // Dev mock: return a fake summary without hitting Strava
-    if (process.env.NODE_ENV !== "production" && stravaSession.tokens.access_token === "dev-mock-token") {
+    if (process.env.NODE_ENV !== "production" && isMockSession(stravaSession.tokens.access_token)) {
       response.json({
         connected: true,
         summary: buildAthleteSummary(stravaSession.athlete, []),

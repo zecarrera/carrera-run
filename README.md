@@ -49,25 +49,28 @@ Frontend runs on `http://localhost:5173` and proxies API requests to `http://loc
 
 ### Dev bypass login (no Strava OAuth needed locally)
 
-If your Strava app's callback domain is set to production, you can still test locally with a mock session:
+When using `npm run dev:local`, **Strava is mocked automatically** — no login or OAuth flow required. The API injects a fake "Dev Runner" session on every request, and all Strava activity calls return realistic mock data anchored to the current week, so the dashboard progress bars populate immediately.
+
+If you start the app with `npm run dev` (without mocks), or need to trigger the session manually, visit:
 
 ```
 http://localhost:4000/api/auth/dev-login
 ```
 
-This sets a fake "Dev Runner" session and shows clickable links to common Vite ports. You can also redirect explicitly:
+This sets a fake session and shows clickable links to common Vite ports. You can also redirect explicitly:
 
 ```
 http://localhost:4000/api/auth/dev-login?redirect=http://localhost:5174
 ```
 
-> This route is **only available when `NODE_ENV !== production`** and is never exposed in deployed builds.
+> This route and the `STRAVA_MOCK` auto-session are **only available when `NODE_ENV !== production`** and are never exposed in deployed builds.
 
 ### Helper scripts
 
 | Script | Description |
 |---|---|
-| `npm run dev:local` | Start Mongo + Ollama + API + Web |
+| `npm run dev:local` | Start Mongo + Ollama + API + Web (Strava mocked automatically) |
+| `npm run dev:kill-port` | Kill any process holding port 4000 |
 | `npm run mongo:start` | Start MongoDB Docker container |
 | `npm run mongo:stop` | Stop MongoDB Docker container |
 | `npm run mongo:logs` | Tail MongoDB logs |
@@ -93,6 +96,7 @@ http://localhost:4000/api/auth/dev-login?redirect=http://localhost:5174
 | `LLM_BASE_URL` | OpenAI-compatible LLM base URL (default: `http://localhost:11434/v1` for Ollama) |
 | `LLM_API_KEY` | API key for cloud LLM providers (leave empty for local Ollama) |
 | `COACH_MODEL` | LLM model name (default: `llama3.1:8b`) |
+| `STRAVA_MOCK` | Set to `true` to auto-inject a mock Strava session (auto-set by `dev:local`) |
 
 ### AI Coach — production LLM options
 

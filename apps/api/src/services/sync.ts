@@ -1,4 +1,5 @@
 import { fetchActivities } from "./strava.js";
+import { MOCK_ACCESS_TOKEN } from "./strava-mock.js";
 import { listPlans, updatePlanActivity } from "./planning.js";
 
 /**
@@ -14,7 +15,7 @@ export async function autoCompletePlanActivities(
   userId: string,
   accessToken: string,
 ): Promise<void> {
-  if (accessToken === "dev-mock-token") return;
+  if (accessToken === MOCK_ACCESS_TOKEN) return;
 
   const today = new Date().toISOString().slice(0, 10);
 

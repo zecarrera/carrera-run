@@ -11,6 +11,7 @@ import { authRouter } from "./routes/auth.js";
 import { coachRouter } from "./routes/coach.js";
 import { plansRouter } from "./routes/plans.js";
 import { profileRouter } from "./routes/profile.js";
+import { MOCK_ACCESS_TOKEN } from "./services/strava-mock.js";
 
 dotenv.config({ path: resolve(process.cwd(), ".env") });
 dotenv.config({ path: resolve(process.cwd(), "../../.env") });
@@ -50,6 +51,33 @@ app.use(
     },
   }),
 );
+
+// When STRAVA_MOCK=true, auto-inject a mock Strava session so the app starts
+// pre-authenticated without needing to visit /api/auth/dev-login.
+if (!isProduction && process.env.STRAVA_MOCK === "true") {
+  console.log("[dev] STRAVA_MOCK=true — all requests will use mock Strava data");
+  app.use((request, _response, next) => {
+    if (!request.session.strava) {
+      request.session.strava = {
+        tokens: {
+          access_token: MOCK_ACCESS_TOKEN,
+          refresh_token: "dev-mock-refresh",
+          expires_at: Math.floor(Date.now() / 1000) + 3600,
+          expires_in: 3600,
+          token_type: "Bearer",
+        },
+        athlete: {
+          id: 99999999,
+          firstname: "Dev",
+          lastname: "Runner",
+          username: "dev_runner",
+          profile: undefined,
+        },
+      };
+    }
+    next();
+  });
+}
 
 app.get("/api/health", (_request, response) => {
   response.json({ status: "ok" });

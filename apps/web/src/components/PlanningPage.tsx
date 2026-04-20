@@ -109,11 +109,15 @@ function getPlanWeeks(plan: TrainingPlan): WeekInfo[] {
   const today = new Date();
   today.setHours(12, 0, 0, 0);
   const weeks: WeekInfo[] = [];
+
+  // Snap the first week start back to the preceding Sunday (getDay() === 0)
   const weekStart = new Date(planStart);
+  weekStart.setDate(planStart.getDate() - planStart.getDay());
+
   let weekNum = 1;
   while (weekStart <= planEnd) {
     const weekEnd = new Date(weekStart);
-    weekEnd.setDate(weekStart.getDate() + 6);
+    weekEnd.setDate(weekStart.getDate() + 6); // Saturday
     const wsStr = weekStart.toISOString().slice(0, 10);
     const weStr = weekEnd.toISOString().slice(0, 10);
     const weekActivities = plan.activities.filter((a) => a.date >= wsStr && a.date <= weStr);
@@ -149,16 +153,15 @@ function getCalendarCells(year: number, month: number, activities: PlanActivity[
   return cells;
 }
 
-function getActivityDescription(activity: PlanActivity): string {
-  if (activity.notes) return activity.notes;
+function getActivityMeta(activity: PlanActivity): string {
   if (activity.type === "Run") {
     const parts: string[] = [];
     if (activity.distanceKm) parts.push(`${activity.distanceKm} km`);
     if (activity.paceMinPerKm) parts.push(`${activity.paceMinPerKm} min/km`);
-    return parts.length ? parts.join(" \u00b7 ") : activity.type;
+    return parts.join(" · ");
   }
-  if (activity.durationMinutes) return `${activity.type} \u00b7 ${activity.durationMinutes} min`;
-  return activity.type;
+  if (activity.durationMinutes) return `${activity.durationMinutes} min`;
+  return "";
 }
 
 // ---- Icons ----
@@ -699,7 +702,8 @@ export function PlanningPage() {
                   <div key={a.id} className="calendar-day-activity-item">
                     <div className="calendar-day-activity-info">
                       <strong>{a.type}</strong>
-                      <span>{getActivityDescription(a)}</span>
+                      {getActivityMeta(a) && <span>{getActivityMeta(a)}</span>}
+                      {a.notes && <span>{a.notes}</span>}
                     </div>
                     <span className={`plan-status-badge ${a.status}`}>{STATUS_LABELS[a.status]}</span>
                   </div>
@@ -738,8 +742,9 @@ export function PlanningPage() {
                           <div className="plan-activity-row">
                             <div className={`activity-status-circle ${activity.status}`} />
                             <div className="plan-activity-row-info">
-                              <p className="plan-activity-day">{dayName}</p>
-                              <p className="plan-activity-desc">{getActivityDescription(activity)}</p>
+                              <p className="plan-activity-day">{dayName} · {activity.type}</p>
+                              {getActivityMeta(activity) && <p className="plan-activity-meta">{getActivityMeta(activity)}</p>}
+                              {activity.notes && <p className="plan-activity-desc">{activity.notes}</p>}
                             </div>
                             {activity.status === "not_started" ? (
                               <button type="button" className="log-activity-btn"
