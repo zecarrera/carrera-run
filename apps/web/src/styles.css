@@ -1551,7 +1551,7 @@ tbody tr.selected {
 
 .card-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.35rem;
   flex-shrink: 0;
 }
@@ -1563,12 +1563,11 @@ tbody tr.selected {
   gap: 0.35rem;
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.35rem 0.75rem;
+  padding: 0.3rem 0.65rem;
   font-size: 0.78rem;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
-  min-width: 110px;
   transition: opacity 0.15s, background 0.15s;
 }
 
@@ -1694,9 +1693,9 @@ tbody tr.selected {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* On mobile, keep action buttons on the right side as icon-only squares */
+  /* On mobile, action buttons are icon-only squares in a row aligned with the title */
   .plan-activity-card-top {
-    align-items: flex-start;
+    align-items: center;
   }
 
   .card-actions {
