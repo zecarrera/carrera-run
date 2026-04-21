@@ -124,6 +124,7 @@ Why this is the best free combination now:
 - Atlas M0 is a true managed MongoDB free tier
 - Render free works well for Node apps but does not provide a native free MongoDB product
 - Single service deployment avoids cross-site cookie/session issues
+- Sessions are persisted to MongoDB (in a `sessions` collection), so users stay logged in across Render restarts and spin-down/spin-up cycles
 
 ### 1) Create MongoDB Atlas free cluster (M0)
 

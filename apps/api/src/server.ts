@@ -3,6 +3,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import express from "express";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import cors from "cors";
 import { ZodError } from "zod";
 import { activitiesRouter } from "./routes/activities.js";
@@ -44,6 +45,12 @@ app.use(
     secret: process.env.SESSION_SECRET ?? "development-session-secret",
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URI,
+      dbName: process.env.MONGODB_DB_NAME ?? "carrera_run",
+      collectionName: "sessions",
+      ttl: 60 * 60 * 24 * 7, // 7 days, matches cookie maxAge
+    }),
     cookie: {
       httpOnly: true,
       sameSite: "lax",
