@@ -17,8 +17,14 @@ import {
   updatePlan,
   updatePlanActivity,
 } from "../services/planning.js";
+import { autoCompletePlanActivities } from "../services/sync.js";
 
 const plansRouter = Router();
+
+// Per-user timestamp (ms) of the last auto-complete run. Kept in-memory so it
+// resets on server restart — that's fine, it just triggers one extra run.
+const lastAutoCompleteAt = new Map<string, number>();
+const AUTO_COMPLETE_THROTTLE_MS = 5 * 60 * 1000; // 5 minutes
 
 plansRouter.use((request, response, next) => {
   const athleteId = request.session.strava?.athlete?.id;
@@ -33,7 +39,19 @@ plansRouter.use((request, response, next) => {
 
 plansRouter.get("/", async (request, response, next) => {
   try {
-    const plans = await listPlans(request.planUserId!);
+    const userId = request.planUserId!;
+    const tokens = request.session.strava?.tokens;
+    const now = Date.now();
+    const lastRun = lastAutoCompleteAt.get(userId) ?? 0;
+
+    if (tokens && now - lastRun > AUTO_COMPLETE_THROTTLE_MS) {
+      lastAutoCompleteAt.set(userId, now);
+      await autoCompletePlanActivities(userId, tokens.access_token).catch((err: unknown) => {
+        console.warn("[Plans] Auto-complete plan activities failed:", err);
+      });
+    }
+
+    const plans = await listPlans(userId);
     response.json({ plans });
   } catch (error) {
     next(error);

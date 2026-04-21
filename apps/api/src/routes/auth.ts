@@ -2,7 +2,6 @@ import { Router } from "express";
 import { z } from "zod";
 import { buildAuthorizationUrl, exchangeCodeForToken } from "../services/strava.js";
 import { MOCK_ACCESS_TOKEN } from "../services/strava-mock.js";
-import { autoCompletePlanActivities } from "../services/sync.js";
 
 const authRouter = Router();
 
@@ -33,13 +32,6 @@ authRouter.get("/strava/callback", async (request, response, next) => {
       },
       athlete: result.athlete,
     };
-
-    // Fire-and-forget: auto-complete plan activities that have matching
-    // Strava runs. Never blocks the redirect and never surfaces errors.
-    const userId = String(result.athlete.id);
-    autoCompletePlanActivities(userId, result.access_token).catch((err: unknown) => {
-      console.warn("[Auth] Auto-complete plan activities failed:", err);
-    });
 
     response.redirect(process.env.CLIENT_ORIGIN ?? "/");
   } catch (error) {
