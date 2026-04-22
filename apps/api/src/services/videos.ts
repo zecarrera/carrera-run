@@ -8,26 +8,34 @@ export interface VideoRecommendation {
   role: VideoRole;
 }
 
+interface CuratedVideo extends VideoRecommendation {
+  /** Estimated video duration in minutes — used for duration-aware selection. */
+  durationMinutes: number;
+}
+
 /** Static curated list used as fallback when YOUTUBE_API_KEY is not set. */
-const CURATED_VIDEOS: VideoRecommendation[] = [
+const CURATED_VIDEOS: CuratedVideo[] = [
   // ── Run warm-ups ──────────────────────────────────────────────────────────
   {
     videoId: "bXhpzCGJSbc",
     title: "10-Minute Pre-Run Warm Up Routine",
     channelName: "The Run Experience",
     role: "warm-up",
+    durationMinutes: 10,
   },
   {
     videoId: "taFBHDz0Cjk",
     title: "5-Minute Dynamic Warm Up Before Running",
     channelName: "Sage Running",
     role: "warm-up",
+    durationMinutes: 5,
   },
   {
     videoId: "V0rR9Gi8D8I",
     title: "Pre-Run Warm Up | Dynamic Stretches for Runners",
     channelName: "James Dunne",
     role: "warm-up",
+    durationMinutes: 8,
   },
 
   // ── Run cool-downs ────────────────────────────────────────────────────────
@@ -36,18 +44,21 @@ const CURATED_VIDEOS: VideoRecommendation[] = [
     title: "Post-Run Cool Down & Stretching Routine",
     channelName: "The Run Experience",
     role: "cool-down",
+    durationMinutes: 15,
   },
   {
     videoId: "d_oHRhBHiOM",
     title: "10-Minute Post-Run Stretching Routine",
     channelName: "Sage Running",
     role: "cool-down",
+    durationMinutes: 10,
   },
   {
     videoId: "R29M4SsoB4A",
     title: "Cool Down Stretches for Runners",
     channelName: "James Dunne",
     role: "cool-down",
+    durationMinutes: 8,
   },
 
   // ── Strength ──────────────────────────────────────────────────────────────
@@ -56,18 +67,21 @@ const CURATED_VIDEOS: VideoRecommendation[] = [
     title: "Strength Training for Runners — Full Routine",
     channelName: "Strength Running",
     role: "general",
+    durationMinutes: 25,
   },
   {
     videoId: "8rQcUVQhq-4",
     title: "Runner-Specific Strength Workout",
     channelName: "The Run Experience",
     role: "general",
+    durationMinutes: 20,
   },
   {
     videoId: "P-kxBRlxqhA",
     title: "Strength Exercises Every Runner Should Do",
     channelName: "James Dunne",
     role: "general",
+    durationMinutes: 15,
   },
 
   // ── Flexibility ───────────────────────────────────────────────────────────
@@ -76,18 +90,21 @@ const CURATED_VIDEOS: VideoRecommendation[] = [
     title: "Yoga for Runners — Full Flexibility Routine",
     channelName: "Yoga With Adriene",
     role: "general",
+    durationMinutes: 30,
   },
   {
     videoId: "sTANio_2E0Q",
     title: "Hip Flexor Stretches for Runners",
     channelName: "James Dunne",
     role: "general",
+    durationMinutes: 10,
   },
   {
     videoId: "7m9TUm5dn0k",
     title: "Flexibility Routine to Improve Running Form",
     channelName: "Sage Running",
     role: "general",
+    durationMinutes: 15,
   },
 ];
 
@@ -110,6 +127,27 @@ const YOUTUBE_QUERIES: Record<ActivityType, Record<VideoRole, string>> = {
   },
 };
 
+/** Maps an activity duration to YouTube's videoDuration filter bucket. */
+function toYouTubeDurationFilter(
+  durationMinutes: number | undefined,
+  defaultFilter: "short" | "medium" | "long" = "medium",
+): "short" | "medium" | "long" {
+  if (durationMinutes === undefined) return defaultFilter;
+  if (durationMinutes <= 4) return "short";
+  if (durationMinutes <= 20) return "medium";
+  return "long";
+}
+
+/** Fisher-Yates shuffle — returns a new shuffled copy of the array. */
+function shuffled<T>(arr: T[]): T[] {
+  const copy = arr.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
 interface YouTubeApiItem {
   id?: { videoId?: string };
   snippet?: {
@@ -126,6 +164,7 @@ interface YouTubeApiResponse {
 async function searchYouTube(
   query: string,
   channelFilter?: string,
+  videoDuration?: "short" | "medium" | "long",
 ): Promise<VideoRecommendation | null> {
   const apiKey = process.env.YOUTUBE_API_KEY;
   if (!apiKey) return null;
@@ -133,11 +172,11 @@ async function searchYouTube(
   try {
     const params = new URLSearchParams({
       part: "snippet",
-      q: query,
+      q: channelFilter ? `${query} ${channelFilter}` : query,
       type: "video",
       maxResults: "5",
       key: apiKey,
-      ...(channelFilter ? { q: `${query} ${channelFilter}` } : {}),
+      ...(videoDuration ? { videoDuration } : {}),
     });
 
     const response = await fetch(`https://www.googleapis.com/youtube/v3/search?${params.toString()}`);
@@ -164,21 +203,32 @@ function pickFromCurated(
   role: VideoRole,
   preferredChannels: string[],
   allowOtherChannels: boolean,
+  activityDurationMinutes?: number,
 ): VideoRecommendation | null {
   const candidates = CURATED_VIDEOS.filter((v) =>
     activityType === "Run" ? v.role === role : v.role === "general",
   );
+
+  // Helper: pick the candidate closest in duration, breaking ties randomly.
+  const pickClosest = (pool: CuratedVideo[]): CuratedVideo => {
+    if (activityDurationMinutes === undefined || activityType === "Run") {
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+    const minDiff = Math.min(...pool.map((v) => Math.abs(v.durationMinutes - activityDurationMinutes)));
+    const closest = pool.filter((v) => Math.abs(v.durationMinutes - activityDurationMinutes) === minDiff);
+    return closest[Math.floor(Math.random() * closest.length)];
+  };
 
   if (preferredChannels.length > 0) {
     const normalised = preferredChannels.map((c) => c.toLowerCase());
     const preferred = candidates.filter((v) =>
       normalised.some((ch) => v.channelName.toLowerCase().includes(ch)),
     );
-    if (preferred.length > 0) return preferred[0];
+    if (preferred.length > 0) return pickClosest(preferred);
     if (!allowOtherChannels) return null;
   }
 
-  return candidates[0] ?? null;
+  return candidates.length > 0 ? pickClosest(candidates) : null;
 }
 
 /**
@@ -187,15 +237,20 @@ function pickFromCurated(
  * - Strength / Flexibility: returns 1 item
  *
  * Strategy (per recommendation slot):
- * 1. If YOUTUBE_API_KEY is set, search YouTube filtered by preferred channels
- * 2. Fall back to the static curated list
+ * 1. If YOUTUBE_API_KEY is set, search YouTube filtered by a randomly chosen
+ *    preferred channel (channels are shuffled per request for variety).
+ * 2. Fall back to the static curated list, picking the video closest in
+ *    duration to the planned activity (random among ties).
  */
 export async function getVideoRecommendations(
   activityType: ActivityType,
   preferredChannels: string[],
   allowOtherChannels: boolean,
+  activityDurationMinutes?: number,
 ): Promise<VideoRecommendation[]> {
   const apiKey = process.env.YOUTUBE_API_KEY;
+  // Shuffle channels once per request so each call may try a different channel first.
+  const channels = shuffled(preferredChannels);
 
   if (activityType === "Run") {
     const roles: VideoRole[] = ["warm-up", "cool-down"];
@@ -206,10 +261,11 @@ export async function getVideoRecommendations(
 
       if (apiKey) {
         const query = YOUTUBE_QUERIES.Run[role];
-        if (preferredChannels.length > 0) {
-          // Try each preferred channel
-          for (const channel of preferredChannels) {
-            video = await searchYouTube(query, channel);
+        // Run warm-up/cool-down videos are always short-to-medium length regardless of run distance.
+        const durationFilter = toYouTubeDurationFilter(undefined, "medium");
+        if (channels.length > 0) {
+          for (const channel of channels) {
+            video = await searchYouTube(query, channel, durationFilter);
             if (video) {
               video.role = role;
               video.channelName = channel;
@@ -217,11 +273,11 @@ export async function getVideoRecommendations(
             }
           }
           if (!video && allowOtherChannels) {
-            video = await searchYouTube(query);
+            video = await searchYouTube(query, undefined, durationFilter);
             if (video) video.role = role;
           }
         } else {
-          video = await searchYouTube(query);
+          video = await searchYouTube(query, undefined, durationFilter);
           if (video) video.role = role;
         }
       }
@@ -241,9 +297,10 @@ export async function getVideoRecommendations(
 
   if (apiKey) {
     const query = YOUTUBE_QUERIES[activityType].general;
-    if (preferredChannels.length > 0) {
-      for (const channel of preferredChannels) {
-        video = await searchYouTube(query, channel);
+    const durationFilter = toYouTubeDurationFilter(activityDurationMinutes);
+    if (channels.length > 0) {
+      for (const channel of channels) {
+        video = await searchYouTube(query, channel, durationFilter);
         if (video) {
           video.role = "general";
           video.channelName = channel;
@@ -251,17 +308,17 @@ export async function getVideoRecommendations(
         }
       }
       if (!video && allowOtherChannels) {
-        video = await searchYouTube(query);
+        video = await searchYouTube(query, undefined, durationFilter);
         if (video) video.role = "general";
       }
     } else {
-      video = await searchYouTube(query);
+      video = await searchYouTube(query, undefined, durationFilter);
       if (video) video.role = "general";
     }
   }
 
   if (!video) {
-    video = pickFromCurated(activityType, "general", preferredChannels, allowOtherChannels);
+    video = pickFromCurated(activityType, "general", preferredChannels, allowOtherChannels, activityDurationMinutes);
   }
 
   return video ? [video] : [];

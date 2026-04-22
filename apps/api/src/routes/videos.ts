@@ -23,6 +23,12 @@ videosRouter.get("/recommendation", async (request, response, next) => {
       return;
     }
 
+    const durationMinutesRaw = request.query.durationMinutes;
+    const activityDurationMinutes =
+      typeof durationMinutesRaw === "string" && durationMinutesRaw !== ""
+        ? parseInt(durationMinutesRaw, 10) || undefined
+        : undefined;
+
     const userId = String(athleteId);
     const profile = await getProfile(userId);
 
@@ -30,6 +36,7 @@ videosRouter.get("/recommendation", async (request, response, next) => {
       activityType as ActivityType,
       profile.preferredChannels,
       profile.allowOtherChannels,
+      activityDurationMinutes,
     );
 
     response.json({ recommendations });

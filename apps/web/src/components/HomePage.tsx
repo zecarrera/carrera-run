@@ -150,7 +150,7 @@ function ExternalLinkIcon() {
 
 /* ── Activity card ────────────────────────────────────────────────────────── */
 
-function VideoRecommendationPanel({ activityType }: { activityType: string }) {
+function VideoRecommendationPanel({ activityType, durationMinutes }: { activityType: string; durationMinutes?: number }) {
   const [expanded, setExpanded] = useState(false);
   const [videos, setVideos] = useState<VideoRecommendation[]>([]);
   const [loading, setLoading] = useState(false);
@@ -167,7 +167,7 @@ function VideoRecommendationPanel({ activityType }: { activityType: string }) {
     setError(null);
     try {
       const res = await fetch(
-        `/api/videos/recommendation?activityType=${encodeURIComponent(activityType)}`,
+        `/api/videos/recommendation?activityType=${encodeURIComponent(activityType)}${durationMinutes != null ? `&durationMinutes=${durationMinutes}` : ""}`,
         { credentials: "include" },
       );
       if (!res.ok) {
@@ -330,7 +330,7 @@ function ActivityCard({
 
       {/* Video recommendation — shown for today's non-skipped activities */}
       {isToday && activity.status !== "skipped" && (
-        <VideoRecommendationPanel activityType={activity.type} />
+        <VideoRecommendationPanel activityType={activity.type} durationMinutes={activity.durationMinutes} />
       )}
 
       {/* Comment input for Partially Done */}
