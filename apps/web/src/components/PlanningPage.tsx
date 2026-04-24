@@ -260,6 +260,8 @@ export function PlanningPage() {
 
   // UI state
   const [loggingActivityId, setLoggingActivityId] = useState<string | null>(null);
+  const [editingActivityId, setEditingActivityId] = useState<string | null>(null);
+  const [editActivityForm, setEditActivityForm] = useState<CreateActivityForm>(EMPTY_ACTIVITY_FORM);
   const [expandedWeeks, setExpandedWeeks] = useState<Set<number>>(new Set());
   const [calendarYear, setCalendarYear] = useState(() => new Date().getFullYear());
   const [calendarMonth, setCalendarMonth] = useState(() => new Date().getMonth());
@@ -429,6 +431,48 @@ export function PlanningPage() {
       setPlans((cur) => sortPlans(cur.map((p) => (p.id === payload.plan.id ? payload.plan : p))));
       setActivityDrafts((cur) => { const next = { ...cur }; delete next[activity.id]; return next; });
       setLoggingActivityId(null);
+      setSuccessMessage("Activity updated.");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to update activity.");
+    } finally {
+      setIsUpdatingActivityId(null);
+    }
+  };
+
+  const handleStartEditActivity = (activity: PlanActivity) => {
+    setEditingActivityId(activity.id);
+    setLoggingActivityId(null);
+    setEditActivityForm({
+      date: activity.date,
+      type: activity.type,
+      distanceKm: activity.distanceKm != null ? String(activity.distanceKm) : "",
+      paceMinPerKm: activity.paceMinPerKm != null ? String(activity.paceMinPerKm) : "",
+      durationMinutes: activity.durationMinutes != null ? String(activity.durationMinutes) : "",
+      notes: activity.notes ?? "",
+    });
+  };
+
+  const handleSaveEditActivity = async (activity: PlanActivity) => {
+    if (!selectedPlanId) return;
+    setIsUpdatingActivityId(activity.id);
+    setErrorMessage(null);
+    setSuccessMessage(null);
+    try {
+      const body: Record<string, string | number> = { date: editActivityForm.date };
+      if (editActivityForm.notes.trim()) body.notes = editActivityForm.notes.trim();
+      else body.notes = "";
+      if (activity.type === "Run") {
+        if (editActivityForm.distanceKm) body.distanceKm = Number(editActivityForm.distanceKm);
+        if (editActivityForm.paceMinPerKm) body.paceMinPerKm = Number(editActivityForm.paceMinPerKm);
+      } else {
+        if (editActivityForm.durationMinutes) body.durationMinutes = Number(editActivityForm.durationMinutes);
+      }
+      const payload = await apiRequest<{ plan: TrainingPlan }>(
+        `/api/plans/${selectedPlanId}/activities/${activity.id}`,
+        { method: "PATCH", body: JSON.stringify(body) },
+      );
+      setPlans((cur) => sortPlans(cur.map((p) => (p.id === payload.plan.id ? payload.plan : p))));
+      setEditingActivityId(null);
       setSuccessMessage("Activity updated.");
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Unable to update activity.");
@@ -747,10 +791,17 @@ export function PlanningPage() {
                               {activity.notes && <p className="plan-activity-desc">{activity.notes}</p>}
                             </div>
                             {activity.status === "not_started" ? (
-                              <button type="button" className="log-activity-btn"
-                                onClick={() => setLoggingActivityId((cur) => cur === activity.id ? null : activity.id)}>
-                                Log
-                              </button>
+                              <div className="activity-row-actions">
+                                <button type="button" className="log-activity-btn"
+                                  onClick={() => { setLoggingActivityId((cur) => cur === activity.id ? null : activity.id); setEditingActivityId(null); }}>
+                                  Log
+                                </button>
+                                <button type="button" className="plan-icon-btn" title="Edit activity"
+                                  aria-label={`Edit ${activity.type} on ${activity.date}`}
+                                  onClick={() => editingActivityId === activity.id ? setEditingActivityId(null) : handleStartEditActivity(activity)}>
+                                  <EditIcon />
+                                </button>
+                              </div>
                             ) : (
                               <span className={`plan-status-badge ${activity.status}`}>{STATUS_LABELS[activity.status]}</span>
                             )}
@@ -771,6 +822,42 @@ export function PlanningPage() {
                                   {isUpdatingActivityId === activity.id ? "Saving..." : "Save"}
                                 </button>
                                 <button type="button" className="activity-log-cancel-btn" onClick={() => setLoggingActivityId(null)}>Cancel</button>
+                              </div>
+                            </div>
+                          )}
+                          {editingActivityId === activity.id && (
+                            <div className="activity-log-form">
+                              <label className="add-activity-field">Date
+                                <input type="date" value={editActivityForm.date}
+                                  onChange={(e) => setEditActivityForm((c) => ({ ...c, date: e.target.value }))} />
+                              </label>
+                              {activity.type === "Run" ? (
+                                <>
+                                  <label className="add-activity-field">Distance (km)
+                                    <input type="number" min="0.1" step="0.1" value={editActivityForm.distanceKm}
+                                      onChange={(e) => setEditActivityForm((c) => ({ ...c, distanceKm: e.target.value }))} />
+                                  </label>
+                                  <label className="add-activity-field">Pace (min/km)
+                                    <input type="number" min="0.1" step="0.01" value={editActivityForm.paceMinPerKm}
+                                      onChange={(e) => setEditActivityForm((c) => ({ ...c, paceMinPerKm: e.target.value }))} />
+                                  </label>
+                                </>
+                              ) : (
+                                <label className="add-activity-field">Duration (min)
+                                  <input type="number" min="1" value={editActivityForm.durationMinutes}
+                                    onChange={(e) => setEditActivityForm((c) => ({ ...c, durationMinutes: e.target.value }))} />
+                                </label>
+                              )}
+                              <label className="add-activity-field">Notes
+                                <input value={editActivityForm.notes} placeholder="Optional"
+                                  onChange={(e) => setEditActivityForm((c) => ({ ...c, notes: e.target.value }))} />
+                              </label>
+                              <div className="activity-log-form-actions">
+                                <button type="button" className="activity-log-save-btn" disabled={isUpdatingActivityId === activity.id}
+                                  onClick={() => void handleSaveEditActivity(activity)}>
+                                  {isUpdatingActivityId === activity.id ? "Saving..." : "Save"}
+                                </button>
+                                <button type="button" className="activity-log-cancel-btn" onClick={() => setEditingActivityId(null)}>Cancel</button>
                               </div>
                             </div>
                           )}
