@@ -2532,6 +2532,12 @@ tbody tr.selected {
   color: var(--fg-muted);
 }
 
+.week-planned-distance {
+  font-size: 0.73rem;
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
 .week-accordion-right {
   display: flex;
   align-items: center;

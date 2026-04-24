@@ -771,6 +771,12 @@ export function PlanningPage() {
                   <div className="week-accordion-left">
                     <span className="week-accordion-name">Week {week.weekNum}</span>
                     <span className="week-accordion-dates">{formatDate(week.startDate)} &ndash; {formatDate(week.endDate)}</span>
+                    {(() => {
+                      const totalKm = week.activities.reduce((sum, a) => sum + (a.distanceKm ?? 0), 0);
+                      return totalKm > 0 ? (
+                        <span className="week-planned-distance">Planned Total Distance: {totalKm % 1 === 0 ? totalKm : totalKm.toFixed(1)} km</span>
+                      ) : null;
+                    })()}
                   </div>
                   <div className="week-accordion-right">
                     {week.activities.length > 0 && <span className="week-completed-count">{completedCount}/{week.activities.length} completed</span>}

@@ -319,8 +319,7 @@ describe("PlanningPage", () => {
     const weekBtns = await screen.findAllByRole("button", { name: /week 1/i });
     await user.click(weekBtns[0]);
 
-    expect(await screen.findByText(/10 km/)).toBeInTheDocument();
-    expect(screen.getByText(/5\.5 min\/km/)).toBeInTheDocument();
+    expect(await screen.findByText(/10 km · 5\.5 min\/km/)).toBeInTheDocument();
   });
 
   it("weeks in the weekly schedule always start on Sunday", async () => {
