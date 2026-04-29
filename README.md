@@ -91,7 +91,7 @@ http://localhost:4000/api/auth/dev-login?redirect=http://localhost:5174
 | `STRAVA_SCOPES` | Requested Strava scopes |
 | `SESSION_SECRET` | Session signing secret |
 | `CLIENT_ORIGIN` | Frontend origin (dev only — set to Vite's port) |
-| `NODE_ENV` | `development` locally, `production` on Render |
+| `NODE_ENV` | `development` locally, `production` on Vercel |
 | `PORT` | API port (default `4000`) |
 | `MONGODB_URI` | MongoDB connection string |
 | `MONGODB_DB_NAME` | MongoDB database name (default `carrera_run`) |
@@ -112,72 +112,64 @@ The coach works with any OpenAI-compatible provider. Set `LLM_BASE_URL`, `LLM_AP
 | Groq (free tier) | `https://api.groq.com/openai/v1` | `llama-3.1-8b-instant` |
 | Any OpenAI-compat | your URL | model name |
 
-## Deploy to Render (Free) + Mongo Atlas (Free)
+## Deploy to Vercel (Free) + Mongo Atlas (Free)
 
-Recommended setup for this project:
+Recommended setup:
 
-- **Render Web Service (free)** for API + built frontend in a single service
-- **MongoDB Atlas M0 (free)** for managed MongoDB
+- **Vercel Hobby (free)** — React SPA on Vercel's CDN, Express API as a serverless function. No sleep/cold-start penalty (functions spin up in ~100–500ms vs. the 30–60s wake-up of some platforms).
+- **MongoDB Atlas M0 (free)** — managed MongoDB.
 
-Why this is the best free combination now:
-
-- Atlas M0 is a true managed MongoDB free tier
-- Render free works well for Node apps but does not provide a native free MongoDB product
-- Single service deployment avoids cross-site cookie/session issues
-- Sessions are persisted to MongoDB (in a `sessions` collection), so users stay logged in across Render restarts and spin-down/spin-up cycles
+The repo uses a single Vercel project. `vercel.json` at the root configures the build and routes all `/api/*` requests to the Express serverless function while everything else is served from the static React build.
 
 ### 1) Create MongoDB Atlas free cluster (M0)
 
 1. Create an Atlas project and an **M0 free cluster**.
 2. In **Database Access**, create an app user and password.
-3. In **Network Access**, add `0.0.0.0/0` for quick start (tighten later if needed).
-4. Copy the connection string, for example:
-
-	`mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority&appName=<app>`
-
+3. In **Network Access**, add `0.0.0.0/0` — Vercel functions run from dynamic IPs so all-IP access is required.
+4. Copy the connection string: `mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority`
 5. Use database name `carrera_run` (or your preferred value).
 
-### 2) Create Render web service
+### 2) Deploy to Vercel
 
 1. Push this repo to GitHub.
-2. In Render, create a **Web Service** from the repo (or use Blueprint with `render.yaml`).
-3. Set plan to **Free**.
-4. Ensure build/start commands are:
-	- Build: `npm ci && npm run build`
-	- Start: `npm run start`
-5. Set environment variables in Render:
-	- `NODE_ENV=production`
-	- `SESSION_SECRET=<long-random-secret>`
-	- `STRAVA_CLIENT_ID=<value>`
-	- `STRAVA_CLIENT_SECRET=<value>`
-	- `STRAVA_SCOPES=read,activity:read_all`
-	- `STRAVA_REDIRECT_URI=https://<your-render-service>.onrender.com/api/auth/strava/callback`
-	- `MONGODB_URI=<your-atlas-uri>`
-	- `MONGODB_DB_NAME=carrera_run`
-	- `LLM_BASE_URL=<your-llm-endpoint>` (e.g. Groq or OpenAI)
-	- `LLM_API_KEY=<your-api-key>`
-	- `COACH_MODEL=<model-name>` (e.g. `gpt-4o-mini` or `llama-3.1-8b-instant`)
+2. In Vercel, create a **New Project** and import the repo.
+3. Vercel will detect `vercel.json` automatically — no framework preset needed; leave build settings as-is.
+4. Set the following **Environment Variables** (Production):
+
+| Variable | Value |
+|---|---|
+| `NODE_ENV` | `production` |
+| `SESSION_SECRET` | _(generate a long random value)_ |
+| `STRAVA_CLIENT_ID` | _(from Strava API settings)_ |
+| `STRAVA_CLIENT_SECRET` | _(from Strava API settings)_ |
+| `STRAVA_REDIRECT_URI` | `https://<your-vercel-domain>/api/auth/strava/callback` |
+| `STRAVA_SCOPES` | `read,activity:read_all` |
+| `MONGODB_URI` | _(your Atlas connection string)_ |
+| `MONGODB_DB_NAME` | `carrera_run` |
+| `LLM_BASE_URL` | e.g. `https://api.groq.com/openai/v1` |
+| `LLM_API_KEY` | _(Groq or OpenAI API key)_ |
+| `COACH_MODEL` | e.g. `llama-3.1-8b-instant` |
+
+> **Note:** `CLIENT_ORIGIN` is not needed on Vercel — the web and API share the same domain, so CORS is not required.
 
 ### 3) Update Strava app callback
 
-In Strava developer settings, set **Authorization Callback Domain** to:
+In Strava developer settings, set **Authorization Callback Domain** to your Vercel domain (domain only, no `https://` or trailing slash), e.g. `carrera-run.vercel.app`.
 
-- `<your-render-service>.onrender.com` (domain only, no `https://` or trailing slash)
-
-> **Note:** Strava only allows one app and one callback domain per account. This means you can only have local dev **or** production active at a time — not both simultaneously. To switch: update the callback domain in the Strava developer portal to `localhost` for local dev, or back to your Render domain for production. The switch takes ~10 seconds.
+> Strava only allows one callback domain per app. To switch between local and production, update this field in the Strava developer portal (takes ~10 seconds).
 
 ### 4) Validate deployment
 
-- Health check: `https://<your-render-service>.onrender.com/api/health`
-- Open app root URL and test Strava login
+- Health check: `https://<your-vercel-domain>/api/health`
+- Open the app and test Strava login
 - Create/read a plan to verify Atlas persistence
 - Go to Planning → "🤖 Build with Coach" to test the AI coach
 
 ### Free-tier notes
 
-- Render free instances sleep when idle (cold starts are expected).
+- Vercel Hobby serverless functions have a **10-second execution limit**. The AI coach uses Groq (typically 2–5s) which is well within the limit.
 - Atlas M0 has shared resources and storage limits.
-- Keep logs/usage under free-tier quotas.
+- Sessions are persisted to MongoDB, so users stay logged in across function cold starts.
 
 ## Planning API (MongoDB-backed)
 
