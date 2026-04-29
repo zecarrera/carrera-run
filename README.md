@@ -231,7 +231,6 @@ All activity `date` values must fall within the plan window. `id`, `userId`, `cr
 - `GET /api/videos/recommendation?activityType=Run|Strength|Flexibility` — returns 1–2 `VideoRecommendation` objects filtered by the user's preferred channels. Uses YouTube Data API v3 when `YOUTUBE_API_KEY` is set; falls back to a static curated list otherwise.
 
 ## Notes
-
 - The app stores tokens in the server session for local development.
 - Secrets remain on the backend; the browser never sees the Strava client secret.
 - The current UI focuses on runs. Other activity types are filtered out of the dashboard metrics.
