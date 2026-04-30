@@ -13,11 +13,6 @@ describe("LoadingScreen", () => {
     expect(screen.getByRole("main")).toHaveAttribute("aria-label", "Loading your activities…");
   });
 
-  it("renders the logo", () => {
-    render(<LoadingScreen />);
-    expect(screen.getByAltText("Carrera Run")).toBeInTheDocument();
-  });
-
   it("renders the loading text", () => {
     render(<LoadingScreen message="Loading" />);
     const main = screen.getByRole("main");

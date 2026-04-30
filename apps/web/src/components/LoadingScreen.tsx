@@ -7,8 +7,6 @@ interface LoadingScreenProps {
 export function LoadingScreen({ message = "Loading" }: LoadingScreenProps) {
   return (
     <main className="loading-screen" aria-label={`${message}…`} aria-live="polite">
-      <img src="/logo.png" alt="Carrera Run" className="loading-logo" />
-
       <div className="loading-runner-wrap">
         {/* Runner silhouette — mid-stride, leaning forward */}
         <svg
