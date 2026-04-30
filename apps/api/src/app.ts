@@ -11,7 +11,7 @@ import { coachRouter } from "./routes/coach.js";
 import { plansRouter } from "./routes/plans.js";
 import { profileRouter } from "./routes/profile.js";
 import { videosRouter } from "./routes/videos.js";
-import { MOCK_ACCESS_TOKEN } from "./services/strava-mock.js";
+import { MOCK_ACCESS_TOKEN, isMockEnabled } from "./services/strava-mock.js";
 
 const app = express();
 const clientOrigin = process.env.CLIENT_ORIGIN ?? "http://localhost:5173";
@@ -30,18 +30,34 @@ if (!isProduction || process.env.CLIENT_ORIGIN) {
   );
 }
 app.use(express.json());
+const mongoUri = process.env.MONGODB_URI;
+
+if (!mongoUri) {
+  if (isProduction && !isMockEnabled()) {
+    // In real production (no mock), missing MongoDB is a fatal misconfiguration.
+    throw new Error("MONGODB_URI must be set in production. Sessions cannot be persisted without it.");
+  }
+  // In mock/dev mode the middleware re-injects the session on every request,
+  // so in-memory sessions are fine.
+  console.warn("[warn] MONGODB_URI is not set — using in-memory session store (mock/dev mode only).");
+}
+
 app.use(
   session({
     name: "carrera-run.sid",
     secret: process.env.SESSION_SECRET ?? "development-session-secret",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,
-      dbName: process.env.MONGODB_DB_NAME ?? "carrera_run",
-      collectionName: "sessions",
-      ttl: 60 * 60 * 24 * 7,
-    }),
+    ...(mongoUri
+      ? {
+          store: MongoStore.create({
+            mongoUrl: mongoUri,
+            dbName: process.env.MONGODB_DB_NAME ?? "carrera_run",
+            collectionName: "sessions",
+            ttl: 60 * 60 * 24 * 7,
+          }),
+        }
+      : {}),
     cookie: {
       httpOnly: true,
       sameSite: "lax",
@@ -51,8 +67,8 @@ app.use(
   }),
 );
 
-if (!isProduction && process.env.STRAVA_MOCK === "true") {
-  console.log("[dev] STRAVA_MOCK=true — all requests will use mock Strava data");
+if (isMockEnabled()) {
+  console.log("[mock] STRAVA_MOCK=true — all requests will use mock Strava data");
   app.use((request, _response, next) => {
     if (!request.session.strava) {
       request.session.strava = {

@@ -65,7 +65,7 @@ This sets a fake session and shows clickable links to common Vite ports. You can
 http://localhost:4000/api/auth/dev-login?redirect=http://localhost:5174
 ```
 
-> This route and the `STRAVA_MOCK` auto-session are **only available when `NODE_ENV !== production`** and are never exposed in deployed builds.
+> This route and the `STRAVA_MOCK` auto-session are available whenever `STRAVA_MOCK=true` — locally and on Vercel preview. Never set `STRAVA_MOCK` in production.
 
 ### Helper scripts
 
@@ -149,6 +149,15 @@ The repo uses a single Vercel project. `vercel.json` at the root configures the 
 | `LLM_BASE_URL` | e.g. `https://api.groq.com/openai/v1` |
 | `LLM_API_KEY` | _(Groq or OpenAI API key)_ |
 | `COACH_MODEL` | e.g. `llama-3.1-8b-instant` |
+
+### 2b) Vercel preview environment (optional)
+
+To use mock Strava data on preview deployments (no real Strava credentials needed):
+
+1. In Vercel → Project Settings → **Environment Variables**
+2. Add `STRAVA_MOCK` = `true`, scoped to **Preview** only (not Production)
+
+Preview deployments will then auto-inject a fake "Dev Runner" session and return mock activity data. All other env vars (`MONGODB_URI`, `SESSION_SECRET`, `LLM_*`) still apply.
 
 > **Note:** `CLIENT_ORIGIN` is not needed on Vercel — the web and API share the same domain, so CORS is not required.
 

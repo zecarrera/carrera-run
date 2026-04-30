@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ActivitiesPage } from "./components/ActivitiesPage";
+import { LoadingScreen } from "./components/LoadingScreen";
 import { Navigation } from "./components/Navigation";
 import { HomePage } from "./components/HomePage";
 import { PlanningPage } from "./components/PlanningPage";
@@ -63,11 +64,7 @@ export default function App() {
   }
 
   if (state === "loading") {
-    return (
-      <main className="shell centered-state">
-        <p>Loading your activities...</p>
-      </main>
-    );
+    return <LoadingScreen message="Loading your activities" />;
   }
 
   if (state === "error") {

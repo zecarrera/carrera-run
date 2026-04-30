@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDuration } from "../lib/format";
 import type { Activity, ActivityStatus, AthleteSummary, PlanActivity, TrainingPlan, VideoRecommendation } from "../types";
+import { LoadingScreen } from "./LoadingScreen";
 
 type HomePageProps = {
   summary: AthleteSummary;
@@ -462,6 +463,10 @@ export function HomePage(_props: HomePageProps) {
 
   const nextIdx = weekActivities.findIndex((a) => a.status === "not_started");
 
+  if (isLoadingWeek) {
+    return <LoadingScreen message="Loading your dashboard" />;
+  }
+
   return (
     <div className="dashboard">
       {/* Page title */}
@@ -512,9 +517,7 @@ export function HomePage(_props: HomePageProps) {
           </Link>
         </div>
 
-        {isLoadingWeek ? (
-          <p className="subtle">Loading...</p>
-        ) : weekActivities.length === 0 ? (
+        {weekActivities.length === 0 ? (
           <div style={{ marginBottom: "1.5rem" }}>
             <p className="subtle" style={{ marginBottom: "0.75rem" }}>
               No activities planned for this week.
