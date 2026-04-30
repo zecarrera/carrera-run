@@ -3,6 +3,8 @@ import { normalizeActivity } from "./strava.js";
 
 export const MOCK_ACCESS_TOKEN = "dev-mock-token";
 
+export const isMockEnabled = (): boolean => process.env.STRAVA_MOCK === "true";
+
 export const isMockSession = (token: string): boolean =>
   token === MOCK_ACCESS_TOKEN;
 

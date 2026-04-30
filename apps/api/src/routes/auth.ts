@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import { buildAuthorizationUrl, exchangeCodeForToken } from "../services/strava.js";
-import { MOCK_ACCESS_TOKEN } from "../services/strava-mock.js";
+import { MOCK_ACCESS_TOKEN, isMockEnabled } from "../services/strava-mock.js";
 
 const authRouter = Router();
 
@@ -39,9 +39,9 @@ authRouter.get("/strava/callback", async (request, response, next) => {
   }
 });
 
-// Dev-only route: bypass Strava OAuth with a mock session for local testing.
-// Never available in production.
-if (process.env.NODE_ENV !== "production") {
+// Available when STRAVA_MOCK=true: bypass Strava OAuth with a mock session.
+// Works locally and on Vercel preview; never set STRAVA_MOCK in production.
+if (isMockEnabled()) {
   authRouter.get("/dev-login", (request, response) => {
     request.session.strava = {
       tokens: {

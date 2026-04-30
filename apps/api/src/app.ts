@@ -11,7 +11,7 @@ import { coachRouter } from "./routes/coach.js";
 import { plansRouter } from "./routes/plans.js";
 import { profileRouter } from "./routes/profile.js";
 import { videosRouter } from "./routes/videos.js";
-import { MOCK_ACCESS_TOKEN } from "./services/strava-mock.js";
+import { MOCK_ACCESS_TOKEN, isMockEnabled } from "./services/strava-mock.js";
 
 const app = express();
 const clientOrigin = process.env.CLIENT_ORIGIN ?? "http://localhost:5173";
@@ -51,8 +51,8 @@ app.use(
   }),
 );
 
-if (!isProduction && process.env.STRAVA_MOCK === "true") {
-  console.log("[dev] STRAVA_MOCK=true — all requests will use mock Strava data");
+if (isMockEnabled()) {
+  console.log("[mock] STRAVA_MOCK=true — all requests will use mock Strava data");
   app.use((request, _response, next) => {
     if (!request.session.strava) {
       request.session.strava = {

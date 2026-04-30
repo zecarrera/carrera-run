@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import { ensureFreshToken, fetchActivities, fetchActivityById, normalizeActivity } from "../services/strava.js";
-import { getMockActivities, getMockActivityById, isMockSession } from "../services/strava-mock.js";
+import { getMockActivities, getMockActivityById, isMockEnabled, isMockSession } from "../services/strava-mock.js";
 
 const activitiesRouter = Router();
 
@@ -47,8 +47,8 @@ activitiesRouter.get("/", async (request, response, next) => {
     const afterTimestamp = after ? Math.floor(new Date(after).getTime() / 1000) : undefined;
     const beforeTimestamp = before ? Math.floor(new Date(`${before}T23:59:59`).getTime() / 1000) : undefined;
 
-    // Dev mock: return fake activities without hitting Strava
-    if (process.env.NODE_ENV !== "production" && isMockSession(tokens.access_token)) {
+    // Mock: return fake activities without hitting Strava
+    if (isMockEnabled() && isMockSession(tokens.access_token)) {
       let mockActivities = getMockActivities();
       if (afterTimestamp !== undefined) {
         mockActivities = mockActivities.filter((a) => Math.floor(new Date(a.startDate).getTime() / 1000) >= afterTimestamp);
@@ -81,8 +81,8 @@ activitiesRouter.get("/:id", async (request, response, next) => {
       return;
     }
 
-    // Dev mock: return a fake activity without hitting Strava
-    if (process.env.NODE_ENV !== "production" && isMockSession(tokens.access_token)) {
+    // Mock: return a fake activity without hitting Strava
+    if (isMockEnabled() && isMockSession(tokens.access_token)) {
       const activity = getMockActivityById(request.params.id);
       response.json({ activity });
       return;
