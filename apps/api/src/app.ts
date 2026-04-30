@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import express from "express";
 import session from "express-session";
 import MongoStore from "connect-mongo";
@@ -86,6 +87,16 @@ app.use("/api/coach", coachRouter);
 app.use("/api/plans", plansRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/videos", videosRouter);
+
+// Serve the React SPA in production. process.cwd() resolves to the repo root
+// in both the Vercel Lambda environment and standalone (Render) deployments.
+if (isProduction) {
+  const webDistPath = resolve(process.cwd(), "apps/web/dist");
+  app.use(express.static(webDistPath));
+  app.get(/^(?!\/api).*/, (_request, response) => {
+    response.sendFile(resolve(webDistPath, "index.html"));
+  });
+}
 
 app.use((error: unknown, _request: express.Request, response: express.Response, _next: express.NextFunction) => {
   if (error instanceof ZodError) {
