@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { formatDate, formatDistance } from "../lib/format";
 import type { AthleteSummary, RaceResult, TrainingZoneKey, UserProfile } from "../types";
+import { LoadingScreen } from "./LoadingScreen";
 
 type ZoneDraft = Record<TrainingZoneKey, { from: string; to: string }>;
 
@@ -423,11 +424,7 @@ export function ProfilePage({ summary }: { summary?: AthleteSummary }) {
   };
 
   if (isLoading) {
-    return (
-      <main className="profile-page">
-        <p className="profile-loading">Loading profile…</p>
-      </main>
-    );
+    return <LoadingScreen message="Loading profile" />;
   }
 
   const displayName = summary?.athlete.displayName ?? "Runner";

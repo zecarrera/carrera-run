@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { formatDate, formatDistance } from "../lib/format";
 import type { ActivityStatus, PlanActivity, PlanActivityType, TrainingPlan } from "../types";
 import { CoachPlanWizard } from "./CoachPlanWizard";
+import { LoadingScreen } from "./LoadingScreen";
 
 // ---- Types ----
 
@@ -494,7 +495,7 @@ export function PlanningPage() {
   };
 
   if (isLoading) {
-    return <main className="shell centered-state"><p>Loading planning data...</p></main>;
+    return <LoadingScreen message="Loading your plan" />;
   }
 
   const selectedPlan = plans.find((p) => p.id === selectedPlanId) ?? null;

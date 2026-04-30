@@ -3,6 +3,7 @@ import { formatDistance, formatDuration, formatPace } from "../lib/format";
 import type { Activity } from "../types";
 import { EMPTY_FILTERS } from "./ActivityFilters";
 import type { Filters } from "./ActivityFilters";
+import { LoadingScreen } from "./LoadingScreen";
 
 const PER_PAGE = 30;
 type LoadState = "loading" | "ready" | "error";
@@ -93,15 +94,7 @@ export function ActivitiesPage() {
   }, []);
 
   if (state === "loading") {
-    return (
-      <main className="activities-page">
-        <div className="activities-page-header">
-          <h1>Activities</h1>
-          <p>Track and manage your runs</p>
-        </div>
-        <p className="activities-status-msg">Loading your activities…</p>
-      </main>
-    );
+    return <LoadingScreen message="Loading your activities" />;
   }
 
   if (state === "error") {
