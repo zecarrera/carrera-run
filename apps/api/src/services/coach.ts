@@ -42,12 +42,16 @@ async function loadSystemPrompt(): Promise<string> {
     return cachedSystemPrompt;
   }
 
-  // Try cwd-relative path first (production: cwd = apps/api/), then relative to this file (dev/tests)
-  const cwdPath = resolve(process.cwd(), "prompts/coach-system.md");
-  const srcRelPath = resolve(__dirname, "../../../prompts/coach-system.md");
+  // Try cwd-relative path first.
+  // - Render: cwd = apps/api/  → "prompts/coach-system.md" resolves correctly
+  // - Vercel: cwd = repo root  → "apps/api/prompts/coach-system.md" resolves correctly
+  // - Dev/tests: falls back to __dirname-relative path
+  const cwdPath         = resolve(process.cwd(), "prompts/coach-system.md");
+  const cwdRootPath     = resolve(process.cwd(), "apps/api/prompts/coach-system.md");
+  const srcRelPath      = resolve(__dirname, "../../../prompts/coach-system.md");
 
   let basePrompt: string | null = null;
-  for (const promptPath of [cwdPath, srcRelPath]) {
+  for (const promptPath of [cwdPath, cwdRootPath, srcRelPath]) {
     try {
       basePrompt = await readFile(promptPath, "utf8");
       break;
@@ -68,14 +72,18 @@ async function loadSystemPrompt(): Promise<string> {
     { label: "Marathon Training Framework",            rel: "coaching-methodology/marathon-framework.md" },
   ];
 
-  // Base paths for the knowledge directory (cwd-relative and src-relative)
+  // Base paths for the knowledge directory
+  // - Render: cwd = apps/api/  → "../../.github/knowledge"
+  // - Vercel: cwd = repo root  → ".github/knowledge"
+  // - Dev/tests: __dirname-relative fallback
   const knowledgeCwdBase  = resolve(process.cwd(), "../../.github/knowledge");
+  const knowledgeRootBase = resolve(process.cwd(), ".github/knowledge");
   const knowledgeSrcBase  = resolve(__dirname, "../../../../.github/knowledge");
 
   const knowledgeSections: string[] = [];
 
   for (const { label, rel } of knowledgeFiles) {
-    for (const base of [knowledgeCwdBase, knowledgeSrcBase]) {
+    for (const base of [knowledgeCwdBase, knowledgeRootBase, knowledgeSrcBase]) {
       try {
         const content = await readFile(resolve(base, rel), "utf8");
         knowledgeSections.push(`### ${label}\n\n${content.trim()}`);
