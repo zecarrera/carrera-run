@@ -32,8 +32,14 @@ if (!isProduction || process.env.CLIENT_ORIGIN) {
 app.use(express.json());
 const mongoUri = process.env.MONGODB_URI;
 
-if (isProduction && !mongoUri) {
-  console.warn("[warn] MONGODB_URI is not set — using in-memory session store. Sessions will not persist across requests.");
+if (!mongoUri) {
+  if (isProduction && !isMockEnabled()) {
+    // In real production (no mock), missing MongoDB is a fatal misconfiguration.
+    throw new Error("MONGODB_URI must be set in production. Sessions cannot be persisted without it.");
+  }
+  // In mock/dev mode the middleware re-injects the session on every request,
+  // so in-memory sessions are fine.
+  console.warn("[warn] MONGODB_URI is not set — using in-memory session store (mock/dev mode only).");
 }
 
 app.use(
