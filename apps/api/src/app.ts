@@ -30,18 +30,28 @@ if (!isProduction || process.env.CLIENT_ORIGIN) {
   );
 }
 app.use(express.json());
+const mongoUri = process.env.MONGODB_URI;
+
+if (isProduction && !mongoUri) {
+  console.warn("[warn] MONGODB_URI is not set — using in-memory session store. Sessions will not persist across requests.");
+}
+
 app.use(
   session({
     name: "carrera-run.sid",
     secret: process.env.SESSION_SECRET ?? "development-session-secret",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URI,
-      dbName: process.env.MONGODB_DB_NAME ?? "carrera_run",
-      collectionName: "sessions",
-      ttl: 60 * 60 * 24 * 7,
-    }),
+    ...(mongoUri
+      ? {
+          store: MongoStore.create({
+            mongoUrl: mongoUri,
+            dbName: process.env.MONGODB_DB_NAME ?? "carrera_run",
+            collectionName: "sessions",
+            ttl: 60 * 60 * 24 * 7,
+          }),
+        }
+      : {}),
     cookie: {
       httpOnly: true,
       sameSite: "lax",
