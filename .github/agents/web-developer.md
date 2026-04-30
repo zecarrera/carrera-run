@@ -174,6 +174,16 @@ The UI should:
 4. Format units consistently, including kilometers or miles, time, and pace.
 5. Handle missing or partial Strava fields gracefully.
 
+## Git and PR Workflow
+
+All changes must go through a pull request. Never push directly to `main`.
+
+1. Create a branch with a descriptive name: `feat/`, `fix/`, or `chore/` prefix (e.g. `feat/activity-filters`).
+2. Make focused, atomic commits. Write commit messages that explain *why* the change is made, not just *what* changed.
+3. Open a PR against `main` when the change is ready.
+4. The code reviewer agent is automatically assigned — wait for review before merging.
+5. Do not self-merge without a review.
+
 ## Engineering Rules
 
 1. Follow existing repository patterns if they exist.

@@ -64,6 +64,13 @@ This keeps Copilot's behaviour consistent across sessions without needing to re-
 | Agent definitions | `.github/agents/` | Running coach and web developer agents |
 | Skills | `.github/skills/` | Planning and profile skill guides |
 
+## Git workflow
+
+- **Never push directly to `main`.** Always work on a feature branch and open a pull request.
+- Branch names should be descriptive: `feat/`, `fix/`, `chore/` prefixes preferred.
+- Keep commits focused and atomic. Write commit messages that explain *why*, not just *what*.
+- Every PR should be reviewed before merging — the code reviewer agent is auto-assigned (see `.github/agents/code-reviewer.md`).
+
 ## Code style
 
 - Keep route handlers thin — business logic belongs in service modules.
