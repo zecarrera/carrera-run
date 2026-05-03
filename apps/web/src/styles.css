@@ -1547,6 +1547,66 @@ tbody tr.selected {
   height: 14px;
 }
 
+.badge-first-activity {
+  display: inline-flex;
+  align-items: center;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ── Week Complete Banner ─────────────────────────────────────────────────── */
+
+.week-complete-banner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(252, 82, 0, 0.12);
+  border: 1px solid rgba(252, 82, 0, 0.35);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.week-complete-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.week-complete-text strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--fg);
+  margin-bottom: 0.2rem;
+}
+
+.week-complete-text p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--fg-muted);
+  line-height: 1.4;
+}
+
+/* ── Next week preview card (read-only, no actions) ──────────────────────── */
+
+.next-week-preview-card {
+  opacity: 0.92;
+}
+
 /* ── Card action buttons ──────────────────────────────────────────────────── */
 
 .card-actions {
@@ -3834,21 +3894,10 @@ tbody tr.selected {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
 }
 
-.loading-runner {
-  animation: runner-stride 0.55s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 14px rgba(252, 82, 0, 0.55));
-}
-
-/* Elliptical ground shadow that compresses when runner is airborne */
-.loading-shadow {
-  width: 48px;
-  height: 5px;
-  background: radial-gradient(ellipse, rgba(252, 82, 0, 0.35) 0%, transparent 70%);
-  border-radius: 50%;
-  animation: shadow-pulse 0.55s ease-in-out infinite alternate;
+.loading-runner-gif {
+  display: block;
 }
 
 .loading-text {
@@ -3862,26 +3911,6 @@ tbody tr.selected {
   display: inline-block;
   animation: dot-blink 0.6s ease-in-out infinite alternate;
   animation-delay: var(--dot-delay, 0s);
-}
-
-@keyframes runner-stride {
-  from {
-    transform: translateY(0px) rotate(-2deg);
-  }
-  to {
-    transform: translateY(-10px) rotate(1deg);
-  }
-}
-
-@keyframes shadow-pulse {
-  from {
-    transform: scaleX(1) scaleY(1);
-    opacity: 0.8;
-  }
-  to {
-    transform: scaleX(0.55) scaleY(0.4);
-    opacity: 0.2;
-  }
 }
 
 @keyframes dot-blink {
