@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { formatDuration } from "../lib/format";
 import type { Activity, ActivityStatus, AthleteSummary, PlanActivity, TrainingPlan, VideoRecommendation } from "../types";
 import { LoadingScreen } from "./LoadingScreen";
 
@@ -661,27 +660,6 @@ export function HomePage(_props: HomePageProps) {
         </section>
       )}
 
-      {/* Weekly stats */}
-      {weekTotals && weekTotals.runs > 0 && (
-        <div className="dashboard-stats">
-          <div className="dashboard-stat-card">
-            <strong>{weekTotals.distanceKm.toFixed(0)}</strong>
-            <span>km this week</span>
-          </div>
-          <div className="dashboard-stat-card">
-            <strong>{weekTotals.runs}</strong>
-            <span>runs completed</span>
-          </div>
-          <div className="dashboard-stat-card">
-            <strong>{formatDuration(weekTotals.movingTimeSeconds)}</strong>
-            <span>moving time</span>
-          </div>
-          <div className="dashboard-stat-card">
-            <strong>{Math.round(weekTotals.elevationGainMeters)}m</strong>
-            <span>elevation</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
