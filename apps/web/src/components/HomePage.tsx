@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { Activity, ActivityStatus, AthleteSummary, PlanActivity, TrainingPlan, VideoRecommendation } from "../types";
 import { LoadingScreen } from "./LoadingScreen";
@@ -164,11 +164,112 @@ function ExternalLinkIcon() {
   );
 }
 
+function RefreshIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+      <polyline points="23 4 23 10 17 10" />
+      <polyline points="1 20 1 14 7 14" />
+      <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
+    </svg>
+  );
+}
+
 /* ── Activity card ────────────────────────────────────────────────────────── */
 
-function VideoRecommendationPanel({ activityType, durationMinutes }: { activityType: string; durationMinutes?: number }) {
+const ROLE_LABEL: Record<string, string> = {
+  "warm-up": "Pre-run Warm-up",
+  "cool-down": "Post-run Cool-down",
+  general: "Recommended",
+};
+
+function VideoCardWithRefresh({
+  activityType,
+  durationMinutes,
+  initialVideo,
+  initialRemaining,
+}: {
+  activityType: string;
+  durationMinutes?: number;
+  initialVideo: VideoRecommendation;
+  initialRemaining: number | null;
+}) {
+  const [video, setVideo] = useState(initialVideo);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  // null = unlimited (YouTube API); number = total unique options for this role
+  const [total] = useState<number | null>(
+    initialRemaining !== null ? 1 + initialRemaining : null,
+  );
+  const seenIds = useRef<string[]>([initialVideo.videoId]);
+
+  const handleShowDifferent = async () => {
+    setLoading(true);
+    try {
+      let url = `/api/videos/recommendation?activityType=${encodeURIComponent(activityType)}&role=${encodeURIComponent(initialVideo.role)}`;
+      if (durationMinutes != null) url += `&durationMinutes=${durationMinutes}`;
+      url += `&exclude=${seenIds.current.join(",")}`;
+      const res = await fetch(url, { credentials: "include" });
+      if (!res.ok) return;
+      const payload = (await res.json()) as { recommendations: VideoRecommendation[]; remainingByRole: Record<string, number> | null };
+      const next = payload.recommendations[0];
+      if (next) {
+        seenIds.current = [...seenIds.current, next.videoId];
+        setVideo(next);
+        setPage((p) => p + 1);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const isAtEnd = total !== null && page >= total;
+  const showButton = total === null || total > 1;
+
+  return (
+    <div className="video-card-wrap">
+      <a
+        href={`https://www.youtube.com/watch?v=${video.videoId}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="video-card"
+      >
+        <div className="video-thumbnail-wrap">
+          <img
+            src={`https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`}
+            alt={video.title}
+            className="video-thumbnail"
+            loading="lazy"
+          />
+          <span className="video-ext-icon"><ExternalLinkIcon /></span>
+          {video.role !== "general" && (
+            <span className="video-role-badge">{ROLE_LABEL[video.role]}</span>
+          )}
+        </div>
+        <p className="video-title">{video.title}</p>
+        <p className="video-channel">{video.channelName}</p>
+      </a>
+      {showButton && (
+        <button
+          type="button"
+          className={`video-rec-refresh${isAtEnd ? " video-rec-refresh--exhausted" : ""}`}
+          onClick={isAtEnd || loading ? undefined : () => void handleShowDifferent()}
+          disabled={isAtEnd || loading}
+        >
+          <RefreshIcon />
+          {isAtEnd ? `Recommendation ${page} of ${total}` : loading ? "Loading…" : "Show Different Video"}
+          {!isAtEnd && !loading && total !== null && (
+            <span className="video-rec-counter">{page} of {total}</span>
+          )}
+        </button>
+      )}
+    </div>
+  );
+}
+
+export function VideoRecommendationPanel({ activityType, durationMinutes }: { activityType: string; durationMinutes?: number }) {
   const [expanded, setExpanded] = useState(false);
   const [videos, setVideos] = useState<VideoRecommendation[]>([]);
+  const [remainingByRole, setRemainingByRole] = useState<Record<string, number> | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -182,27 +283,21 @@ function VideoRecommendationPanel({ activityType, durationMinutes }: { activityT
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        `/api/videos/recommendation?activityType=${encodeURIComponent(activityType)}${durationMinutes != null ? `&durationMinutes=${durationMinutes}` : ""}`,
-        { credentials: "include" },
-      );
+      let url = `/api/videos/recommendation?activityType=${encodeURIComponent(activityType)}`;
+      if (durationMinutes != null) url += `&durationMinutes=${durationMinutes}`;
+      const res = await fetch(url, { credentials: "include" });
       if (!res.ok) {
         setError("Could not load recommendation.");
         return;
       }
-      const payload = (await res.json()) as { recommendations: VideoRecommendation[] };
+      const payload = (await res.json()) as { recommendations: VideoRecommendation[]; remainingByRole: Record<string, number> | null };
       setVideos(payload.recommendations);
+      setRemainingByRole(payload.remainingByRole);
     } catch {
       setError("Could not load recommendation.");
     } finally {
       setLoading(false);
     }
-  };
-
-  const roleLabel: Record<string, string> = {
-    "warm-up": "Pre-run Warm-up",
-    "cool-down": "Post-run Cool-down",
-    general: "Recommended",
   };
 
   return (
@@ -229,28 +324,13 @@ function VideoRecommendationPanel({ activityType, durationMinutes }: { activityT
             <p className="subtle" style={{ padding: "0.5rem 0" }}>No recommendation available.</p>
           )}
           {videos.map((video) => (
-            <a
+            <VideoCardWithRefresh
               key={video.videoId}
-              href={`https://www.youtube.com/watch?v=${video.videoId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="video-card"
-            >
-              <div className="video-thumbnail-wrap">
-                <img
-                  src={`https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`}
-                  alt={video.title}
-                  className="video-thumbnail"
-                  loading="lazy"
-                />
-                <span className="video-ext-icon"><ExternalLinkIcon /></span>
-                {video.role !== "general" && (
-                  <span className="video-role-badge">{roleLabel[video.role]}</span>
-                )}
-              </div>
-              <p className="video-title">{video.title}</p>
-              <p className="video-channel">{video.channelName}</p>
-            </a>
+              activityType={activityType}
+              durationMinutes={durationMinutes}
+              initialVideo={video}
+              initialRemaining={remainingByRole !== null ? (remainingByRole[video.role] ?? null) : null}
+            />
           ))}
         </div>
       )}

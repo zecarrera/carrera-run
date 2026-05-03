@@ -1763,6 +1763,47 @@ tbody tr.selected {
   margin-top: 0.75rem;
 }
 
+.video-card-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.video-rec-refresh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-mid);
+  background: var(--bg-input);
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.video-rec-refresh:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: var(--bg-surface-hover, rgba(255, 255, 255, 0.04));
+}
+
+.video-rec-refresh--exhausted,
+.video-rec-refresh:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.video-rec-counter {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  font-weight: 400;
+}
+
 .video-card {
   display: block;
   text-decoration: none;
