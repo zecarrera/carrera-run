@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { getProfile } from "../services/profile.js";
 import { getVideoRecommendations } from "../services/videos.js";
-import type { ActivityType } from "../services/videos.js";
+import type { ActivityType, VideoRole } from "../services/videos.js";
 
 const videosRouter = Router();
 
 const VALID_ACTIVITY_TYPES: ActivityType[] = ["Run", "Strength", "Flexibility"];
+const VALID_ROLES: VideoRole[] = ["warm-up", "cool-down", "general"];
 
 videosRouter.get("/recommendation", async (request, response, next) => {
   try {
@@ -29,17 +30,30 @@ videosRouter.get("/recommendation", async (request, response, next) => {
         ? parseInt(durationMinutesRaw, 10) || undefined
         : undefined;
 
+    const excludeRaw = request.query.exclude;
+    const excludeIds =
+      typeof excludeRaw === "string" && excludeRaw !== ""
+        ? excludeRaw.split(",").map((id) => id.trim()).filter(Boolean)
+        : [];
+
+    const roleRaw = request.query.role as string | undefined;
+    const roleFilter = roleRaw && VALID_ROLES.includes(roleRaw as VideoRole)
+      ? (roleRaw as VideoRole)
+      : undefined;
+
     const userId = String(athleteId);
     const profile = await getProfile(userId);
 
-    const recommendations = await getVideoRecommendations(
+    const { recommendations, remainingByRole } = await getVideoRecommendations(
       activityType as ActivityType,
       profile.preferredChannels,
       profile.allowOtherChannels,
       activityDurationMinutes,
+      excludeIds,
+      roleFilter,
     );
 
-    response.json({ recommendations });
+    response.json({ recommendations, remainingByRole });
   } catch (error) {
     next(error);
   }

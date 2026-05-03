@@ -165,6 +165,7 @@ async function searchYouTube(
   query: string,
   channelFilter?: string,
   videoDuration?: "short" | "medium" | "long",
+  excludeIds: string[] = [],
 ): Promise<VideoRecommendation | null> {
   const apiKey = process.env.YOUTUBE_API_KEY;
   if (!apiKey) return null;
@@ -174,7 +175,7 @@ async function searchYouTube(
       part: "snippet",
       q: channelFilter ? `${query} ${channelFilter}` : query,
       type: "video",
-      maxResults: "5",
+      maxResults: "10",
       key: apiKey,
       ...(videoDuration ? { videoDuration } : {}),
     });
@@ -183,7 +184,12 @@ async function searchYouTube(
     if (!response.ok) return null;
 
     const data = (await response.json()) as YouTubeApiResponse;
-    const item = data.items?.[0];
+    const items = data.items ?? [];
+
+    // Pick the first result not already shown to the user.
+    const item = excludeIds.length > 0
+      ? items.find((i) => i.id?.videoId && !excludeIds.includes(i.id.videoId) && i.snippet?.title)
+      : items[0];
 
     if (!item?.id?.videoId || !item.snippet?.title) return null;
 
@@ -204,9 +210,10 @@ function pickFromCurated(
   preferredChannels: string[],
   allowOtherChannels: boolean,
   activityDurationMinutes?: number,
+  excludeIds: string[] = [],
 ): VideoRecommendation | null {
-  const candidates = CURATED_VIDEOS.filter((v) =>
-    activityType === "Run" ? v.role === role : v.role === "general",
+  const candidates = CURATED_VIDEOS.filter(
+    (v) => (activityType === "Run" ? v.role === role : v.role === "general") && !excludeIds.includes(v.videoId),
   );
 
   // Helper: pick the candidate closest in duration, breaking ties randomly.
@@ -232,6 +239,31 @@ function pickFromCurated(
 }
 
 /**
+ * Counts how many more unique recommendations remain in the curated list per role,
+ * after the given set of video IDs have already been shown.
+ */
+function computeRemainingByRole(activityType: ActivityType, excludeIds: string[]): Record<string, number> {
+  if (activityType === "Run") {
+    return {
+      "warm-up": CURATED_VIDEOS.filter((v) => v.role === "warm-up" && !excludeIds.includes(v.videoId)).length,
+      "cool-down": CURATED_VIDEOS.filter((v) => v.role === "cool-down" && !excludeIds.includes(v.videoId)).length,
+    };
+  }
+  return {
+    general: CURATED_VIDEOS.filter((v) => v.role === "general" && !excludeIds.includes(v.videoId)).length,
+  };
+}
+
+export interface VideoRecommendationsResult {
+  recommendations: VideoRecommendation[];
+  /**
+   * Per-role count of remaining unique recommendations in the curated list.
+   * null = unlimited (YouTube API is active).
+   */
+  remainingByRole: Record<string, number> | null;
+}
+
+/**
  * Returns video recommendations for a given activity type.
  * - Run: returns up to 2 items — [warm-up, cool-down]
  * - Strength / Flexibility: returns 1 item
@@ -247,13 +279,16 @@ export async function getVideoRecommendations(
   preferredChannels: string[],
   allowOtherChannels: boolean,
   activityDurationMinutes?: number,
-): Promise<VideoRecommendation[]> {
+  excludeIds: string[] = [],
+  roleFilter?: VideoRole,
+): Promise<VideoRecommendationsResult> {
   const apiKey = process.env.YOUTUBE_API_KEY;
   // Shuffle channels once per request so each call may try a different channel first.
   const channels = shuffled(preferredChannels);
 
   if (activityType === "Run") {
-    const roles: VideoRole[] = ["warm-up", "cool-down"];
+    // If a specific role is requested, only process that one; otherwise process both.
+    const roles: VideoRole[] = roleFilter ? [roleFilter] : ["warm-up", "cool-down"];
     const results: VideoRecommendation[] = [];
 
     for (const role of roles) {
@@ -265,7 +300,7 @@ export async function getVideoRecommendations(
         const durationFilter = toYouTubeDurationFilter(undefined, "medium");
         if (channels.length > 0) {
           for (const channel of channels) {
-            video = await searchYouTube(query, channel, durationFilter);
+            video = await searchYouTube(query, channel, durationFilter, excludeIds);
             if (video) {
               video.role = role;
               video.channelName = channel;
@@ -273,23 +308,26 @@ export async function getVideoRecommendations(
             }
           }
           if (!video && allowOtherChannels) {
-            video = await searchYouTube(query, undefined, durationFilter);
+            video = await searchYouTube(query, undefined, durationFilter, excludeIds);
             if (video) video.role = role;
           }
         } else {
-          video = await searchYouTube(query, undefined, durationFilter);
+          video = await searchYouTube(query, undefined, durationFilter, excludeIds);
           if (video) video.role = role;
         }
       }
 
       if (!video) {
-        video = pickFromCurated("Run", role, preferredChannels, allowOtherChannels);
+        video = pickFromCurated("Run", role, preferredChannels, allowOtherChannels, undefined, excludeIds);
       }
 
       if (video) results.push(video);
     }
 
-    return results;
+    const allExcluded = [...excludeIds, ...results.map((v) => v.videoId)];
+    const remainingByRole = apiKey ? null : computeRemainingByRole("Run", allExcluded);
+
+    return { recommendations: results, remainingByRole };
   }
 
   // Strength / Flexibility — one general video
@@ -300,7 +338,7 @@ export async function getVideoRecommendations(
     const durationFilter = toYouTubeDurationFilter(activityDurationMinutes);
     if (channels.length > 0) {
       for (const channel of channels) {
-        video = await searchYouTube(query, channel, durationFilter);
+        video = await searchYouTube(query, channel, durationFilter, excludeIds);
         if (video) {
           video.role = "general";
           video.channelName = channel;
@@ -308,18 +346,22 @@ export async function getVideoRecommendations(
         }
       }
       if (!video && allowOtherChannels) {
-        video = await searchYouTube(query, undefined, durationFilter);
+        video = await searchYouTube(query, undefined, durationFilter, excludeIds);
         if (video) video.role = "general";
       }
     } else {
-      video = await searchYouTube(query, undefined, durationFilter);
+      video = await searchYouTube(query, undefined, durationFilter, excludeIds);
       if (video) video.role = "general";
     }
   }
 
   if (!video) {
-    video = pickFromCurated(activityType, "general", preferredChannels, allowOtherChannels, activityDurationMinutes);
+    video = pickFromCurated(activityType, "general", preferredChannels, allowOtherChannels, activityDurationMinutes, excludeIds);
   }
 
-  return video ? [video] : [];
+  const recommendations = video ? [video] : [];
+  const allExcluded = [...excludeIds, ...recommendations.map((v) => v.videoId)];
+  const remainingByRole = apiKey ? null : computeRemainingByRole(activityType, allExcluded);
+
+  return { recommendations, remainingByRole };
 }

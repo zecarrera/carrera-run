@@ -20,7 +20,7 @@ A small full-stack starter for connecting to the Strava API and displaying runni
 - Activities table with date, distance, moving time, elevation, and pace
 - Activity detail panel in the UI
 - Planning page for race-focused training plans and activity tracking
-- **YouTube video recommendations**: today's activity card on the dashboard shows a "Recommended Video" section — Run activities get warm-up + cool-down suggestions; Strength/Flexibility get a relevant training video. Powered by YouTube Data API v3 when `YOUTUBE_API_KEY` is set, or a static curated list as fallback
+- **YouTube video recommendations**: today's activity card on the dashboard shows a "Recommended Video" section — Run activities get warm-up + cool-down suggestions; Strength/Flexibility get a relevant training video. Each video card has a **"Show Different Video"** button that refreshes only that card independently. With the YouTube API the button is always available (unlimited variety); with the curated fallback it shows a **"X of Y"** counter and disables when all options are exhausted. Powered by YouTube Data API v3 when `YOUTUBE_API_KEY` is set (fetches up to 10 results per search and skips already-seen videos), or a static curated list as fallback
 - **Channel preferences** on the Profile page — manage preferred YouTube channels and an "allow other channels" fallback toggle
 - **AI Coach**: conversational plan builder — asks questions, uses your Strava history, proposes a full training plan, and saves it on acceptance
 - **Plan import**: upload a JSON file to create a plan with all activities in one step (see [Import format](#plan-import-format))
