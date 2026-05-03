@@ -27,6 +27,22 @@ function getWeekBounds(): { start: string; end: string } {
   return { start: fmt(monday), end: fmt(sunday) };
 }
 
+function getNextWeekBounds(): { start: string; end: string } {
+  const now = new Date();
+  const day = now.getDay();
+  const diffToNextMonday = day === 0 ? 1 : 8 - day;
+  const monday = new Date(now);
+  monday.setDate(now.getDate() + diffToNextMonday);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  const fmt = (d: Date) => d.toISOString().slice(0, 10);
+  return { start: fmt(monday), end: fmt(sunday) };
+}
+
+function isLastDayOfWeek(): boolean {
+  return new Date().getDay() === 0; // Sunday
+}
+
 function computeWeekTotals(activities: Activity[]): WeekTotals {
   const runs = activities.filter((a) => a.type.toLowerCase().includes("run"));
   return runs.reduce(
@@ -361,12 +377,62 @@ function ActivityCard({
   );
 }
 
+/* ── Week Complete Banner ─────────────────────────────────────────────────── */
+
+function WeekCompleteBanner() {
+  return (
+    <div className="week-complete-banner" role="status" aria-label="Week complete">
+      <div className="week-complete-icon">
+        <span aria-hidden="true">🎉</span>
+      </div>
+      <div className="week-complete-text">
+        <strong>Week Complete! 🎉</strong>
+        <p>Congratulations! You've completed all activities for this week. Keep up the great work!</p>
+      </div>
+    </div>
+  );
+}
+
+/* ── Next Week Preview Card ───────────────────────────────────────────────── */
+
+function NextWeekPreviewCard({ activity, isFirst }: { activity: PlanActivity; isFirst: boolean }) {
+  const { title, desc } = parseActivityLabel(activity);
+  const metaItems = [
+    { icon: <CalendarIcon />, label: getDayName(activity.date) },
+    ...(activity.distanceKm != null
+      ? [{ icon: <DistanceIcon />, label: `${activity.distanceKm.toFixed(0)} km` }]
+      : []),
+    ...(activity.durationMinutes != null
+      ? [{ icon: <ClockIcon />, label: `${activity.durationMinutes} min` }]
+      : []),
+  ];
+
+  return (
+    <div className="plan-activity-card next-week-preview-card">
+      <div className="plan-activity-card-title-row">
+        {isFirst && <span className="badge-first-activity">First Activity</span>}
+        <h3 className="plan-activity-card-title">{title}</h3>
+      </div>
+      {desc && <p className="plan-activity-card-desc">{desc}</p>}
+      <div className="plan-activity-card-meta">
+        {metaItems.map((item, i) => (
+          <span key={i} className="plan-activity-card-meta-item">
+            {item.icon}
+            {item.label}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ── Main component ───────────────────────────────────────────────────────── */
 
 export function HomePage(_props: HomePageProps) {
   const [weekTotals, setWeekTotals] = useState<WeekTotals | null>(null);
   const [activePlan, setActivePlan] = useState<TrainingPlan | null>(null);
   const [weekActivities, setWeekActivities] = useState<PlanActivity[]>([]);
+  const [nextWeekActivities, setNextWeekActivities] = useState<PlanActivity[]>([]);
   const [isLoadingWeek, setIsLoadingWeek] = useState(true);
   const [updatingActivityId, setUpdatingActivityId] = useState<string | null>(null);
   const [commentDrafts, setCommentDrafts] = useState<Record<string, string>>({});
@@ -406,8 +472,13 @@ export function HomePage(_props: HomePageProps) {
         const thisWeek = [...plan.activities]
           .filter((a) => a.date >= start && a.date <= end)
           .sort((a, b) => a.date.localeCompare(b.date));
+        const { start: nextStart, end: nextEnd } = getNextWeekBounds();
+        const nextWeek = [...plan.activities]
+          .filter((a) => a.date >= nextStart && a.date <= nextEnd)
+          .sort((a, b) => a.date.localeCompare(b.date));
         setActivePlan(plan);
         setWeekActivities(thisWeek);
+        setNextWeekActivities(nextWeek);
       } finally {
         setIsLoadingWeek(false);
       }
@@ -437,6 +508,12 @@ export function HomePage(_props: HomePageProps) {
           .filter((a) => a.date >= start && a.date <= end)
           .sort((a, b) => a.date.localeCompare(b.date)),
       );
+      const { start: nextStart, end: nextEnd } = getNextWeekBounds();
+      setNextWeekActivities(
+        [...result.plan.activities]
+          .filter((a) => a.date >= nextStart && a.date <= nextEnd)
+          .sort((a, b) => a.date.localeCompare(b.date)),
+      );
       setActivePlan(result.plan);
       setShowCommentFor(null);
       setCommentDrafts((d) => {
@@ -463,6 +540,11 @@ export function HomePage(_props: HomePageProps) {
 
   const nextIdx = weekActivities.findIndex((a) => a.status === "not_started");
 
+  const isWeekComplete =
+    weekActivities.length > 0 && weekActivities.every((a) => a.status !== "not_started");
+  const showNextWeekPreview =
+    (isWeekComplete || isLastDayOfWeek()) && nextWeekActivities.length > 0;
+
   if (isLoadingWeek) {
     return <LoadingScreen message="Loading your dashboard" />;
   }
@@ -474,6 +556,9 @@ export function HomePage(_props: HomePageProps) {
         <h1>Dashboard</h1>
         <p className="dashboard-date">{getTodayLabel()}</p>
       </div>
+
+      {/* Week Complete Banner */}
+      {isWeekComplete && <WeekCompleteBanner />}
 
       {/* This Week's Progress */}
       {(targetDistanceKm > 0 || targetRuns > 0) && (
@@ -558,6 +643,23 @@ export function HomePage(_props: HomePageProps) {
           </div>
         )}
       </section>
+
+      {/* Next Week Preview */}
+      {showNextWeekPreview && (
+        <section>
+          <div className="section-header">
+            <h2>Next Week Preview</h2>
+            <Link to="/planning" className="view-all-link">
+              View All <span aria-hidden="true">›</span>
+            </Link>
+          </div>
+          <div className="plan-activity-list">
+            {nextWeekActivities.map((activity, index) => (
+              <NextWeekPreviewCard key={activity.id} activity={activity} isFirst={index === 0} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Weekly stats */}
       {weekTotals && weekTotals.runs > 0 && (
