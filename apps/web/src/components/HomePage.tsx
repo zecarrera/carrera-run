@@ -404,6 +404,9 @@ function ActivityCard({
               <CheckCircleIcon /> Completed
             </span>
           )}
+          {activity.status === "skipped" && (
+            <span className="plan-status-badge skipped">Skipped</span>
+          )}
           <h3 className="plan-activity-card-title">{title}</h3>
         </div>
         {/* Desktop actions — stacked column on right */}
@@ -734,9 +737,7 @@ export function HomePage(_props: HomePageProps) {
             </Link>
           </div>
           <div className="plan-activity-list">
-            {nextWeekActivities.map((activity, index) => (
-              <NextWeekPreviewCard key={activity.id} activity={activity} isFirst={index === 0} />
-            ))}
+            <NextWeekPreviewCard activity={nextWeekActivities[0]} isFirst />
           </div>
         </section>
       )}

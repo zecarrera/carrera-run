@@ -443,3 +443,99 @@ describe("WeekCompleteBanner", () => {
     expect(await screen.findByText(/week complete/i)).toBeInTheDocument();
   });
 });
+
+// ── Next Week Preview ─────────────────────────────────────────────────────────
+
+function getNextMonday(): string {
+  const now = new Date();
+  const day = now.getDay();
+  const diff = day === 0 ? 1 : 8 - day;
+  const d = new Date(now);
+  d.setDate(now.getDate() + diff);
+  return d.toISOString().slice(0, 10);
+}
+
+function makePlanWithNextWeek(
+  thisWeekStatuses: ActivityStatus[],
+  nextWeekNotes: string[],
+): TrainingPlan {
+  const nextMonday = getNextMonday();
+  const thisWeekActivities: PlanActivity[] = thisWeekStatuses.map((status, i) => ({
+    id: `this-${i}`,
+    date: today,
+    type: "Run",
+    status,
+  }));
+  const nextWeekActivities: PlanActivity[] = nextWeekNotes.map((notes, i) => ({
+    id: `next-${i}`,
+    date: nextMonday,
+    type: "Run",
+    status: "not_started",
+    notes,
+  }));
+  return {
+    id: "plan-1",
+    userId: "user-1",
+    raceName: "Test Race",
+    raceDistanceKm: 42,
+    startDate: today,
+    endDate: nextMonday,
+    status: "active",
+    activities: [...thisWeekActivities, ...nextWeekActivities],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+describe("Next Week Preview", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.useRealTimers();
+  });
+
+  it("is not shown when the week is incomplete (on a non-Sunday)", async () => {
+    // Pin to a Tuesday so isLastDayOfWeek() is false — preview must not show
+    vi.useFakeTimers({ toFake: ["Date"], now: new Date("2026-05-05T12:00:00") });
+    const plan: TrainingPlan = {
+      id: "plan-1", userId: "user-1", raceName: "Test Race", raceDistanceKm: 42,
+      startDate: "2026-05-05", endDate: "2026-05-11", status: "active",
+      activities: [
+        { id: "this-0", date: "2026-05-05", type: "Run", status: "not_started" },
+        { id: "next-0", date: "2026-05-11", type: "Run", status: "not_started", notes: "Long Run" },
+      ],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    renderHomePage(mockFetchWithPlan(plan));
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+    expect(screen.queryByText(/next week preview/i)).not.toBeInTheDocument();
+  });
+
+  it("is not shown when week is complete but there are no next-week activities", async () => {
+    renderHomePage(mockFetchWithPlan(makePlan(["completed"])));
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+    expect(screen.queryByText(/next week preview/i)).not.toBeInTheDocument();
+  });
+
+  it("shows the preview section when week is complete and next-week activities exist", async () => {
+    const plan = makePlanWithNextWeek(["completed"], ["Easy Run"]);
+    renderHomePage(mockFetchWithPlan(plan));
+    expect(await screen.findByText(/next week preview/i)).toBeInTheDocument();
+  });
+
+  it("shows only the first next-week activity even when multiple exist", async () => {
+    const plan = makePlanWithNextWeek(["completed"], ["Easy Run", "Tempo Run", "Long Run"]);
+    renderHomePage(mockFetchWithPlan(plan));
+    await screen.findByText(/next week preview/i);
+    expect(screen.getByText("Easy Run")).toBeInTheDocument();
+    expect(screen.queryByText("Tempo Run")).not.toBeInTheDocument();
+    expect(screen.queryByText("Long Run")).not.toBeInTheDocument();
+  });
+
+  it("labels the single preview card as the first activity", async () => {
+    const plan = makePlanWithNextWeek(["completed"], ["Recovery Run"]);
+    renderHomePage(mockFetchWithPlan(plan));
+    await screen.findByText(/next week preview/i);
+    expect(screen.getByText(/first activity/i)).toBeInTheDocument();
+  });
+});
