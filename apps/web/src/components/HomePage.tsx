@@ -620,7 +620,8 @@ export function HomePage(_props: HomePageProps) {
   const nextIdx = weekActivities.findIndex((a) => a.status === "not_started");
 
   const isWeekComplete =
-    weekActivities.length > 0 && weekActivities.every((a) => a.status !== "not_started");
+    weekActivities.length > 0 &&
+    weekActivities.every((a) => a.status === "completed" || a.status === "completed_with_changes");
   const showNextWeekPreview =
     (isWeekComplete || isLastDayOfWeek()) && nextWeekActivities.length > 0;
 

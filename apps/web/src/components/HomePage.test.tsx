@@ -1,8 +1,9 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { VideoRecommendationPanel } from "./HomePage";
-import type { VideoRecommendation } from "../types";
+import { MemoryRouter } from "react-router-dom";
+import { VideoRecommendationPanel, HomePage } from "./HomePage";
+import type { ActivityStatus, AthleteSummary, PlanActivity, TrainingPlan, VideoRecommendation } from "../types";
 
 // ── Fixtures ──────────────────────────────────────────────────────────────────
 
@@ -338,5 +339,107 @@ describe("VideoRecommendationPanel", () => {
     await expandPanel(user);
 
     expect(await screen.findByText("No recommendation available.")).toBeInTheDocument();
+  });
+});
+
+// ── WeekCompleteBanner ────────────────────────────────────────────────────────
+
+const mockSummary: AthleteSummary = {
+  athlete: { id: 1, displayName: "Test Runner" },
+  totals: { runs: 0, distanceKm: 0, movingTimeSeconds: 0, elevationGainMeters: 0 },
+};
+
+const today = new Date().toISOString().slice(0, 10);
+
+function makePlan(statuses: ActivityStatus[]): TrainingPlan {
+  return {
+    id: "plan-1",
+    userId: "user-1",
+    raceName: "Test Race",
+    raceDistanceKm: 42,
+    startDate: today,
+    endDate: today,
+    status: "active",
+    activities: statuses.map((status, i): PlanActivity => ({
+      id: `activity-${i}`,
+      date: today,
+      type: "Run",
+      status,
+    })),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function mockFetchWithPlan(plan?: TrainingPlan) {
+  return vi.fn().mockImplementation((url: string) => {
+    const isPlans = typeof url === "string" && url.includes("/api/plans");
+    return Promise.resolve({
+      ok: true,
+      json: () =>
+        Promise.resolve(
+          isPlans ? { plans: plan ? [plan] : [] } : { activities: [] },
+        ),
+    } as unknown as Response);
+  });
+}
+
+function renderHomePage(fetchMock: ReturnType<typeof vi.fn>) {
+  vi.stubGlobal("fetch", fetchMock);
+  return render(
+    <MemoryRouter>
+      <HomePage summary={mockSummary} />
+    </MemoryRouter>,
+  );
+}
+
+describe("WeekCompleteBanner", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("is not shown when there are no activities this week", async () => {
+    renderHomePage(mockFetchWithPlan(/* no plan */));
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+    expect(screen.queryByText(/week complete/i)).not.toBeInTheDocument();
+  });
+
+  it("is not shown when all activities are not_started", async () => {
+    renderHomePage(mockFetchWithPlan(makePlan(["not_started", "not_started"])));
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+    expect(screen.queryByText(/week complete/i)).not.toBeInTheDocument();
+  });
+
+  it("is not shown when all activities are skipped (regression)", async () => {
+    renderHomePage(mockFetchWithPlan(makePlan(["skipped", "skipped"])));
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+    expect(screen.queryByText(/week complete/i)).not.toBeInTheDocument();
+  });
+
+  it("is not shown when some activities are skipped and some are completed", async () => {
+    renderHomePage(mockFetchWithPlan(makePlan(["completed", "skipped"])));
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+    expect(screen.queryByText(/week complete/i)).not.toBeInTheDocument();
+  });
+
+  it("is not shown when some activities remain not_started", async () => {
+    renderHomePage(mockFetchWithPlan(makePlan(["completed", "not_started"])));
+    await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+    expect(screen.queryByText(/week complete/i)).not.toBeInTheDocument();
+  });
+
+  it("is shown when all activities are completed", async () => {
+    renderHomePage(mockFetchWithPlan(makePlan(["completed", "completed"])));
+    expect(await screen.findByText(/week complete/i)).toBeInTheDocument();
+  });
+
+  it("is shown when all activities are completed_with_changes", async () => {
+    renderHomePage(mockFetchWithPlan(makePlan(["completed_with_changes", "completed_with_changes"])));
+    expect(await screen.findByText(/week complete/i)).toBeInTheDocument();
+  });
+
+  it("is shown when activities mix completed and completed_with_changes", async () => {
+    renderHomePage(mockFetchWithPlan(makePlan(["completed", "completed_with_changes"])));
+    expect(await screen.findByText(/week complete/i)).toBeInTheDocument();
   });
 });
